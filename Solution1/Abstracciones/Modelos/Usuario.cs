@@ -19,7 +19,7 @@ namespace Abstracciones.Modelos
         [Required(ErrorMessage = "El correo electrónico es obligatorio.")]
         [EmailAddress(ErrorMessage = "El formato del correo no es válido.")]
         [StringLength(150, ErrorMessage = "El correo no puede tener más de 150 caracteres.")]
-        public string Correo { get; set; }
+        public string Email { get; set; }
 
         [Required(ErrorMessage = "La contraseña es obligatoria.")]
         [StringLength(100, MinimumLength = 6, ErrorMessage = "La contraseña debe tener entre 6 y 100 caracteres.")]

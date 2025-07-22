@@ -23,7 +23,7 @@ namespace Reglas
 
         public string ObtenerValor(string llave)
         {
-            return _configuration[llave];
+            return _configuration.GetSection(llave).Value;
         }
     }
 }
