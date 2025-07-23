@@ -4,9 +4,6 @@ using Dapper;
 using System;
 using System.Collections.Generic;
 using Microsoft.Data.SqlClient;
-
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace DA
@@ -15,7 +12,6 @@ namespace DA
     {
         private IRepositorioDapper _repositorioDapper;
         private SqlConnection _conexion;
-
 
         public UsuarioDA(IRepositorioDapper repositorioDapper)
         {
@@ -26,15 +22,22 @@ namespace DA
         public async Task<Guid> CrearUsuario(Usuario usuario)
         {
             string sqlQuery = @"CrearUsuario";
+            Guid nuevoId = Guid.NewGuid();
+
             var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(
                 sqlQuery,
                 new
                 {
-                    idUsuario = Guid.NewGuid(),
+                    idUsuario = nuevoId,
                     nombre = usuario.Nombre,
+                    primerApellido = usuario.PrimerApellido,
+                    segundoApellido = usuario.SegundoApellido,
                     email = usuario.Email,
+                    password = usuario.Password,
+                    monedaPrincipal = usuario.MonedaPrincipal,
                     fechaCreacion = DateTime.Now,
-                    activo = usuario.Activo
+                    fechaUltimoAcceso = usuario.FechaUltimoAcceso,
+                    estado = usuario.Estado
                 }
             );
             return resultadoQuery;
@@ -42,7 +45,7 @@ namespace DA
 
         public async Task<Guid> EditarUsuario(Guid idUsuario, Usuario usuario)
         {
-            await verificarUsuario(idUsuario);
+            await VerificarUsuario(idUsuario);
 
             string sqlQuery = @"EditarUsuario";
             var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(
@@ -51,9 +54,14 @@ namespace DA
                 {
                     idUsuario,
                     nombre = usuario.Nombre,
+                    primerApellido = usuario.PrimerApellido,
+                    segundoApellido = usuario.SegundoApellido,
                     email = usuario.Email,
+                    password = usuario.Password,
+                    monedaPrincipal = usuario.MonedaPrincipal,
                     fechaModificacion = DateTime.Now,
-                    activo = usuario.Activo
+                    fechaUltimoAcceso = usuario.FechaUltimoAcceso,
+                    estado = usuario.Estado
                 }
             );
             return resultadoQuery;
@@ -74,12 +82,9 @@ namespace DA
             string sqlQuery = @"ObtenerUsuarios";
             var resultadoQuery = await _conexion.QueryAsync<Usuario>(sqlQuery);
             return resultadoQuery;
-
-
-
         }
 
-        private async Task verificarUsuario(Guid idUsuario)
+        private async Task VerificarUsuario(Guid idUsuario)
         {
             Usuario? resultadoVerificacion = await ObtenerUsuarioPorId(idUsuario);
 
@@ -88,6 +93,5 @@ namespace DA
                 throw new Exception("El usuario no existe.");
             }
         }
-
     }
 }
