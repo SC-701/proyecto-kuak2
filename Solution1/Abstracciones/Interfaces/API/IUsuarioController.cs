@@ -12,7 +12,7 @@ namespace Abstracciones.Interfaces.API
     {
         Task<IActionResult> CrearUsuario(Usuario usuario);
         Task<IActionResult> EditarUsuario(Guid IdUsuario, Usuario usuario);
-        Task<IActionResult> ObtenerUSuarioPorId(Guid idUsuario);
+        Task<IActionResult> ObtenerUsuarioPorId(Guid idUsuario);
         Task<IActionResult> ObtenerUsuarios();
     }
 }
