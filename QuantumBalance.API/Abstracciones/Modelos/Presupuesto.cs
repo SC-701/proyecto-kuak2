@@ -22,7 +22,7 @@ namespace Abstracciones.Modelos
 
     public class PresupuestoRequest : PresupuestoBase
     {
-        public Guid Id { get; set; }
+        public Guid idPresupuesto { get; set; }
         public Guid IdCuenta { get; set; }
         public Guid IdCategoria { get; set; }
     }

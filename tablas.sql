@@ -22,7 +22,7 @@ CREATE TABLE Cuenta (
     idUsuario UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Usuario(idUsuario),
     nombre NVARCHAR(100),
     descripcion NVARCHAR(MAX),
-    tipo NVARCHAR(50),
+    idCategoria UNIQUEIDENTIFIER FOREIGN KEY REFERENCES Categoria(idCategoria),
     permitirSalarioNegativo BIT,
     fechaCreacion DATETIME,
     fechaUltimaModificacion DATETIME,

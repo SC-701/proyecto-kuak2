@@ -54,20 +54,20 @@ GO
 ---------------------------
 
 -- CREAR
-CREATE PROCEDURE sp_Cuenta_Crear (@idCuenta UNIQUEIDENTIFIER, @idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @tipo NVARCHAR(50), @permitirSalarioNegativo BIT, @fechaCreacion DATETIME,
+CREATE PROCEDURE sp_Cuenta_Crear (@idCuenta UNIQUEIDENTIFIER, @idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @idCategoria UNIQUEIDENTIFIER, @permitirSalarioNegativo BIT, @fechaCreacion DATETIME,
     @fechaUltimaModificacion DATETIME, @estado BIT)
 AS
 BEGIN
-    INSERT INTO Cuenta VALUES (@idCuenta, @idUsuario, @nombre, @descripcion, @tipo, @permitirSalarioNegativo, @fechaCreacion, @fechaUltimaModificacion, @estado);
+    INSERT INTO Cuenta VALUES (@idCuenta, @idUsuario, @nombre, @descripcion, idCategoria, @permitirSalarioNegativo, @fechaCreacion, @fechaUltimaModificacion, @estado);
 	select @idCuenta;
 END;
 GO
 
 -- EDITAR
-CREATE PROCEDURE sp_Cuenta_Editar (@idCuenta UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @tipo NVARCHAR(50), @permitirSalarioNegativo BIT, @fechaUltimaModificacion DATETIME, @estado BIT)
+CREATE PROCEDURE sp_Cuenta_Editar (@idCuenta UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @idCategoria UNIQUEIDENTIFIER, @permitirSalarioNegativo BIT, @fechaUltimaModificacion DATETIME, @estado BIT)
 AS
 BEGIN
-    UPDATE Cuenta SET nombre = @nombre, descripcion = @descripcion, tipo = @tipo, permitirSalarioNegativo = @permitirSalarioNegativo, fechaUltimaModificacion = @fechaUltimaModificacion,
+    UPDATE Cuenta SET nombre = @nombre, descripcion = @descripcion, idCategoria = @idCategoria, permitirSalarioNegativo = @permitirSalarioNegativo, fechaUltimaModificacion = @fechaUltimaModificacion,
         estado = @estado WHERE idCuenta = @idCuenta;
 	select @idCuenta;
 END;
@@ -125,6 +125,7 @@ CREATE PROCEDURE sp_Categoria_Eliminar (@idCategoria UNIQUEIDENTIFIER)
 AS
 BEGIN
     DELETE FROM Categoria WHERE idCategoria = @idCategoria;
+	select @idCategoria;
 END;
 GO
 

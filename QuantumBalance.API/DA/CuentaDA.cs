@@ -27,11 +27,11 @@ namespace DA
                     idUsuario = cuenta.IdUsuario,
                     nombre = cuenta.Nombre,
                     descripcion = cuenta.Descripcion,
-                    tipo = cuenta.Tipo,
                     permitirSalarioNegativo = cuenta.PermitirSalarioNegativo,
                     fechaCreacion = DateTime.Now,
                     fechaUltimaModificacion = DateTime.Now,
-                    estado = cuenta.Estado
+                    estado = cuenta.Estado,
+                    idCategoria = cuenta.idCategoria
             }
             );
 
@@ -49,10 +49,10 @@ namespace DA
                     idCuenta = id,
                     nombre = cuenta.Nombre,
                     descripcion = cuenta.Descripcion,
-                    tipo = cuenta.Tipo,
                     permitirSalarioNegativo = cuenta.PermitirSalarioNegativo,
                     fechaUltimaModificacion = DateTime.Now,
                     estado = cuenta.Estado,
+                    idCategoria = cuenta.idCategoria
                 }
             );
 

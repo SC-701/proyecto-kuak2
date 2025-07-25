@@ -27,7 +27,7 @@ namespace Abstracciones.Modelos
 
     public class MovimientoRequest : MovimientoBase
     {
-        public Guid Id { get; set; }
+        public Guid idMovimiento { get; set; }
         public Guid IdCuenta { get; set; }
         public Guid IdCategoria { get; set; }
         public Guid IdTipoPago { get; set; }

@@ -29,9 +29,7 @@ namespace API.Controllers
                 return BadRequest("No se pudo crear la cuenta.");
             }
 
-            return CreatedAtAction(nameof(ObtenerCuentaPorId),
-                new { id = resultado },
-                null);
+            return CreatedAtAction(nameof(ObtenerCuentaPorId), new { id = resultado }, null);
         }
 
         [HttpPut]
@@ -76,7 +74,7 @@ namespace API.Controllers
                 return BadRequest("No se pudo eliminar cuenta.");
             }
 
-            return Ok(resultado);
+            return NoContent();
         }
 
         [HttpGet()]
