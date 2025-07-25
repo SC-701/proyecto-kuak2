@@ -20,12 +20,12 @@ namespace Abstracciones.Modelos
 
     public class CategoriaRequest : CategoriaBase
     {
-        public Guid Id { get; set; }
+        public Guid idCategoria { get; set; }
     }
 
     public class CategoriaResponse : CategoriaBase
     {
-        public Guid Id { get; set; }
+        public Guid idCategoria { get; set; }
     }
 
 }

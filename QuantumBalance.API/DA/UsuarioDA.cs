@@ -1,17 +1,17 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
 using Dapper;
+using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
-using Microsoft.Data.SqlClient;
 using System.Threading.Tasks;
 
 namespace DA
 {
     public class UsuarioDA : IUsuarioDA
     {
-        private IRepositorioDapper _repositorioDapper;
-        private SqlConnection _conexion;
+        private readonly IRepositorioDapper _repositorioDapper;
+        private readonly SqlConnection _conexion;
 
         public UsuarioDA(IRepositorioDapper repositorioDapper)
         {
@@ -19,16 +19,13 @@ namespace DA
             _conexion = _repositorioDapper.ObtenerConexion();
         }
 
-        public async Task<Guid> CrearUsuario(Usuario usuario)
+        public async Task<Guid> CrearUsuario(UsuarioRequest usuario)
         {
-            string sqlQuery = @"CrearUsuario";
-            Guid nuevoId = Guid.NewGuid();
+            string sqlQuery = @"sp_Usuario_Crear";
 
-            var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(
-                sqlQuery,
-                new
+            var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(sqlQuery, new 
                 {
-                    idUsuario = nuevoId,
+                    idUsuario = Guid.NewGuid(),
                     nombre = usuario.Nombre,
                     primerApellido = usuario.PrimerApellido,
                     segundoApellido = usuario.SegundoApellido,
@@ -36,57 +33,68 @@ namespace DA
                     password = usuario.Password,
                     monedaPrincipal = usuario.MonedaPrincipal,
                     fechaCreacion = DateTime.Now,
-                    fechaUltimoAcceso = usuario.FechaUltimoAcceso,
+                    fechaUltimoAcceso = DateTime.Now,
                     estado = usuario.Estado
                 }
             );
+
             return resultadoQuery;
         }
 
-        public async Task<Guid> EditarUsuario(Guid idUsuario, Usuario usuario)
+        public async Task<Guid> EditarUsuario(Guid id, UsuarioRequest usuario)
         {
-            await VerificarUsuario(idUsuario);
+            await VerificarUsuario(id);
 
-            string sqlQuery = @"EditarUsuario";
-            var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(
-                sqlQuery,
-                new
+            string sqlQuery = @"sp_Usuario_Editar";
+
+            var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(sqlQuery, new
                 {
-                    idUsuario,
+                    idUsuario = id,
                     nombre = usuario.Nombre,
                     primerApellido = usuario.PrimerApellido,
                     segundoApellido = usuario.SegundoApellido,
                     email = usuario.Email,
                     password = usuario.Password,
                     monedaPrincipal = usuario.MonedaPrincipal,
-                    fechaModificacion = DateTime.Now,
-                    fechaUltimoAcceso = usuario.FechaUltimoAcceso,
+                    fechaUltimoAcceso = DateTime.Now,
                     estado = usuario.Estado
                 }
             );
+
             return resultadoQuery;
         }
 
-        public async Task<Usuario> ObtenerUsuarioPorId(Guid idUsuario)
+        public async Task<Guid> EliminarUsuario(Guid id)
         {
-            string sqlQuery = @"ObtenerUsuarioPorId";
-            var resultadoQuery = await _conexion.QuerySingleOrDefaultAsync<Usuario>(
-                sqlQuery,
-                new { idUsuario }
-            );
+            await VerificarUsuario(id);
+
+            string sqlQuery = @"sp_Usuario_Eliminar";
+
+            var resultadoQuery = await _conexion.ExecuteScalarAsync<Guid>(sqlQuery, new { idUsuario = id } );
+
+            return resultadoQuery;
+        }
+        public async Task<IEnumerable<UsuarioResponse>> ObtenerTodosLosUsuarios()
+        {
+            string sqlQuery = @"sp_Usuario_ObtenerTodos";
+
+            var resultadoQuery = await _conexion.QueryAsync<UsuarioResponse>(sqlQuery);
+
             return resultadoQuery;
         }
 
-        public async Task<IEnumerable<Usuario>> ObtenerUsuarios()
+        public async Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id)
         {
-            string sqlQuery = @"ObtenerUsuarios";
-            var resultadoQuery = await _conexion.QueryAsync<Usuario>(sqlQuery);
+            string sqlQuery = @"sp_Usuario_ObtenerPorId";
+
+            var resultadoQuery = await _conexion.QuerySingleOrDefaultAsync<UsuarioResponse>(sqlQuery, new { idUsuario = id });
+
             return resultadoQuery;
         }
 
-        private async Task VerificarUsuario(Guid idUsuario)
+        private async Task VerificarUsuario(Guid id)
         {
-            Usuario? resultadoVerificacion = await ObtenerUsuarioPorId(idUsuario);
+            var resultadoVerificacion = await ObtenerUsuarioPorId(id);
 
             if (resultadoVerificacion == null)
             {

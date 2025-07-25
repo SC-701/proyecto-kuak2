@@ -1,37 +1,44 @@
 ﻿using Abstracciones.Interfaces.DA;
+using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace Flujo
 {
-    public class UsuarioFlujo
+    public class UsuarioFlujo : IUsuarioFlujo
     {
-        private IUsuarioDA _usuarioDA;
+        private readonly IUsuarioDA _usuarioDA;
 
         public UsuarioFlujo(IUsuarioDA usuarioDA)
         {
             _usuarioDA = usuarioDA;
         }
-        public async Task<Guid> CrearUsuario(Usuario usuario)
+
+        public async Task<Guid> CrearUsuario(UsuarioRequest usuario)
         {
             return await _usuarioDA.CrearUsuario(usuario);
         }
-        public async Task<Guid> EditarUsuario(Guid idUsuario, Usuario usuario)
+
+        public async Task<Guid> EditarUsuario(Guid id, UsuarioRequest usuario)
         {
-            return await _usuarioDA.EditarUsuario(idUsuario, usuario);
-        }
-        public async Task<Usuario> ObtenerUsuarioPorId(Guid idUsuario)
-        {
-            return await _usuarioDA.ObtenerUsuarioPorId(idUsuario);
-        }
-        public async Task<IEnumerable<Usuario>> ObtenerUsuarios()
-        {
-            return await _usuarioDA.ObtenerUsuarios();
+            return await _usuarioDA.EditarUsuario(id, usuario);
         }
 
+        public async Task<Guid> EliminarUsuario(Guid id)
+        {
+            return await _usuarioDA.EliminarUsuario(id);
+        }
+
+        public async Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id)
+        {
+            return await _usuarioDA.ObtenerUsuarioPorId(id);
+        }
+
+        public async Task<IEnumerable<UsuarioResponse>> ObtenerTodosLosUsuarios()
+        {
+            return await _usuarioDA.ObtenerTodosLosUsuarios();
+        }
     }
 }

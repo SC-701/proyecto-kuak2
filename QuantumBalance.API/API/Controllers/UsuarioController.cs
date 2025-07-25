@@ -7,10 +7,10 @@ namespace API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UsuarioController : Controller, IUsuarioController
+    public class UsuarioController : ControllerBase, IUsuarioController
     {
-        private IUsuarioFlujo _usuarioFlujo;
-        private ILogger<UsuarioController> _logger;
+        private readonly IUsuarioFlujo _usuarioFlujo;
+        private readonly ILogger<UsuarioController> _logger;
 
         public UsuarioController(IUsuarioFlujo usuarioFlujo, ILogger<UsuarioController> logger)
         {
@@ -19,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearUsuario([FromBody] Usuario usuario)
+        public async Task<IActionResult> CrearUsuario([FromBody] UsuarioRequest usuario)
         {
             Guid resultado = await _usuarioFlujo.CrearUsuario(usuario);
             if (resultado == Guid.Empty)
@@ -28,19 +28,19 @@ namespace API.Controllers
                 return BadRequest("No se pudo crear el usuario.");
             }
             return CreatedAtAction(nameof(ObtenerUsuarioPorId),
-                new { idUsuario = resultado },
+                new { id = resultado },
                 null);
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditarUsuario([FromQuery] Guid idUsuario, [FromBody] Usuario usuario)
+        public async Task<IActionResult> EditarUsuario([FromQuery] Guid id, [FromBody] UsuarioRequest usuario)
         {
-            if (idUsuario == Guid.Empty || usuario == null)
+            if (id == Guid.Empty || usuario == null)
             {
                 _logger.LogError("ID de usuario inválido o usuario nulo.");
                 return BadRequest("ID de usuario inválido o usuario nulo.");
             }
-            Guid resultado = await _usuarioFlujo.EditarUsuario(idUsuario, usuario);
+            Guid resultado = await _usuarioFlujo.EditarUsuario(id, usuario);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al actualizar el usuario.");
@@ -49,39 +49,46 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpGet("{idUsuario}")]
-        public async Task<IActionResult> ObtenerUsuarioPorId([FromRoute] Guid idUsuario)
+        [HttpDelete]
+        public async Task<IActionResult> EliminarUsuario([FromQuery] Guid id)
         {
-            if (idUsuario == Guid.Empty)
+            Guid resultado = await _usuarioFlujo.EliminarUsuario(id);
+            if (resultado == Guid.Empty)
+            {
+                _logger.LogError("Error al eliminar el usuario.");
+                return BadRequest("No se pudo eliminar el usuario.");
+            }
+            return Ok(resultado);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObtenerUsuarioPorId([FromRoute] Guid id)
+        {
+            if (id == Guid.Empty)
             {
                 _logger.LogError("ID de usuario inválido.");
                 return BadRequest("ID de usuario inválido.");
             }
-            Usuario usuario = await _usuarioFlujo.ObtenerUsuarioPorId(idUsuario);
+            UsuarioResponse usuario = await _usuarioFlujo.ObtenerUsuarioPorId(id);
             if (usuario == null)
             {
-                _logger.LogWarning("Usuario no encontrado. ID: {IdUsuario}", idUsuario);
+                _logger.LogWarning("Usuario no encontrado. ID: {Id}", id);
                 return NotFound();
             }
             return Ok(usuario);
         }
 
-        [HttpGet]
-        public async Task<IActionResult> ObtenerUsuarios()
+        [HttpGet()]
+        public async Task<IActionResult> ObtenerTodosLosUsuarios()
         {
-            IEnumerable<Usuario> usuarios = await _usuarioFlujo.ObtenerUsuarios();
+            IEnumerable<UsuarioResponse> usuarios = await _usuarioFlujo.ObtenerTodosLosUsuarios();
+
             if (usuarios == null || !usuarios.Any())
             {
                 _logger.LogWarning("No se encontraron usuarios.");
                 return NotFound("No se encontraron usuarios.");
             }
             return Ok(usuarios);
-        }
-
-
-        public IActionResult Index()
-        {
-            return View();
         }
     }
 }

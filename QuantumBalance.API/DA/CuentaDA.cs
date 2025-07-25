@@ -2,13 +2,14 @@
 using Abstracciones.Modelos;
 using Dapper;
 using Microsoft.Data.SqlClient;
+using Microsoft.VisualBasic;
 
 namespace DA
 {
     public class CuentaDA : ICuentaDA
     {
-        private IRepositorioDapper _repositorioDapper;
-        private SqlConnection _sqlConnection;
+        private readonly IRepositorioDapper _repositorioDapper;
+        private readonly SqlConnection _sqlConnection;
 
         public CuentaDA(IRepositorioDapper repositorioDapper)
         {
@@ -16,103 +17,85 @@ namespace DA
             _sqlConnection = _repositorioDapper.ObtenerConexion();
         }
 
-        public async Task<Guid> CrearCuenta(Cuenta cuenta)
+        public async Task<Guid> CrearCuenta(CuentaRequest cuenta)
         {
-            string sqlQuery = @"CrearCuenta";
+            string sqlQuery = @"sp_Cuenta_Crear";
 
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(
-                sqlQuery,
-                new
+            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
                 {
                     idCuenta = Guid.NewGuid(),
-                    nombreCuenta = cuenta.NombreCuenta,
+                    idUsuario = cuenta.IdUsuario,
+                    nombre = cuenta.Nombre,
                     descripcion = cuenta.Descripcion,
+                    permitirSalarioNegativo = cuenta.PermitirSalarioNegativo,
                     fechaCreacion = DateTime.Now,
-                    activo = cuenta.Activo
-                }
+                    fechaUltimaModificacion = DateTime.Now,
+                    estado = cuenta.Estado,
+                    idCategoria = cuenta.idCategoria
+            }
             );
 
             return resultadoQuery;
         }
 
-        public async Task<Guid> ActualizarCuenta(Guid idCuenta, Cuenta cuenta)
+        public async Task<Guid> EditarCuenta(Guid id, CuentaRequest cuenta)
         {
-            string sqlQuery = @"ActualizarCuenta";
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(
-                sqlQuery,
-                new
+            await VerificarExistenciaCuenta(id);
+
+            string sqlQuery = @"sp_Cuenta_Editar";
+
+            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
                 {
-                    idCuenta,
-                    nombreCuenta = cuenta.NombreCuenta,
+                    idCuenta = id,
+                    nombre = cuenta.Nombre,
                     descripcion = cuenta.Descripcion,
-                    fechaModificacion = DateTime.Now,
-                    activo = cuenta.Activo
+                    permitirSalarioNegativo = cuenta.PermitirSalarioNegativo,
+                    fechaUltimaModificacion = DateTime.Now,
+                    estado = cuenta.Estado,
+                    idCategoria = cuenta.idCategoria
                 }
-               
             );
+
             return resultadoQuery;
         }
 
-        public async Task<Guid> EliminarCuenta(Guid idCuenta)
+        public async Task<Guid> EliminarCuenta(Guid id)
         {
-            await VerificarExistenciaCuenta(idCuenta);
-            string sqlQuery = @"EliminarCuenta";
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(
-                sqlQuery,
-                new
-                {
-                    //dudas aqui
-                    id = idCuenta
-                }
-            );
+            await VerificarExistenciaCuenta(id);
+
+            string sqlQuery = @"sp_Cuenta_Eliminar";
+
+            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new { id });
+
             return resultadoQuery;
         }
 
-        public async Task<Cuenta> ObtenerCuentaPorId(Guid idCuenta)
+        public async Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas()
         {
-            string sqlQuery = @"ObtenerCuenta";
-            var resultadoQuery = await _sqlConnection.QueryAsync<Cuenta>(sqlQuery,
-                new
-                {
-                    //dudas aqui
-                    id = idCuenta
-                }
-            );
+            string sqlQuery = @"sp_Cuenta_ObtenerTodos";
+
+            var resultadoQuery = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery);
+
+            return resultadoQuery;
+        }
+
+        public async Task<CuentaResponse> ObtenerCuentaPorId(Guid id)
+        {
+            string sqlQuery = @"sp_Cuenta_ObtenerPorId";
+
+            var resultadoQuery = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery, new { id });
 
             return resultadoQuery.FirstOrDefault();
         }
 
-        private async Task VerificarExistenciaCuenta(Guid idCuenta)
+        private async Task VerificarExistenciaCuenta(Guid id)
         {
-            Cuenta? cuentaCheck = await ObtenerCuentaPorId(idCuenta);
+            var cuentaCheck = await ObtenerCuentaPorId(id);
 
             if (cuentaCheck == null)
             {
                 throw new Exception("Esta cuenta no existe");
-
             }
         }
-
-        public async Task<IEnumerable<Cuenta>> ObtenerCuentas()
-        {
-            string sqlQuery = @"ObtenerCuentas";
-            var resultadoQuery = await _sqlConnection.QueryAsync<Cuenta>(sqlQuery);
-
-            return resultadoQuery;
-        }
-
-        public async Task<Cuenta> DetalleCuenta(Guid idCuenta)
-        {
-            string sqlQuery = @"DetalleCuenta";
-            var resultadoQuery = await _sqlConnection.QueryAsync<Cuenta>(sqlQuery,
-                new
-                {
-                    //dudas aqui
-                    id = idCuenta
-                }
-            );
-            return resultadoQuery.FirstOrDefault();
-        }
-
     }
 }

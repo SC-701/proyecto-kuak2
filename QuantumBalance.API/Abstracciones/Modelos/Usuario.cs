@@ -33,11 +33,11 @@ namespace Abstracciones.Modelos
 
     public class UsuarioRequest : UsuarioBase
     {
-        public Guid Id { get; set; }
+        public Guid idUsuario { get; set; }
     }
 
     public class UsuarioResponse : UsuarioBase
     {
-        public Guid Id { get; set; }
+        public Guid idUsuario { get; set; }
     }
 }

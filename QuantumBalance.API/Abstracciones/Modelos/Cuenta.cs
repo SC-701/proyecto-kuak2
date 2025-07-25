@@ -14,7 +14,7 @@ namespace Abstracciones.Modelos
         public string Nombre { get; set; }
 
         public string Descripcion { get; set; }
-        public string Tipo { get; set; }
+        public Guid idCategoria { get; set; }
         public bool PermitirSalarioNegativo { get; set; }
         public DateTime FechaCreacion { get; set; }
         public DateTime FechaUltimaModificacion { get; set; }
@@ -23,13 +23,13 @@ namespace Abstracciones.Modelos
 
     public class CuentaRequest : CuentaBase
     {
-        public Guid Id { get; set; }
+        public Guid idCuenta { get; set; }
         public Guid IdUsuario { get; set; }
     }
 
     public class CuentaResponse : CuentaBase
     {
-        public Guid Id { get; set; }
+        public Guid idCuenta { get; set; }
         public string Usuario { get; set; }
     }
 }

@@ -19,11 +19,11 @@ namespace Abstracciones.Modelos
 
     public class TipoPagoRequest : TipoPagoBase
     {
-        public Guid Id { get; set; }
+        public Guid idTipoPago { get; set; }
     }
 
     public class TipoPagoResponse : TipoPagoBase
     {
-        public Guid Id { get; set; }
+        public Guid idTipoPago { get; set; }
     }
 }

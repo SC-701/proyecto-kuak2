@@ -14,11 +14,11 @@ GO
 
 -- EDITAR
 CREATE PROCEDURE sp_Usuario_Editar (@idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @primerApellido NVARCHAR(100), @segundoApellido NVARCHAR(100),@email NVARCHAR(200), @password NVARCHAR(200), @monedaPrincipal NVARCHAR(50),
-    @fechaCreacion DATETIME, @fechaUltimoAcceso DATETIME, @estado BIT)
+    @fechaUltimoAcceso DATETIME, @estado BIT)
 AS
 BEGIN
-    UPDATE Usuario SET nombre = @nombre, primerApellido = @primerApellido, segundoApellido = @segundoApellido, email = @email, password = @password, monedaPrincipal = @monedaPrincipal, fechaCreacion = @fechaCreacion,
-        fechaUltimoAcceso = @fechaUltimoAcceso, estado = @estado WHERE idUsuario = @idUsuario;
+    UPDATE Usuario SET nombre = @nombre, primerApellido = @primerApellido, segundoApellido = @segundoApellido, email = @email, password = @password, monedaPrincipal = @monedaPrincipal, fechaUltimoAcceso = @fechaUltimoAcceso, 
+	estado = @estado WHERE idUsuario = @idUsuario;
 	select @idUsuario;
 END;
 GO
@@ -54,20 +54,20 @@ GO
 ---------------------------
 
 -- CREAR
-CREATE PROCEDURE sp_Cuenta_Crear (@idCuenta UNIQUEIDENTIFIER, @idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @tipo NVARCHAR(50), @permitirSalarioNegativo BIT, @fechaCreacion DATETIME,
+CREATE PROCEDURE sp_Cuenta_Crear (@idCuenta UNIQUEIDENTIFIER, @idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @idCategoria UNIQUEIDENTIFIER, @permitirSalarioNegativo BIT, @fechaCreacion DATETIME,
     @fechaUltimaModificacion DATETIME, @estado BIT)
 AS
 BEGIN
-    INSERT INTO Cuenta VALUES (@idCuenta, @idUsuario, @nombre, @descripcion, @tipo, @permitirSalarioNegativo, @fechaCreacion, @fechaUltimaModificacion, @estado);
+    INSERT INTO Cuenta VALUES (@idCuenta, @idUsuario, @nombre, @descripcion, idCategoria, @permitirSalarioNegativo, @fechaCreacion, @fechaUltimaModificacion, @estado);
 	select @idCuenta;
 END;
 GO
 
 -- EDITAR
-CREATE PROCEDURE sp_Cuenta_Editar (@idCuenta UNIQUEIDENTIFIER, @idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @tipo NVARCHAR(50), @permitirSalarioNegativo BIT, @fechaUltimaModificacion DATETIME, @estado BIT)
+CREATE PROCEDURE sp_Cuenta_Editar (@idCuenta UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @idCategoria UNIQUEIDENTIFIER, @permitirSalarioNegativo BIT, @fechaUltimaModificacion DATETIME, @estado BIT)
 AS
 BEGIN
-    UPDATE Cuenta SET idUsuario = @idUsuario,nombre = @nombre, descripcion = @descripcion, tipo = @tipo, permitirSalarioNegativo = @permitirSalarioNegativo, fechaUltimaModificacion = @fechaUltimaModificacion,
+    UPDATE Cuenta SET nombre = @nombre, descripcion = @descripcion, idCategoria = @idCategoria, permitirSalarioNegativo = @permitirSalarioNegativo, fechaUltimaModificacion = @fechaUltimaModificacion,
         estado = @estado WHERE idCuenta = @idCuenta;
 	select @idCuenta;
 END;
@@ -125,6 +125,7 @@ CREATE PROCEDURE sp_Categoria_Eliminar (@idCategoria UNIQUEIDENTIFIER)
 AS
 BEGIN
     DELETE FROM Categoria WHERE idCategoria = @idCategoria;
+	select @idCategoria;
 END;
 GO
 
