@@ -9,11 +9,10 @@ namespace Abstracciones.Interfaces.Flujo
 {
     public interface ICuentaFlujo
     {
-        Task<Guid> CrearCuenta(Cuenta cuenta);
-        Task<Guid> ActualizarCuenta(Guid idCuenta, Cuenta cuenta);
-        Task<Guid> EliminarCuenta(Guid idCuenta);
-        Task<Cuenta> ObtenerCuentaPorId(Guid idCuenta);
-        Task<IEnumerable<Cuenta>> ObtenerCuentas();
-        Task<Cuenta> DetalleCuenta(Guid idCuenta);
+        Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas();
+        Task<CuentaResponse> ObtenerCuentaPorId(Guid id);
+        Task<Guid> CrearCuenta(CuentaRequest cuenta);
+        Task<Guid> EditarCuenta(Guid id, CuentaRequest cuenta);
+        Task<Guid> EliminarCuenta(Guid id);
     }
 }

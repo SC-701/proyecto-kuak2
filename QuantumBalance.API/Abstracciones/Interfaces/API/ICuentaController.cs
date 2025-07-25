@@ -10,13 +10,10 @@ namespace Abstracciones.Interfaces.API
 {
     public interface ICuentaController
     {
-        Task<IActionResult> CrearCuenta(Cuenta cuenta);
-        Task<IActionResult> ActualizarCuenta(Guid idCuenta, Cuenta cuenta);
-        Task<IActionResult> EliminarCuenta(Guid idCuenta);
-        Task<IActionResult> ObtenerCuentaPorId(Guid idCuenta);
-        Task<IActionResult> ObtenerCuentas();
-        Task<IActionResult> DetalleCuenta(Guid idCuenta);
-
-
+        Task<IActionResult> ObtenerTodasLasCuentas();
+        Task<IActionResult> ObtenerCuentaPorId(Guid id);
+        Task<IActionResult> CrearCuenta(CuentaRequest cuenta);
+        Task<IActionResult> EditarCuenta(Guid id, CuentaRequest cuenta);
+        Task<IActionResult> EliminarCuenta(Guid id);
     }
 }

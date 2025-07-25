@@ -9,10 +9,10 @@ namespace Abstracciones.Interfaces.Flujo
 {
     public interface IUsuarioFlujo
     {
-        Task<Guid> CrearUsuario(Usuario usuario);
-        Task<Guid> EditarUsuario(Guid idUsuario, Usuario usuario);
-        Task<Usuario> ObtenerUsuarioPorId(Guid idUsuario);
-        Task<IEnumerable<Usuario>> ObtenerUsuarios();
-
+        Task<IEnumerable<UsuarioResponse>> ObtenerTodosLosUsuarios();
+        Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id);
+        Task<Guid> CrearUsuario(UsuarioRequest usuario);
+        Task<Guid> EditarUsuario(Guid id, UsuarioRequest usuario);
+        Task<Guid> EliminarUsuario(Guid id);
     }
 }
