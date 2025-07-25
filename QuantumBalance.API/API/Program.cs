@@ -18,9 +18,10 @@ builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IRepositorioDapper, RepositorioDapper>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
-builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
 builder.Services.AddScoped<ICuentaDA, CuentaDA>();
-
+builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
+builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
+builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
 
 var app = builder.Build();
 

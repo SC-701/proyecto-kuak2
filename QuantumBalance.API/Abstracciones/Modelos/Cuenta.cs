@@ -23,13 +23,13 @@ namespace Abstracciones.Modelos
 
     public class CuentaRequest : CuentaBase
     {
-        public Guid Id { get; set; }
+        public Guid idCuenta { get; set; }
         public Guid IdUsuario { get; set; }
     }
 
     public class CuentaResponse : CuentaBase
     {
-        public Guid Id { get; set; }
+        public Guid idCuenta { get; set; }
         public string Usuario { get; set; }
     }
 }

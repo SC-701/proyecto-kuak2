@@ -9,8 +9,8 @@ namespace API.Controllers
     [ApiController]
     public class CuentaController : ControllerBase, ICuentaController
     {
-        private ICuentaFlujo _cuentaFlujo;
-        private ILogger<CuentaController> _logger;
+        private readonly ICuentaFlujo _cuentaFlujo;
+        private readonly ILogger<CuentaController> _logger;
 
         public CuentaController(ICuentaFlujo cuentaFlujo, ILogger<CuentaController> logger)
         {
@@ -19,7 +19,7 @@ namespace API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CrearCuenta([FromBody] Cuenta cuenta)
+        public async Task<IActionResult> CrearCuenta([FromBody] CuentaRequest cuenta)
         {
             Guid resultado = await _cuentaFlujo.CrearCuenta(cuenta);
 
@@ -30,38 +30,35 @@ namespace API.Controllers
             }
 
             return CreatedAtAction(nameof(ObtenerCuentaPorId),
-                new { idCuenta = resultado },
+                new { id = resultado },
                 null);
         }
 
-
-
         [HttpPut]
-        public async Task<IActionResult> ActualizarCuenta([FromQuery] Guid idCuenta, [FromBody] Cuenta cuenta)
+        public async Task<IActionResult> EditarCuenta([FromQuery] Guid id, [FromBody] CuentaRequest cuenta)
         {
-            if (idCuenta == Guid.Empty || cuenta == null)
+            if (id == Guid.Empty || cuenta == null)
             {
                 _logger.LogError("ID de cuenta inválido o cuenta nula.");
                 return BadRequest("ID de cuenta inválido o cuenta nula.");
             }
-            Guid resultado = await _cuentaFlujo.ActualizarCuenta(idCuenta, cuenta);
+            Guid resultado = await _cuentaFlujo.EditarCuenta(id, cuenta);
             if (resultado == Guid.Empty)
             {
-                _logger.LogError("Error al actualizar la cuenta.");
-                return BadRequest("Error al actualizar la cuenta.");
+                _logger.LogError("Error al editar la cuenta.");
+                return BadRequest("Error al editar la cuenta.");
             }
             return NoContent();
         }
 
-
-        [HttpGet("{idCuenta}")]
-        public async Task<IActionResult> ObtenerCuentaPorId([FromRoute] Guid idCuenta)
+        [HttpGet("{id}")]
+        public async Task<IActionResult> ObtenerCuentaPorId([FromRoute] Guid id)
         {
-            Cuenta cuenta = await _cuentaFlujo.ObtenerCuentaPorId(idCuenta);
+            CuentaResponse cuenta = await _cuentaFlujo.ObtenerCuentaPorId(id);
 
             if (cuenta == null)
             {
-                _logger.LogError($"Cuenta con ID {idCuenta} no encontrada.");
+                _logger.LogError($"Cuenta con ID {id} no encontrada.");
                 return NotFound("Cuenta no encontrada.");
             }
 
@@ -69,11 +66,11 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> EliminarCuenta([FromQuery] Guid idCuenta)
+        public async Task<IActionResult> EliminarCuenta([FromQuery] Guid id)
         {
-            Guid resultado = await _cuentaFlujo.EliminarCuenta(idCuenta);
+            Guid resultado = await _cuentaFlujo.EliminarCuenta(id);
 
-            if (resultado == null)
+            if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al eliminar cuenta.");
                 return BadRequest("No se pudo eliminar cuenta.");
@@ -82,29 +79,18 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpGet("cuentas")]
-        public async Task<IActionResult> ObtenerCuentas()
+        [HttpGet()]
+        public async Task<IActionResult> ObtenerTodasLasCuentas()
         {
-            IEnumerable<Cuenta> cuentas = await _cuentaFlujo.ObtenerCuentas(); 
+            IEnumerable<CuentaResponse> cuentas = await _cuentaFlujo.ObtenerTodasLasCuentas();
 
             if (cuentas == null || !cuentas.Any())
             {
-                _logger.LogError($"No se encontraron cuentas.");
+                _logger.LogError("No se encontraron cuentas.");
                 return NotFound("No se encontraron cuentas.");
             }
 
             return Ok(cuentas);
-        }
-
-        [HttpGet("detalle/{idCuenta}")]
-        public async Task<IActionResult> DetalleCuenta([FromRoute] Guid idCuenta)
-        {
-            var resultado = await _cuentaFlujo.DetalleCuenta(idCuenta);
-            if (resultado == null)
-            {
-                return NotFound("cuenta no existe");
-            }
-            return Ok(resultado);
         }
     }
 }
