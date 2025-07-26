@@ -27,10 +27,5 @@ namespace Reglas
 
             return $"{urlBase}/{metodo}";
         }
-
-        public string ObtenerValor(string llave)
-        {
-            return _configuracion.GetSection(llave).Value;
-        }
     }
 }
