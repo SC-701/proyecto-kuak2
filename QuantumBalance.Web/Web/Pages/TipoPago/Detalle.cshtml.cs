@@ -4,14 +4,12 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Text.Json;
 
-namespace Web.Pages.Categoria
+namespace Web.Pages.TipoPago
 {
     public class DetalleModel : PageModel
     {
-        private readonly IConfiguracion _configuracion;
-
-        [BindProperty]
-        public CategoriaResponse categoria { get; set; }
+        private IConfiguracion _configuracion;
+        public TipoPagoResponse TipoPago { get; set; }
 
         public DetalleModel(IConfiguracion configuracion)
         {
@@ -22,24 +20,24 @@ namespace Web.Pages.Categoria
         {
             if (id == null || id == Guid.Empty)
             {
-                ModelState.AddModelError(string.Empty, "El ID de la categoría no puede estar vacío.");
+                ModelState.AddModelError(string.Empty, "El ID de no puede estar vacío.");
                 return;
             }
 
-            string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "ObtenerCategoriaPorId");
+            string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "ObtenerTipoPagoPorId");
 
             HttpClient client = new HttpClient();
             HttpRequestMessage request = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, id));
-            HttpResponseMessage response = await client.SendAsync(request);
+            HttpResponseMessage response = client.SendAsync(request).Result;
             response.EnsureSuccessStatusCode();
 
-            string resultado = await response.Content.ReadAsStringAsync();
+            string resultado = response.Content.ReadAsStringAsync().Result;
             JsonSerializerOptions options = new JsonSerializerOptions
             {
                 PropertyNameCaseInsensitive = true
             };
 
-            categoria = JsonSerializer.Deserialize<CategoriaResponse>(resultado, options);
+            TipoPago = JsonSerializer.Deserialize<TipoPagoResponse>(resultado, options);
         }
     }
 }

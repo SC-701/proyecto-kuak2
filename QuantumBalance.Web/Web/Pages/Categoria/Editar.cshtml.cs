@@ -6,14 +6,14 @@ using System.Text.Json;
 
 namespace Web.Pages.Categoria
 {
-    public class DetalleModel : PageModel
+    public class EditarModel : PageModel
     {
         private readonly IConfiguracion _configuracion;
 
         [BindProperty]
-        public CategoriaResponse categoria { get; set; }
+        public CategoriaResponse Categoria { get; set; }
 
-        public DetalleModel(IConfiguracion configuracion)
+        public EditarModel(IConfiguracion configuracion)
         {
             _configuracion = configuracion;
         }
@@ -39,7 +39,34 @@ namespace Web.Pages.Categoria
                 PropertyNameCaseInsensitive = true
             };
 
-            categoria = JsonSerializer.Deserialize<CategoriaResponse>(resultado, options);
+            Categoria = JsonSerializer.Deserialize<CategoriaResponse>(resultado, options);
+        }
+
+        public async Task<ActionResult> OnPost()
+        {
+            if(Categoria.idCategoria == Guid.Empty)
+            {
+                ModelState.AddModelError(string.Empty, "El ID de la categoría no puede estar vacío.");
+                return NotFound();
+            }
+
+            if (!ModelState.IsValid)
+            {
+                return Page();
+            }
+
+            string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EditarCategoria");  
+
+            HttpClient client = new HttpClient();
+            HttpResponseMessage response = await client.PutAsJsonAsync<CategoriaRequest>(string.Format(endpoint, Categoria.idCategoria), new CategoriaRequest
+            {
+                idCategoria = Categoria.idCategoria,
+                Nombre = Categoria.Nombre,
+                Descripcion = Categoria.Descripcion,
+            });
+            response.EnsureSuccessStatusCode();
+
+            return RedirectToPage("./Index");
         }
     }
 }
