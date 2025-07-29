@@ -11,10 +11,10 @@ namespace Abstracciones.Modelos
     {
         [Required(ErrorMessage = "Debe indicar el nombre del tipo de pago")]
         [StringLength(100)]
-        public string Nombre { get; set; }
+        public string nombre { get; set; }
 
         [Required(ErrorMessage = "Debe indicar la descripción del tipo de pago")]
-        public string Descripcion { get; set; }
+        public string descripcion { get; set; }
         public bool activestado { get; set; }
     }
 
