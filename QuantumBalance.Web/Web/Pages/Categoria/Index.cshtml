@@ -2,7 +2,16 @@
 @model Web.Pages.Categoria.IndexModel
 @{
 }
-<h1>Listado de categorias</h1>
+<div class="container">
+    <div class="row align-items-center">
+        <div class="col">
+            <h1>Listado de categorias</h1>
+        </div>
+        <div class="col-auto ms-auto">
+            <a class="btn btn-primary" asp-page="./Agregar">Nueva categoría</a>
+        </div>
+    </div>
+</div>
 
 <div class="container">
     <div class="row">
@@ -23,8 +32,8 @@
                             </p>
                             <div>
                                 <a type="button" class="btn btn-info" asp-page="./Detalle" asp-route-id="@categoria.idCategoria">Detalle</a>
-                                <a type="button" class="btn btn-warning" asp-page="./" asp-route-id="@categoria.idCategoria">Editar</a>
-                                <a type="button" class="btn btn-danger" asp-page="./" asp-route-id="@categoria.idCategoria">Eliminar</a>
+                                <a type="button" class="btn btn-warning" asp-page="./Editar" asp-route-id="@categoria.idCategoria">Editar</a>
+                                <a type="button" class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@categoria.idCategoria">Eliminar</a>
                             </div>
                         </div>
                     </div>
