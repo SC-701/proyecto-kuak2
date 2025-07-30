@@ -1,0 +1,47 @@
+﻿@page
+@model Web.Pages.Cuentas.IndexModel
+@{
+    ViewData["Title"] = "Listado de Cuentas";
+}
+
+<header class="subhead">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">Listado de Cuentas</div>
+    </div>
+</header>
+
+<section class="page-section bg-light" id="principal">
+    <div class="container">
+        <a asp-page="./Agregar" class="btn btn-success mb-3">Agregar Cuenta</a>
+
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>Descripción</th>
+                    <th>Categoria</th>
+                    <th>Permite Saldo Negativo</th>
+                    <th>Estado</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var cuenta in Model.Cuentas)
+                {
+                    <tr>
+                        <td>@cuenta.Nombre</td>
+                        <td>@cuenta.Descripcion</td>
+                        <td>@cuenta.idCategoria</td>
+                        <td>@(cuenta.PermitirSalarioNegativo ? "Sí" : "No")</td>
+                        <td>@(cuenta.Estado ? "Activo" : "Inactivo")</td>
+                        <td>
+                            <a asp-page="/Cuenta/Detalle" asp-route-id="@cuenta.idCuenta">Detalle</a>
+                            <a asp-page="./Editar" asp-route-id="@cuenta.idCuenta" class="btn btn-primary btn-sm">Editar</a>
+                            <a asp-page="./Eliminar" asp-route-id="@cuenta.idCuenta" class="btn btn-danger btn-sm">Eliminar</a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</section>

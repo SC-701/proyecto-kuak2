@@ -20,12 +20,20 @@ namespace Reglas
 
         public string ObtenerMetodo(string seccion, string nombrePropiedad)
         {
-            string urlBase = _configuracion.GetSection(seccion).Get<ApiEndpoint>().UrlBase;
+            var seccionConfig = _configuracion.GetSection(seccion).Get<ApiEndpoint>();
 
-            var metodo = _configuracion.GetSection(seccion).Get<ApiEndpoint>().Metodos
-                .Where(m => m.Nombre == nombrePropiedad).FirstOrDefault().Valor;
+            if (seccionConfig == null)
+                throw new InvalidOperationException($"No se encontró la sección '{seccion}' en appsettings.json");
 
-            return $"{urlBase}/{metodo}";
+            string urlBase = seccionConfig.UrlBase;
+
+            var metodo = seccionConfig.Metodos
+                .FirstOrDefault(m => m.Nombre == nombrePropiedad);
+
+            if (metodo == null)
+                throw new InvalidOperationException($"No se encontró el método '{nombrePropiedad}' en la sección '{seccion}'");
+
+            return $"{urlBase}/{metodo.Valor}";
         }
     }
 }
