@@ -65,11 +65,14 @@ namespace DA
 
             string sqlQuery = @"sp_Cuenta_Eliminar";
 
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new { id });
+            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(
+                sqlQuery,
+                new { idCuenta = id },
+                commandType: System.Data.CommandType.StoredProcedure
+            );
 
             return resultadoQuery;
         }
-
         public async Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas()
         {
             string sqlQuery = @"sp_Cuenta_ObtenerTodos";
@@ -83,7 +86,7 @@ namespace DA
         {
             string sqlQuery = @"sp_Cuenta_ObtenerPorId";
 
-            var resultadoQuery = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery, new { id });
+            var resultadoQuery = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery, new { idCuenta = id }, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultadoQuery.FirstOrDefault();
         }
