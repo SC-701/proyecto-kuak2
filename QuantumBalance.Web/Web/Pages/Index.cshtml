@@ -1,10 +1,31 @@
 ﻿@page
-@model IndexModel
+@model Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Home page";
+    ViewData["Title"] = "Index";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<section class="landing-hero">
+    <h1 class="landing-title">Quantum Balance</h1>
+    <p class="landing-subtitle">Transforma la forma en que gestionas tus presupuestos. Simple. Rápido. Inteligente.</p>
+    <a class="landing-button" asp-page="/Cuenta/Login">Comienza ahora</a>
+</section>
+
+<section class="feature-section">
+    <h2 class="feature-title">¿Por qué Quantum Balance?</h2>
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-3 mx-2 feature-card">
+            <h4>💼 Gestión precisa</h4>
+            <p>Administra ingresos y gastos con total control.</p>
+        </div>
+        <div class="col-md-3 mx-2 feature-card">
+            <h4>📊 Reportes visuales</h4>
+            <p>Analiza tus finanzas a profundidad.</p>
+        </div>
+        <div class="col-md-3 mx-2 feature-card">
+            <h4>🔐 Seguridad</h4>
+            <p>Tus datos protegidos.</p>
+        </div>
+    </div>
+</section>
+
+
