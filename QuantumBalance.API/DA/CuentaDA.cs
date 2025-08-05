@@ -21,84 +21,47 @@ namespace DA
         {
             string sqlQuery = @"sp_Cuenta_Crear";
 
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
-                {
-                    idCuenta = Guid.NewGuid(),
-                    idUsuario = cuenta.IdUsuario,
-                    nombre = cuenta.Nombre,
-                    descripcion = cuenta.Descripcion,
-                    permitirSalarioNegativo = cuenta.PermitirSalarioNegativo,
-                    fechaCreacion = DateTime.Now,
-                    fechaUltimaModificacion = DateTime.Now,
-                    estado = cuenta.Estado,
-                    idCategoria = cuenta.idCategoria
-            }
-            );
+            Guid resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
+            {
+                idCuenta = Guid.NewGuid(),
+                idUsuario = cuenta.IdUsuario,
+                nombre = cuenta.Nombre,
+                descripcion = cuenta.Descripcion,
+                tipo = cuenta.Tipo
+            }, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultadoQuery;
         }
 
-        public async Task<Guid> EditarCuenta(Guid id, CuentaRequest cuenta)
+        public async Task<IEnumerable<CuentaResponse>> MostrarCuentas()
         {
-            await VerificarExistenciaCuenta(id);
+            string sqlQuery = @"sp_Cuenta_Mostrar";
 
+            var cuentas = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
+            return cuentas;
+        }
+
+        public async Task EditarCuenta(CuentaRequest cuenta)
+        {
             string sqlQuery = @"sp_Cuenta_Editar";
 
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
-                {
-                    idCuenta = id,
-                    nombre = cuenta.Nombre,
-                    descripcion = cuenta.Descripcion,
-                    permitirSalarioNegativo = cuenta.PermitirSalarioNegativo,
-                    fechaUltimaModificacion = DateTime.Now,
-                    estado = cuenta.Estado,
-                    idCategoria = cuenta.idCategoria
-                }
-            );
-
-            return resultadoQuery;
+            await _sqlConnection.ExecuteAsync(sqlQuery, new
+            {
+                idCuenta = cuenta.IdCuenta,
+                nombre = cuenta.Nombre,
+                descripcion = cuenta.Descripcion,
+                tipo = cuenta.Tipo
+            }, commandType: System.Data.CommandType.StoredProcedure);
         }
 
-        public async Task<Guid> EliminarCuenta(Guid id)
+        public async Task EliminarCuenta(Guid idCuenta)
         {
-            await VerificarExistenciaCuenta(id);
-
             string sqlQuery = @"sp_Cuenta_Eliminar";
 
-            var resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(
-                sqlQuery,
-                new { idCuenta = id },
-                commandType: System.Data.CommandType.StoredProcedure
-            );
-
-            return resultadoQuery;
-        }
-        public async Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas()
-        {
-            string sqlQuery = @"sp_Cuenta_ObtenerTodos";
-
-            var resultadoQuery = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery);
-
-            return resultadoQuery;
-        }
-
-        public async Task<CuentaResponse> ObtenerCuentaPorId(Guid id)
-        {
-            string sqlQuery = @"sp_Cuenta_ObtenerPorId";
-
-            var resultadoQuery = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery, new { idCuenta = id }, commandType: System.Data.CommandType.StoredProcedure);
-
-            return resultadoQuery.FirstOrDefault();
-        }
-
-        private async Task VerificarExistenciaCuenta(Guid id)
-        {
-            var cuentaCheck = await ObtenerCuentaPorId(id);
-
-            if (cuentaCheck == null)
+            await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                throw new Exception("Esta cuenta no existe");
-            }
+                idCuenta = idCuenta
+            }, commandType: System.Data.CommandType.StoredProcedure);
         }
     }
 }
