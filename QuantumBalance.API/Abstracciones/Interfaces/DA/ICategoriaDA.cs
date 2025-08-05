@@ -10,10 +10,10 @@ namespace Abstracciones.Interfaces.DA
 {
     public interface ICategoriaDA
     {
-        Task<IEnumerable<CategoriaResponse>> ObtenerTodasLasCategorias();
-        Task<CategoriaResponse> ObtenerCategoriaPorId(Guid id);
+        Task<IEnumerable<CategoriaResponse>> MostrarCategorias();
         Task<Guid> CrearCategoria(CategoriaRequest categoria);
-        Task<Guid> EditarCategoria(Guid id, CategoriaRequest categoria);
-        Task<Guid> EliminarCategoria(Guid id);
+        Task EditarCategoria(CategoriaRequest categoria);
+        Task EliminarCategoria(Guid idCategoria);
     }
 }
+
