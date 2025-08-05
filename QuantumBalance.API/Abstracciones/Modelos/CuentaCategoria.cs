@@ -8,6 +8,8 @@ using System.Threading.Tasks;
 namespace Abstracciones.Modelos
 {
     public class CuentaCategoriaBase
+
+
     {
         [Required(ErrorMessage = "El IdCategoria es requerido")]
         public Guid IdCategoria { get; set; }
@@ -25,5 +27,6 @@ namespace Abstracciones.Modelos
     {
 
     }
+
 }
 
