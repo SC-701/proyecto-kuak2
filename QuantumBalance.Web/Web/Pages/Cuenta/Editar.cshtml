@@ -1,0 +1,73 @@
+﻿@page "{id:guid}"
+@model Web.Pages.Cuentas.EditarModel
+@{
+    ViewData["Title"] = "Editar Cuenta";
+}
+
+<header class="subhead">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">Editar Cuenta</div>
+    </div>
+</header>
+
+<section class="page-section bg-light">
+    <div class="container">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto">
+            <form method="post">
+
+                <input type="hidden" asp-for="Cuenta.idCuenta" />
+
+                <div class="form-group">
+                    <label asp-for="Cuenta.Nombre"></label>
+                    <input asp-for="Cuenta.Nombre" class="form-control" />
+                    <span asp-validation-for="Cuenta.Nombre" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Cuenta.Descripcion"></label>
+                    <textarea asp-for="Cuenta.Descripcion" class="form-control"></textarea>
+                    <span asp-validation-for="Cuenta.Descripcion" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Cuenta.idCategoria">Categoría</label>
+                    <select asp-for="Cuenta.idCategoria" asp-items="Model.Categorias" class="form-select">
+                        <option value="">Seleccione una categoría</option>
+                    </select>
+                    <span asp-validation-for="Cuenta.idCategoria" class="text-danger"></span>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="Cuenta.IdUsuario">Usuario</label>
+                    <select asp-for="Cuenta.IdUsuario" asp-items="Model.Usuarios" class="form-select">
+                        <option value="">Seleccione un usuario</option>
+                    </select>
+                    <span asp-validation-for="Cuenta.IdUsuario" class="text-danger"></span>
+                </div>
+
+                <div class="form-group form-check">
+                    <input asp-for="Cuenta.PermitirSalarioNegativo" class="form-check-input" />
+                    <label class="form-check-label" asp-for="Cuenta.PermitirSalarioNegativo">Permitir saldo negativo</label>
+                </div>
+
+                <div class="form-group form-check">
+                    <input asp-for="Cuenta.Estado" class="form-check-input" />
+                    <label class="form-check-label" asp-for="Cuenta.Estado">Cuenta activa</label>
+                </div>
+
+                <div class="text-danger" asp-validation-summary="All"></div>
+
+                <div class="form-group mt-3">
+                    <a class="btn btn-secondary" asp-page="Index">Cancelar</a>
+                    <input type="submit" value="Guardar cambios" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

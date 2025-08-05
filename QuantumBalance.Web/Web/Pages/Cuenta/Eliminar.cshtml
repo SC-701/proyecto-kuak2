@@ -1,0 +1,28 @@
+﻿@page "{id:guid}"
+@model Web.Pages.Cuentas.EliminarModel
+@{
+    ViewData["Title"] = "Eliminar Cuenta";
+}
+
+<header class="subhead">
+    <div class="container">
+        <div class="masthead-heading text-uppercase">Eliminar Cuenta</div>
+    </div>
+</header>
+
+<section class="page-section bg-light">
+    <div class="container">
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto">
+            <h4>¿Está seguro que desea eliminar la cuenta <strong>@Model.Cuenta.Nombre</strong>?</h4>
+
+            <div class="mt-4">
+                <form method="post">
+                    <input type="hidden" asp-for="Cuenta.idCuenta" />
+
+                    <a class="btn btn-secondary" asp-page="Index">Cancelar</a>
+                    <input type="submit" value="Eliminar" class="btn btn-danger" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
