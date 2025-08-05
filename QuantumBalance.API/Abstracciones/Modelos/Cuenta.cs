@@ -9,33 +9,26 @@ namespace Abstracciones.Modelos
 {
     public class CuentaBase
     {
-        [Required(ErrorMessage = "Debe indicar el nombre de la cuenta")]
-        [StringLength(100)]
+        [Required(ErrorMessage = "El ID del usuario es requerido")]
+        public Guid IdUsuario { get; set; }
+
+        [Required(ErrorMessage = "El nombre es requerido")]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar la descripción de la cuenta")]
-        [StringLength(500)]
+        [Required(ErrorMessage = "La descripción es requerida")]
         public string Descripcion { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar el tipo de cuenta")]
-        public Guid idCategoria { get; set; }
-
-        [Required(ErrorMessage = "Debe indicar si quiere permitir saldo negativo o no")]
-        public bool PermitirSalarioNegativo { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public DateTime FechaUltimaModificacion { get; set; }
-        public bool Estado { get; set; }
+        [Required(ErrorMessage = "El tipo es requerido")]
+        public string Tipo { get; set; }
     }
 
     public class CuentaRequest : CuentaBase
     {
-        public Guid idCuenta { get; set; }
-        public Guid IdUsuario { get; set; }
+        public Guid IdCuenta { get; set; }
     }
 
     public class CuentaResponse : CuentaBase
     {
-        public Guid idCuenta { get; set; }
-        public string Usuario { get; set; }
+        public Guid IdCuenta { get; set; }
     }
 }
