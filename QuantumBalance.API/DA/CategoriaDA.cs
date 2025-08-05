@@ -25,66 +25,47 @@ namespace DA
         {
             string sqlQuery = @"sp_Categoria_Crear";
 
+            Guid idCategoria = Guid.NewGuid();
+
             Guid resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
             {
-                idCategoria = Guid.NewGuid(),
+                idCategoria,
                 nombre = categoria.Nombre,
-                descripcion = categoria.Descripcion,
-                fechaCreacion = DateTime.Now,
-                estado = categoria.Estado
-            });
+                descripcion = categoria.Descripcion
+            }, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultadoQuery;
         }
 
-        public async Task<Guid> EditarCategoria(Guid id, CategoriaRequest categoria)
+        public async Task<IEnumerable<CategoriaResponse>> MostrarCategorias()
         {
-            await VerificarCategoria(id);
+            string sqlQuery = @"sp_Categoria_Mostrar";
 
+            var resultado = await _sqlConnection.QueryAsync<CategoriaResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
+
+            return resultado;
+        }
+
+        public async Task EditarCategoria(CategoriaRequest categoria)
+        {
             string sqlQuery = @"sp_Categoria_Editar";
 
-            Guid resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
+            await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                idCategoria = id,
+                idCategoria = categoria.IdCategoria,
                 nombre = categoria.Nombre,
-                descripcion = categoria.Descripcion,
-                estado = categoria.Estado
-            });
-
-            return resultadoQuery;
+                descripcion = categoria.Descripcion
+            }, commandType: System.Data.CommandType.StoredProcedure);
         }
 
-        public async Task<Guid> EliminarCategoria(Guid id)
+        public async Task EliminarCategoria(Guid idCategoria)
         {
-            await VerificarCategoria(id);
-
             string sqlQuery = @"sp_Categoria_Eliminar";
 
-            return await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new { idCategoria = id });
-        }
-
-        public async Task<CategoriaResponse> ObtenerCategoriaPorId(Guid id)
-        {
-            string sqlQuery = @"sp_Categoria_ObtenerPorId";
-
-            return await _sqlConnection.QueryFirstOrDefaultAsync<CategoriaResponse>(sqlQuery, new { idCategoria = id });
-        }
-
-        public async Task<IEnumerable<CategoriaResponse>> ObtenerTodasLasCategorias()
-        {
-            string sqlQuery = @"sp_Categoria_ObtenerTodos";
-
-            return await _sqlConnection.QueryAsync<CategoriaResponse>(sqlQuery);
-        }
-
-        private async Task VerificarCategoria(Guid id)
-        {
-            var categoriaCheck = await ObtenerCategoriaPorId(id);
-
-            if (categoriaCheck == null)
+            await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                throw new Exception($"No se encontró la categoría con ID: {id}");
-            }
+                idCategoria
+            }, commandType: System.Data.CommandType.StoredProcedure);
         }
     }
 }
