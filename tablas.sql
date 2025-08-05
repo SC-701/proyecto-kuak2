@@ -5,13 +5,13 @@ use QuantumBalance
 go
 
 CREATE TABLE Categoria (
-    idcategoria INT PRIMARY KEY,
+    idcategoria UNIQUEIDENTIFIER PRIMARY KEY,
     nombre VARCHAR(255),
     descripcion VARCHAR(255)
 );
 
 CREATE TABLE Usuario (
-    idusuario INT PRIMARY KEY,
+    idusuario UNIQUEIDENTIFIER PRIMARY KEY,
     nombre VARCHAR(255),
     primerapellido VARCHAR(255),
     segundoapellido VARCHAR(255),
@@ -20,13 +20,13 @@ CREATE TABLE Usuario (
 );
 
 CREATE TABLE Tipo_Movimiento (
-    idtipomovimiento INT PRIMARY KEY,
+    idtipomovimiento UNIQUEIDENTIFIER PRIMARY KEY,
     nombre VARCHAR(255)
 );
 
 CREATE TABLE Cuenta (
-    idcuenta INT PRIMARY KEY,
-    idusuario INT,
+    idcuenta UNIQUEIDENTIFIER PRIMARY KEY,
+    idusuario UNIQUEIDENTIFIER,
     nombre VARCHAR(255),
     descripcion VARCHAR(255),
     tipo VARCHAR(255),
@@ -34,10 +34,10 @@ CREATE TABLE Cuenta (
 );
 
 CREATE TABLE Movimiento (
-    idMovimiento INT PRIMARY KEY,
-    idCuenta INT,
-    idCategoria INT,
-    idTipoMovimiento INT,
+    idMovimiento UNIQUEIDENTIFIER PRIMARY KEY,
+    idCuenta UNIQUEIDENTIFIER,
+    idCategoria UNIQUEIDENTIFIER,
+    idTipoMovimiento UNIQUEIDENTIFIER,
     descripcion VARCHAR(255),
     monto DECIMAL(18,2),
     fecha DATETIME,
@@ -47,8 +47,8 @@ CREATE TABLE Movimiento (
 );
 
 CREATE TABLE CuentaCategoria (
-    idcategoria INT,
-    idcuenta INT,
+    idcategoria UNIQUEIDENTIFIER,
+    idcuenta UNIQUEIDENTIFIER,
     PRIMARY KEY (idcategoria, idcuenta),
     FOREIGN KEY (idcategoria) REFERENCES Categoria(idcategoria),
     FOREIGN KEY (idcuenta) REFERENCES Cuenta(idcuenta)
