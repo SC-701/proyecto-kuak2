@@ -11,9 +11,9 @@ namespace Abstracciones.Interfaces.API
     public interface ICategoriaController
     {
         Task<IActionResult> ObtenerTodasLasCategorias();
-        Task<IActionResult> ObtenerCategoriaPorId(Guid id);
+        Task<IActionResult> ObtenerCategoriaPorId(Guid IdCategoria);
         Task<IActionResult> CrearCategoria(CategoriaRequest categoria);
-        Task<IActionResult> EditarCategoria(Guid id, CategoriaRequest categoria);
-        Task<IActionResult> EliminarCategoria(Guid id);
+        Task<IActionResult> EditarCategoria(Guid IdCategoria, CategoriaRequest categoria);
+        Task<IActionResult> EliminarCategoria(Guid IdCategoria);
     }
 }

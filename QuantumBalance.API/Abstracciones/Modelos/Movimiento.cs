@@ -9,33 +9,31 @@ namespace Abstracciones.Modelos
 {
     public class MovimientoBase
     {
-        [Required(ErrorMessage = "El IdCuenta es requerido")]
-        public Guid IdCuenta { get; set; }
-
-        [Required(ErrorMessage = "El IdCategoria es requerido")]
-        public Guid IdCategoria { get; set; }
-
-        [Required(ErrorMessage = "El IdTipoMovimiento es requerido")]
-        public Guid IdTipoMovimiento { get; set; }
-
-        [Required(ErrorMessage = "La descripción es requerida")]
+        [Required(ErrorMessage = "La descripción es obligatoria")]
+        [StringLength(500)]
         public string Descripcion { get; set; }
 
-        [Required(ErrorMessage = "El monto es requerido")]
-        [Range(0, double.MaxValue, ErrorMessage = "El monto debe ser un valor positivo")]
+        [Required(ErrorMessage = "El monto es obligatorio")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "El monto debe ser mayor que cero")]
         public decimal Monto { get; set; }
 
-        [Required(ErrorMessage = "La fecha es requerida")]
+        [Required(ErrorMessage = "La fecha es obligatoria")]
         public DateTime Fecha { get; set; }
     }
 
     public class MovimientoRequest : MovimientoBase
     {
         public Guid IdMovimiento { get; set; }
+        public Guid IdCuenta { get; set; }
+        public Guid IdCategoria { get; set; }
+        public Guid IdTipoMovimiento { get; set; }
     }
 
-    public class MovimientoResponse : MovimientoBase
+    public class TipoMovimientoResponse : MovimientoBase
     {
         public Guid IdMovimiento { get; set; }
+        public Guid IdCuenta { get; set; }
+        public Guid IdCategoria { get; set; }
+        public Guid IdTipoMovimiento { get; set; }
     }
 }

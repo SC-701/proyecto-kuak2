@@ -10,9 +10,9 @@ namespace Abstracciones.Interfaces.Flujo
     public interface ICategoriaFlujo
     {
         Task<IEnumerable<CategoriaResponse>> ObtenerTodasLasCategorias();
-        Task<CategoriaResponse> ObtenerCategoriaPorId(Guid id);
+        Task<CategoriaResponse> ObtenerCategoriaPorId(Guid idCategoria);
         Task<Guid> CrearCategoria(CategoriaRequest categoria);
-        Task<Guid> EditarCategoria(Guid id, CategoriaRequest categoria);
-        Task<Guid> EliminarCategoria(Guid id);
+        Task<Guid> EditarCategoria(Guid idCategoria, CategoriaRequest categoria);
+        Task<Guid> EliminarCategoria(Guid idCategoria);
     }
 }

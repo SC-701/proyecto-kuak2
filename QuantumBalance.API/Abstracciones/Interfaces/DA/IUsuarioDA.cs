@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Abstracciones.Interfaces.DA
 {
-   {
+   
     public interface IUsuarioDA
     {
         Task<IEnumerable<UsuarioResponse>> MostrarUsuarios();
