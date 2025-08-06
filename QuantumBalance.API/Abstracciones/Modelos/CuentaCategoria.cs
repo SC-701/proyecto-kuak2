@@ -20,11 +20,16 @@ namespace Abstracciones.Modelos
 
     public class CuentaCategoriaRequest : CuentaCategoriaBase
     {
+        public string NombreCuenta { get; set; }
+        public Guid IdCategoria { get; set; }
+
 
     }
 
     public class CuentaCategoriaResponse : CuentaCategoriaBase
     {
+        public string NombreCategoria { get; set; }
+        public Guid IdCategoria { get; set; }
 
     }
 

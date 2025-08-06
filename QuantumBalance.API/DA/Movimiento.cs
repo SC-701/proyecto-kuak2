@@ -42,11 +42,11 @@ namespace DA
             return resultado;
         }
 
-        public async Task<IEnumerable<MovimientoResponse>> MostrarMovimientos()
+        public async Task<IEnumerable<TipoMovimientoResponse>> MostrarMovimientos()
         {
             string sqlQuery = @"sp_Movimiento_Mostrar";
 
-            var resultados = await _sqlConnection.QueryAsync<MovimientoResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
+            var resultados = await _sqlConnection.QueryAsync<TipoMovimientoResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultados;
         }

@@ -11,9 +11,9 @@ namespace Abstracciones.Interfaces.API
     public interface ICuentaCategoriaController
     {
         Task<IActionResult> ObtenerTodasLasCuentasCategorias();
-        Task<IActionResult> ObtenerCuentaCategoriaPorId(Guid id);
+        Task<IActionResult> ObtenerCuentaCategoriaPorId(Guid IdCategoria);
         Task<IActionResult> CrearCuentaCategoria(CuentaCategoriaRequest cuentaCategoria);
-        Task<IActionResult> EditarCuentaCategoria(Guid id, CuentaCategoriaRequest cuentaCategoria);
-        Task<IActionResult> EliminarCuentaCategoria(Guid id);
+        Task<IActionResult> EditarCuentaCategoria(Guid IdCategoria, CuentaCategoriaRequest cuentaCategoria);
+        Task<IActionResult> EliminarCuentaCategoria(Guid IdCategoria);
     }
 }
