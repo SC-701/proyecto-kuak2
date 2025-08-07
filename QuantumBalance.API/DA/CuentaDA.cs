@@ -2,7 +2,7 @@
 using Abstracciones.Modelos;
 using Dapper;
 using Microsoft.VisualBasic;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 namespace DA
 {
