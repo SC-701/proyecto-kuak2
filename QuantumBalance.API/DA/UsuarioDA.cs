@@ -1,5 +1,6 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
+using System.Data.SqlClient;
 
 public class UsuarioDA : IUsuarioDA
 {

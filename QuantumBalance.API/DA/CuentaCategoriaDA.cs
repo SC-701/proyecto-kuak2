@@ -1,71 +1,89 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace DA
 {
-    public class CategoriaDA : ICategoriaDA
+    public class CuentaCategoriaDA : ICuentaCategoriaDA
     {
         private readonly IRepositorioDapper _repositorioDapper;
         private readonly SqlConnection _sqlConnection;
 
-        public CategoriaDA(IRepositorioDapper repositorioDapper)
+        public CuentaCategoriaDA(IRepositorioDapper repositorioDapper)
         {
             _repositorioDapper = repositorioDapper;
             _sqlConnection = _repositorioDapper.ObtenerConexion();
         }
 
-        public async Task<Guid> CrearCategoria(CategoriaRequest categoria)
+        public async Task<Guid> CrearCuentaCategoria(CuentaCategoriaRequest cuentaCategoria)
         {
-            string sqlQuery = @"sp_Categoria_Crear";
+            string sqlQuery = @"sp_CuentaCategoria_Crear";
 
-            Guid idCategoria = Guid.NewGuid();
+            Guid idCuentaCategoria = Guid.NewGuid();
 
             Guid resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
             {
-                idCategoria,
-                nombre = categoria.Nombre,
-                descripcion = categoria.Descripcion
+                idCuentaCategoria,
+                cuentaCategoria.IdCuenta,
+                cuentaCategoria.IdCategoria,
+                cuentaCategoria.NombreCuenta
             }, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultadoQuery;
         }
 
-        public async Task<IEnumerable<CategoriaResponse>> MostrarCategorias()
+        public async Task<IEnumerable<CuentaCategoriaResponse>> ObtenerCuentaCategorias()
         {
-            string sqlQuery = @"sp_Categoria_Mostrar";
+            string sqlQuery = @"sp_CuentaCategoria_Mostrar";
 
-            var resultado = await _sqlConnection.QueryAsync<CategoriaResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
+            var resultado = await _sqlConnection.QueryAsync<CuentaCategoriaResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultado;
         }
 
-        public async Task EditarCategoria(CategoriaRequest categoria)
+        public async Task<CuentaCategoriaResponse?> ObtenerCuentaCateoriaPorId(Guid idCuentaCategoria)
         {
-            string sqlQuery = @"sp_Categoria_Editar";
+            string sqlQuery = @"sp_CuentaCategoria_ObtenerPorId";
 
-            await _sqlConnection.ExecuteAsync(sqlQuery, new
+            var resultado = await _sqlConnection.QueryFirstOrDefaultAsync<CuentaCategoriaResponse>(sqlQuery, new
             {
-                idCategoria = categoria.IdCategoria,
-                nombre = categoria.Nombre,
-                descripcion = categoria.Descripcion
+                idCuentaCategoria
             }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return resultado;
         }
 
-        public async Task EliminarCategoria(Guid idCategoria)
+        public async Task<Guid> EditarCuentaCategoria(Guid idCuentaCategoria, CuentaCategoriaRequest cuentaCategoria)
         {
-            string sqlQuery = @"sp_Categoria_Eliminar";
+            string sqlQuery = @"sp_CuentaCategoria_Editar";
 
             await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                idCategoria
+                idCuentaCategoria,
+                cuentaCategoria.IdCuenta,
+                cuentaCategoria.IdCategoria,
+                cuentaCategoria.NombreCuenta
             }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return idCuentaCategoria;
+        }
+
+        public async Task<Guid> EliminarCuentaCategoria(Guid idCuentaCategoria)
+        {
+            string sqlQuery = @"sp_CuentaCategoria_Eliminar";
+
+            await _sqlConnection.ExecuteAsync(sqlQuery, new
+            {
+                idCuentaCategoria
+            }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return idCuentaCategoria;
         }
     }
 }

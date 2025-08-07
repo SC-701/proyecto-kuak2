@@ -2,10 +2,14 @@
 using Abstracciones.Interfaces.Flujo;
 using DA;
 using Flujo;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
+    [Route("api/[controller]")]
+    [Authorize]
+    [ApiController]
     public class TipoMovimientoController : ControllerBase, ITipoMovimientoController
     {
         private readonly ITipoMovimientoFlujo _tipoMovimientoFlujo;
@@ -16,7 +20,6 @@ namespace API.Controllers
             _tipoMovimientoFlujo = tipoMovimientoFlujo;
         }
 
-        [HttpGet]
         [HttpGet]
         public async Task<IActionResult> ObtenerTiposMovimientos() 
         {
