@@ -1,8 +1,8 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using Microsoft.VisualBasic;
+using System.Data.SqlClient;
 
 namespace DA
 {
@@ -33,35 +33,51 @@ namespace DA
             return resultadoQuery;
         }
 
-        public async Task<IEnumerable<CuentaResponse>> MostrarCuentas()
+        public async Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas()
         {
             string sqlQuery = @"sp_Cuenta_Mostrar";
 
             var cuentas = await _sqlConnection.QueryAsync<CuentaResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
             return cuentas;
         }
+        public async Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta)
+        {
+            string sqlQuery = @"sp_Cuenta_MostrarPorId";
+            var cuenta = await _sqlConnection.QueryFirstOrDefaultAsync<CuentaResponse>(sqlQuery, new
+            {
+                idCuenta = idCuenta
+            }, commandType: System.Data.CommandType.StoredProcedure);
+            return cuenta;
+        }
 
-        public async Task EditarCuenta(CuentaRequest cuenta)
+        public async Task<Guid> EditarCuenta(Guid idCuenta, CuentaRequest cuenta)
         {
             string sqlQuery = @"sp_Cuenta_Editar";
 
             await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                idCuenta = cuenta.IdCuenta,
+                idCuenta = idCuenta,
                 nombre = cuenta.Nombre,
                 descripcion = cuenta.Descripcion,
                 tipo = cuenta.Tipo
             }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return idCuenta;
         }
 
-        public async Task EliminarCuenta(Guid idCuenta)
+
+        public async Task<Guid> EliminarCuenta(Guid idCuenta)
         {
             string sqlQuery = @"sp_Cuenta_Eliminar";
 
-            await _sqlConnection.ExecuteAsync(sqlQuery, new
-            {
-                idCuenta = idCuenta
-            }, commandType: System.Data.CommandType.StoredProcedure);
+            var resultado = await _sqlConnection.ExecuteScalarAsync<Guid>(
+                sqlQuery,
+                new { idCuenta = idCuenta },
+                commandType: System.Data.CommandType.StoredProcedure
+            );
+
+            return resultado;
         }
+
     }
 }

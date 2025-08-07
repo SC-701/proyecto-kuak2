@@ -1,9 +1,9 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,7 +37,7 @@ namespace DA
             return resultadoQuery;
         }
 
-        public async Task<IEnumerable<CategoriaResponse>> MostrarCategorias()
+        public async Task<IEnumerable<CategoriaResponse>> ObtenerTodasLasCategorias()
         {
             string sqlQuery = @"sp_Categoria_Mostrar";
 
@@ -45,8 +45,17 @@ namespace DA
 
             return resultado;
         }
+        public async Task<CategoriaResponse> ObtenerCategoriaPorId(Guid idCategoria)
+        {
+            string sqlQuery = @"sp_Categoria_MostrarPorId";
+            var categoria = await _sqlConnection.QueryFirstOrDefaultAsync<CategoriaResponse>(sqlQuery, new
+            {
+                idCategoria
+            }, commandType: System.Data.CommandType.StoredProcedure);
+            return categoria;
+        }
 
-        public async Task EditarCategoria(CategoriaRequest categoria)
+        public async Task<Guid> EditarCategoria(Guid idCategoria, CategoriaRequest categoria)
         {
             string sqlQuery = @"sp_Categoria_Editar";
 
@@ -56,16 +65,23 @@ namespace DA
                 nombre = categoria.Nombre,
                 descripcion = categoria.Descripcion
             }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return idCategoria;
         }
 
-        public async Task EliminarCategoria(Guid idCategoria)
+
+        public async Task<Guid> EliminarCategoria(Guid idCategoria)
         {
             string sqlQuery = @"sp_Categoria_Eliminar";
 
-            await _sqlConnection.ExecuteAsync(sqlQuery, new
-            {
-                idCategoria
-            }, commandType: System.Data.CommandType.StoredProcedure);
+            var resultado = await _sqlConnection.ExecuteScalarAsync<Guid>(
+                sqlQuery,
+                new { idCategoria },
+                commandType: System.Data.CommandType.StoredProcedure
+            );
+
+            return resultado;
         }
+
     }
 }

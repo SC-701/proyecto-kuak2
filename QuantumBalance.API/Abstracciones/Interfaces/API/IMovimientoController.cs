@@ -11,9 +11,9 @@ namespace Abstracciones.Interfaces.API
     public interface IMovimientoController
     {
         Task<IActionResult> ObtenerTodosLosMovimientos();
-        Task<IActionResult> ObtenerMovimientoPorId(Guid id);
+        Task<IActionResult> ObtenerMovimientoPorId(Guid IdMovimiento);
         Task<IActionResult> CrearMovimiento(MovimientoRequest movimiento);
-        Task<IActionResult> EditarMovimiento(Guid id, MovimientoRequest movimiento);
-        Task<IActionResult> EliminarMovimiento(Guid id);
+        Task<IActionResult> EditarMovimiento(Guid IdMovimiento, MovimientoRequest movimiento);
+        Task<IActionResult> EliminarMovimiento(Guid IdMovimiento);
     }
 }

@@ -10,9 +10,9 @@ namespace Abstracciones.Interfaces.Flujo
     public interface IMovimientoFlujo
     {
         Task<IEnumerable<MovimientoResponse>> ObtenerTodosLosMovimientos();
-        Task<MovimientoResponse> ObtenerMovimientoPorId(Guid id);
+        Task<MovimientoResponse> ObtenerMovimientoPorId(Guid idMovimiento);
         Task<Guid> CrearMovimiento(MovimientoRequest movimiento);
-        Task<Guid> EditarMovimiento(Guid id, MovimientoRequest movimiento);
-        Task<Guid> EliminarMovimiento(Guid id);
+        Task<Guid> EditarMovimiento(MovimientoRequest movimiento);
+        Task<Guid> EliminarMovimiento(Guid idMovimiento);
     }
 }

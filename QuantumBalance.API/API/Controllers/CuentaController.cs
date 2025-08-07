@@ -1,11 +1,13 @@
 ﻿using Abstracciones.Interfaces.API;
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class CuentaController : ControllerBase, ICuentaController
     {
@@ -40,7 +42,7 @@ namespace API.Controllers
                 _logger.LogError("ID de cuenta inválido o cuenta nula.");
                 return BadRequest("ID de cuenta inválido o cuenta nula.");
             }
-            Guid resultado = await _cuentaFlujo.EditarCuenta(id, cuenta);
+            Guid resultado = await _cuentaFlujo.EditarCuenta(cuenta);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al editar la cuenta.");

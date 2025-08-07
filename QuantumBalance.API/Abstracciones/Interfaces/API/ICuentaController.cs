@@ -11,9 +11,9 @@ namespace Abstracciones.Interfaces.API
     public interface ICuentaController
     {
         Task<IActionResult> ObtenerTodasLasCuentas();
-        Task<IActionResult> ObtenerCuentaPorId(Guid id);
+        Task<IActionResult> ObtenerCuentaPorId(Guid IdCuenta);
         Task<IActionResult> CrearCuenta(CuentaRequest cuenta);
-        Task<IActionResult> EditarCuenta(Guid id, CuentaRequest cuenta);
-        Task<IActionResult> EliminarCuenta(Guid id);
+        Task<IActionResult> EditarCuenta(Guid IdCuenta, CuentaRequest cuenta);
+        Task<IActionResult> EliminarCuenta(Guid IdCuenta);
     }
 }
