@@ -42,7 +42,7 @@ namespace API.Controllers
                 _logger.LogError("ID de cuenta inválido o cuenta nula.");
                 return BadRequest("ID de cuenta inválido o cuenta nula.");
             }
-            Guid resultado = await _cuentaFlujo.EditarCuenta(cuenta);
+            Guid resultado = await _cuentaFlujo.EditarCuenta(id, cuenta);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al editar la cuenta.");

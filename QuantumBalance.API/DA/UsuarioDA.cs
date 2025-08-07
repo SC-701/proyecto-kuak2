@@ -1,6 +1,7 @@
-﻿using Abstracciones.Interfaces.DA;
+﻿using Dapper;
+using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
-using System.Data.SqlClient;
+using Microsoft.Data.SqlClient;
 
 public class UsuarioDA : IUsuarioDA
 {

@@ -29,9 +29,9 @@ namespace Flujo
             return await _movimientoDA.CrearMovimiento(movimiento);
         }
 
-        public async Task<Guid> EditarMovimiento(MovimientoRequest movimiento)
+        public async Task<Guid> EditarMovimiento(Guid idMovimiento, MovimientoRequest movimiento)
         {
-            return await _movimientoDA.EditarMovimiento(movimiento);
+            return await _movimientoDA.EditarMovimiento(idMovimiento, movimiento);
         }
 
         public async Task<Guid> EliminarMovimiento(Guid idMovimiento)
