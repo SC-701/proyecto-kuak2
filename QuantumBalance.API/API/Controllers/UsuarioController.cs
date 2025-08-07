@@ -1,11 +1,13 @@
 ﻿using Abstracciones.Interfaces.API;
 using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
     [Route("api/[controller]")]
+    [Authorize]
     [ApiController]
     public class UsuarioController : ControllerBase, IUsuarioController
     {
@@ -40,7 +42,7 @@ namespace API.Controllers
                 _logger.LogError("ID de usuario inválido o usuario nulo.");
                 return BadRequest("ID de usuario inválido o usuario nulo.");
             }
-            Guid resultado = await _usuarioFlujo.EditarUsuario(id, usuario);
+            Guid resultado = await _usuarioFlujo.EditarUsuario(usuario);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al actualizar el usuario.");

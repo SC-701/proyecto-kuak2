@@ -1,9 +1,9 @@
 ﻿using Abstracciones.Interfaces.DA;
 using Abstracciones.Modelos;
 using Dapper;
-using Microsoft.Data.SqlClient;
 using System;
 using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -28,13 +28,18 @@ namespace DA
             return resultados;
         }
 
-        public async Task ObtenerTipoMovimientoPorId(Guid idTipoMovimiento)
+        public async Task<TipoMovimientoResponse?> ObtenerTipoMovimientoPorId(Guid idTipoMovimiento)
         {
-            string sqlQuery = @"sp_TipoMovimiento_Mostrar";
+            string sqlQuery = @"sp_TipoMovimiento_ObtenerPorId"; 
 
-            var resultados = await _sqlConnection.QueryAsync<TipoMovimientoResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
+            var resultado = await _sqlConnection.QueryFirstOrDefaultAsync<TipoMovimientoResponse>(
+                sqlQuery,
+                new { Id = idTipoMovimiento },
+                commandType: System.Data.CommandType.StoredProcedure
+            );
 
-            return resultados;
+            return resultado;
         }
+
     }
 }

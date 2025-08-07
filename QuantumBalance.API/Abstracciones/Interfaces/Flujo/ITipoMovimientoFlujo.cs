@@ -9,7 +9,8 @@ namespace Abstracciones.Interfaces.Flujo
 {
     public interface ITipoMovimientoFlujo
     {
-        Task<IEnumerable<TipoMovimientoResponse>> ObtenerTodosLosMovimientos();
-        Task<TipoMovimientoResponse> ObtenerMovimientoPorId(Guid IdTipoMovimiento);
+        Task<IEnumerable<TipoMovimientoResponse>> ObtenerTiposMovimiento(); 
+        Task<TipoMovimientoResponse> ObtenerTipoMovimientoPorId(Guid idTipoMovimiento);
     }
+
 }

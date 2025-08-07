@@ -1,15 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Abstracciones.Modelos
 {
+    // Base class for shared properties
     public class CuentaCategoriaBase
-
-
     {
         [Required(ErrorMessage = "El IdCategoria es requerido")]
         public Guid IdCategoria { get; set; }
@@ -18,20 +13,15 @@ namespace Abstracciones.Modelos
         public Guid IdCuenta { get; set; }
     }
 
+    // Request class inherits from base class and adds the 'NombreCuenta' property
     public class CuentaCategoriaRequest : CuentaCategoriaBase
     {
-        public string NombreCuenta { get; set; }
-        public Guid IdCategoria { get; set; }
-
-
+        public string NombreCuenta { get; set; } // Represents the name/description of the account in this category
     }
 
+    // Response class inherits from base class and adds the 'NombreCategoria' property
     public class CuentaCategoriaResponse : CuentaCategoriaBase
     {
-        public string NombreCategoria { get; set; }
-        public Guid IdCategoria { get; set; }
-
+        public string NombreCategoria { get; set; } // Represents the name of the category
     }
-
 }
-

@@ -29,7 +29,7 @@ namespace Abstracciones.Modelos
         public Guid IdTipoMovimiento { get; set; }
     }
 
-    public class TipoMovimientoResponse : MovimientoBase
+    public class MovimientoResponse : MovimientoBase
     {
         public Guid IdMovimiento { get; set; }
         public Guid IdCuenta { get; set; }

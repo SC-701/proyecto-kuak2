@@ -12,7 +12,7 @@ namespace Abstracciones.Interfaces.Flujo
         Task<IEnumerable<UsuarioResponse>> ObtenerTodosLosUsuarios();
         Task<UsuarioResponse> ObtenerUsuarioPorId(Guid IdUsuario);
         Task<Guid> CrearUsuario(UsuarioRequest usuario);
-        Task<Guid> EditarUsuario(Guid IdUsuario, UsuarioRequest usuario);
+        Task<Guid> EditarUsuario(UsuarioRequest usuario);
         Task<Guid> EliminarUsuario(Guid IdUsuario);
     }
 }

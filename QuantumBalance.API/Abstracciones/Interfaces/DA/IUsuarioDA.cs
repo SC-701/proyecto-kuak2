@@ -8,12 +8,14 @@ using System.Threading.Tasks;
 
 namespace Abstracciones.Interfaces.DA
 {
-   
+
     public interface IUsuarioDA
     {
-        Task<IEnumerable<UsuarioResponse>> MostrarUsuarios();
+        Task<IEnumerable<UsuarioResponse>> ObtenerTodosLosUsuarios();
+        Task<UsuarioResponse> ObtenerUsuarioPorId(Guid idUsuario);
         Task<Guid> CrearUsuario(UsuarioRequest usuario);
-        Task EditarUsuario(UsuarioRequest usuario);
-        Task EliminarUsuario(Guid idUsuario);
+        Task<Guid> EditarUsuario(UsuarioRequest usuario);
+        Task<Guid> EliminarUsuario(Guid idUsuario);
     }
+
 }

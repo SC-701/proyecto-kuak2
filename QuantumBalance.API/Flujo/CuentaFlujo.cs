@@ -21,9 +21,9 @@ namespace Flujo
             return await _cuentaDA.CrearCuenta(cuenta);
         }
 
-        public async Task<Guid> EditarCuenta(Guid id, CuentaRequest cuenta)
+        public async Task<Guid> EditarCuenta(CuentaRequest cuenta)
         {
-            return await _cuentaDA.EditarCuenta(id, cuenta);
+            return await _cuentaDA.EditarCuenta(cuenta);
         }
 
         public async Task<Guid> EliminarCuenta(Guid id)
@@ -31,10 +31,11 @@ namespace Flujo
             return await _cuentaDA.EliminarCuenta(id);
         }
 
-        public async Task<CuentaResponse> ObtenerCuentaPorId(Guid id)
+        public async Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta)
         {
-            return await _cuentaDA.ObtenerCuentaPorId(id);
+            return await _cuentaDA.ObtenerCuentaPorId(idCuenta);
         }
+
 
         public async Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas()
         {
