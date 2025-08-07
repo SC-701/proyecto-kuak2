@@ -65,6 +65,16 @@ BEGIN
 END;
 GO
 
+-- Obtener Usuario por Id
+CREATE PROCEDURE sp_Usuario_ObtenerPorId (
+    @idUsuario UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM Usuario WHERE idusuario = @idUsuario;
+END;
+
+
 ---------------------------
 -- SP CUENTA --
 ---------------------------
@@ -119,6 +129,16 @@ BEGIN
 END;
 GO
 
+-- Obtener Cuenta por Id
+CREATE PROCEDURE sp_Cuenta_ObtenerPorId (
+    @idCuenta UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM Cuenta WHERE idcuenta = @idCuenta;
+END;
+
+
 ---------------------------
 -- SP CATEGORIA --
 ---------------------------
@@ -169,6 +189,26 @@ BEGIN
     WHERE idcategoria = @idCategoria;
 END;
 GO
+    
+-- Eliminar Categoria
+CREATE PROCEDURE sp_Categoria_ObtenerPorId (
+    @idCategoria UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM Categoria WHERE idCategoria = @idCategoria;
+END;
+GO
+
+-- Obtener Categoria por Id
+CREATE PROCEDURE sp_Categoria_ObtenerPorId (
+    @idCategoria UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM Categoria WHERE idcategoria = @idCategoria;
+END;
+
 
 ---------------------------
 -- SP MOVIMIENTO --
@@ -242,3 +282,44 @@ BEGIN
     WHERE idMovimiento = @idMovimiento;
 END;
 GO
+
+--Obtener Movimiento por Id
+CREATE PROCEDURE sp_Movimiento_ObtenerPorId (
+    @idMovimiento UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM Movimiento WHERE idMovimiento = @idMovimiento;
+END;
+
+
+---------------------------
+-- SP CuentaCategoria --
+---------------------------
+
+-- Obtener CuentaCategoria por Id
+CREATE PROCEDURE sp_CuentaCategoria_ObtenerPorId (
+    @idCategoria UNIQUEIDENTIFIER,
+    @idCuenta UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM CuentaCategoria 
+    WHERE idcategoria = @idCategoria AND idcuenta = @idCuenta;
+END;
+
+---------------------------
+-- SP Tipo_Movimiento --
+---------------------------
+
+--Obtener Tipo_Movimiento por Id
+CREATE PROCEDURE sp_TipoMovimiento_ObtenerPorId (
+    @idTipoMovimiento UNIQUEIDENTIFIER
+)
+AS
+BEGIN
+    SELECT * FROM Tipo_Movimiento WHERE idtipomovimiento = @idTipoMovimiento;
+END;
+
+
+
