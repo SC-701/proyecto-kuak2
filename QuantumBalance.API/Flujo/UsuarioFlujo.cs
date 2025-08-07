@@ -21,9 +21,9 @@ namespace Flujo
             return await _usuarioDA.CrearUsuario(usuario);
         }
 
-        public async Task<Guid> EditarUsuario(Guid id, UsuarioRequest usuario)
+        public async Task<Guid> EditarUsuario(UsuarioRequest usuario)
         {
-            return await _usuarioDA.EditarUsuario(id, usuario);
+            return await _usuarioDA.EditarUsuario(usuario);
         }
 
         public async Task<Guid> EliminarUsuario(Guid id)

@@ -10,9 +10,10 @@ namespace Abstracciones.Interfaces.DA
 {
     public interface ICuentaDA
     {
-        Task<IEnumerable<CuentaResponse>> MostrarCuentas();
+        Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas();
+        Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta);
         Task<Guid> CrearCuenta(CuentaRequest cuenta);
-        Task EditarCuenta(CuentaRequest cuenta);
-        Task EliminarCuenta(Guid idCuenta);
+        Task<Guid> EditarCuenta(Guid idCuenta, CuentaRequest cuenta);
+        Task<Guid> EliminarCuenta(Guid idCuenta);
     }
 }

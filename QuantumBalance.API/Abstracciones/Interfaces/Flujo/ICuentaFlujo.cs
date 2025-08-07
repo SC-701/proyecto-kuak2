@@ -12,7 +12,7 @@ namespace Abstracciones.Interfaces.Flujo
         Task<IEnumerable<CuentaResponse>> ObtenerTodasLasCuentas();
         Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta);
         Task<Guid> CrearCuenta(CuentaRequest cuenta);
-        Task<Guid> EditarCuenta(Guid idCuenta, CuentaRequest cuenta);
+        Task<Guid> EditarCuenta(CuentaRequest cuenta);
         Task<Guid> EliminarCuenta(Guid idCuenta);
     }
 }

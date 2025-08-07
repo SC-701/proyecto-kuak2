@@ -10,9 +10,10 @@ namespace Abstracciones.Interfaces.DA
 {
     public interface IMovimientoDA
     {
-        Task<IEnumerable<TipoMovimientoResponse>> MostrarMovimientos();
+        Task<IEnumerable<MovimientoResponse>> ObtenerTodosLosMovimientos();
+        Task<MovimientoResponse> ObtenerMovimientoPorId(Guid idMovimiento);
         Task<Guid> CrearMovimiento(MovimientoRequest movimiento);
-        Task EditarMovimiento(MovimientoRequest movimiento);
-        Task EliminarMovimiento(Guid idMovimiento);
+        Task<Guid> EditarMovimiento(Guid idMovimiento, MovimientoRequest movimiento);
+        Task<Guid> EliminarMovimiento(Guid idMovimiento);
     }
 }

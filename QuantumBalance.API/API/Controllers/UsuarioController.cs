@@ -40,7 +40,7 @@ namespace API.Controllers
                 _logger.LogError("ID de usuario inválido o usuario nulo.");
                 return BadRequest("ID de usuario inválido o usuario nulo.");
             }
-            Guid resultado = await _usuarioFlujo.EditarUsuario(id, usuario);
+            Guid resultado = await _usuarioFlujo.EditarUsuario(usuario);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al actualizar el usuario.");

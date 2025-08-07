@@ -42,22 +42,33 @@ namespace DA
             return resultado;
         }
 
-        public async Task<IEnumerable<TipoMovimientoResponse>> MostrarMovimientos()
+        public async Task<IEnumerable<MovimientoResponse>> ObtenerTodosLosMovimientos()
         {
             string sqlQuery = @"sp_Movimiento_Mostrar";
 
-            var resultados = await _sqlConnection.QueryAsync<TipoMovimientoResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
+            var resultados = await _sqlConnection.QueryAsync<MovimientoResponse>(sqlQuery, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultados;
         }
 
-        public async Task EditarMovimiento(MovimientoRequest movimiento)
+
+        public async Task<MovimientoResponse> ObtenerMovimientoPorId(Guid idMovimiento)
+        {
+            string sqlQuery = @"sp_Movimiento_MostrarPorId";
+            var resultado = await _sqlConnection.QueryFirstOrDefaultAsync<MovimientoResponse>(sqlQuery, new
+            {
+                idMovimiento
+            }, commandType: System.Data.CommandType.StoredProcedure);
+            return resultado;
+        }
+
+        public async Task<Guid> EditarMovimiento(Guid idMovimiento, MovimientoRequest movimiento)
         {
             string sqlQuery = @"sp_Movimiento_Editar";
 
             await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                idMovimiento = movimiento.IdMovimiento,
+                idMovimiento,
                 idCuenta = movimiento.IdCuenta,
                 idCategoria = movimiento.IdCategoria,
                 idTipoMovimiento = movimiento.IdTipoMovimiento,
@@ -65,9 +76,12 @@ namespace DA
                 monto = movimiento.Monto,
                 fecha = movimiento.Fecha
             }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return idMovimiento;
         }
 
-        public async Task EliminarMovimiento(Guid idMovimiento)
+
+        public async Task<Guid> EliminarMovimiento(Guid idMovimiento)
         {
             string sqlQuery = @"sp_Movimiento_Eliminar";
 
@@ -75,6 +89,9 @@ namespace DA
             {
                 idMovimiento
             }, commandType: System.Data.CommandType.StoredProcedure);
+
+            return idMovimiento; 
         }
+
     }
 }
