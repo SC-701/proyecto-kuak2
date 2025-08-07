@@ -21,9 +21,9 @@ namespace Flujo
             return await _cuentaDA.CrearCuenta(cuenta);
         }
 
-        public async Task<Guid> EditarCuenta(CuentaRequest cuenta)
+        public async Task<Guid> EditarCuenta(Guid idCuenta, CuentaRequest cuenta)
         {
-            return await _cuentaDA.EditarCuenta(cuenta);
+            return await _cuentaDA.EditarCuenta(idCuenta, cuenta);
         }
 
         public async Task<Guid> EliminarCuenta(Guid id)
