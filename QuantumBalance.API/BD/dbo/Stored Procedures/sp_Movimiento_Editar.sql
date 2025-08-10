@@ -1,10 +1,20 @@
-﻿
--- EDITAR
-CREATE PROCEDURE sp_Movimiento_Editar (@idMovimiento UNIQUEIDENTIFIER, @idCategoria UNIQUEIDENTIFIER, @idTipoPago UNIQUEIDENTIFIER, @descripcion NVARCHAR(MAX), @montoOriginal DECIMAL(18,2),
-    @monedaOriginal NVARCHAR(50), @montoCrc DECIMAL(18,2), @tasaCambio DECIMAL(18,6), @estado BIT)
+﻿CREATE PROCEDURE sp_Movimiento_Editar
+    @idMovimiento UNIQUEIDENTIFIER,
+    @idCuenta UNIQUEIDENTIFIER,
+    @idCategoria UNIQUEIDENTIFIER,
+    @idTipoMovimiento UNIQUEIDENTIFIER,
+    @descripcion VARCHAR(255),
+    @monto DECIMAL(18,2),
+    @fecha DATETIME
 AS
 BEGIN
-    UPDATE Movimiento SET idCategoria = @idCategoria, idTipoPago = @idTipoPago, descripcion = @descripcion, montoOriginal = @montoOriginal, monedaOriginal = @monedaOriginal, montoCrc = @montoCrc,
-        tasaCambio = @tasaCambio, estado = @estado WHERE idMovimiento = @idMovimiento;
-	select @idMovimiento;
+    UPDATE Movimiento
+    SET
+        idCuenta = @idCuenta,
+        idCategoria = @idCategoria,
+        idTipoMovimiento = @idTipoMovimiento,
+        descripcion = @descripcion,
+        monto = @monto,
+        fecha = @fecha
+    WHERE idMovimiento = @idMovimiento;
 END;

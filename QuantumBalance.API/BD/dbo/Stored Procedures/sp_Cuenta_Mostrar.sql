@@ -1,0 +1,5 @@
+﻿CREATE PROCEDURE sp_Cuenta_Mostrar
+AS
+BEGIN
+    SELECT * FROM Cuenta;
+END;
