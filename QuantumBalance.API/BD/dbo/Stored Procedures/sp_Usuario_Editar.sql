@@ -1,9 +1,18 @@
-﻿
--- EDITAR
-CREATE PROCEDURE [dbo].[sp_Usuario_Editar] (@idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @primerApellido NVARCHAR(100), @segundoApellido NVARCHAR(100),@email NVARCHAR(200), @password NVARCHAR(200), @monedaPrincipal NVARCHAR(50),
-    @fechaUltimoAcceso DATETIME, @estado BIT)
+﻿CREATE PROCEDURE sp_Usuario_Editar
+    @idUsuario UNIQUEIDENTIFIER,
+    @nombre VARCHAR(255),
+    @primerApellido VARCHAR(255),
+    @segundoApellido VARCHAR(255),
+    @correo VARCHAR(255),
+    @contrasena VARCHAR(255)
 AS
 BEGIN
-    UPDATE Usuario SET nombre = @nombre, primerApellido = @primerApellido, segundoApellido = @segundoApellido, email = @email, password = @password, monedaPrincipal = @monedaPrincipal, fechaUltimoAcceso = @fechaUltimoAcceso, estado = @estado WHERE idUsuario = @idUsuario;
-	select @idUsuario;
+    UPDATE Usuario
+    SET 
+        nombre = @nombre,
+        primerapellido = @primerApellido,
+        segundoapellido = @segundoApellido,
+        correo = @correo,
+        contrasena = @contrasena
+    WHERE idusuario = @idUsuario;
 END;

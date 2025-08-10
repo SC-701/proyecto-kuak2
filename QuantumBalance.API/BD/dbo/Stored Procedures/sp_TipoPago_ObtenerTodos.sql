@@ -1,7 +1,0 @@
-﻿
--- OBTENER TODOS
-CREATE PROCEDURE sp_TipoPago_ObtenerTodos
-AS
-BEGIN
-    SELECT * FROM TipoPago;
-END;

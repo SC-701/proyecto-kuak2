@@ -1,7 +1,7 @@
-﻿
--- OBTENER POR ID
-CREATE PROCEDURE sp_Usuario_ObtenerPorId (@idUsuario UNIQUEIDENTIFIER)
+﻿CREATE PROCEDURE sp_Usuario_ObtenerPorId (
+    @idUsuario UNIQUEIDENTIFIER
+)
 AS
 BEGIN
-    SELECT * FROM Usuario WHERE idUsuario = @idUsuario;
+    SELECT * FROM Usuario WHERE idusuario = @idUsuario;
 END;
