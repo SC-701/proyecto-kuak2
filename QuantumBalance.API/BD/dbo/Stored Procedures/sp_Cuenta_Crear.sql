@@ -1,8 +1,13 @@
-﻿CREATE PROCEDURE [dbo].[sp_Cuenta_Crear] (@idCuenta UNIQUEIDENTIFIER, @idUsuario UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @permitirSalarioNegativo BIT, 
-@fechaCreacion DATETIME,
-    @fechaUltimaModificacion DATETIME, @estado BIT, @idCategoria UNIQUEIDENTIFIER)
+﻿CREATE PROCEDURE sp_Cuenta_Crear
+    @idCuenta UNIQUEIDENTIFIER,
+    @idUsuario UNIQUEIDENTIFIER,
+    @nombre VARCHAR(255),
+    @descripcion VARCHAR(255),
+    @tipo VARCHAR(255)
 AS
 BEGIN
-    INSERT INTO Cuenta VALUES (@idCuenta, @idUsuario, @nombre, @descripcion, @permitirSalarioNegativo, @fechaCreacion, @fechaUltimaModificacion, @estado, @idCategoria);
-	select @idCuenta;
+    INSERT INTO Cuenta (idcuenta, idusuario, nombre, descripcion, tipo)
+    VALUES (@idCuenta, @idUsuario, @nombre, @descripcion, @tipo);
+
+    SELECT @idCuenta;
 END;

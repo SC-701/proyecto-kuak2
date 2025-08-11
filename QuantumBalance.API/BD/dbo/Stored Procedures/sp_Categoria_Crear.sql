@@ -1,6 +1,11 @@
-﻿CREATE PROCEDURE sp_Categoria_Crear (@idCategoria UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @fechaCreacion DATETIME, @estado BIT)
+﻿CREATE PROCEDURE sp_Categoria_Crear
+    @idCategoria UNIQUEIDENTIFIER,
+    @nombre VARCHAR(255),
+    @descripcion VARCHAR(255)
 AS
 BEGIN
-    INSERT INTO Categoria VALUES (@idCategoria, @nombre, @descripcion, @fechaCreacion, @estado);
-	SELECT @idCategoria;
+    INSERT INTO Categoria (idcategoria, nombre, descripcion)
+    VALUES (@idCategoria, @nombre, @descripcion);
+
+    SELECT @idCategoria;
 END;

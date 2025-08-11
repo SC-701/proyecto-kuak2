@@ -1,6 +1,7 @@
-﻿
-CREATE PROCEDURE sp_Cuenta_ObtenerPorId (@idCuenta UNIQUEIDENTIFIER)
+﻿CREATE PROCEDURE sp_Cuenta_ObtenerPorId (
+    @idCuenta UNIQUEIDENTIFIER
+)
 AS
 BEGIN
-    SELECT * FROM Cuenta WHERE idCuenta = @idCuenta;
+    SELECT * FROM Cuenta WHERE idcuenta = @idCuenta;
 END;

@@ -1,8 +1,13 @@
-﻿
-CREATE PROCEDURE [dbo].[sp_Cuenta_Editar] (@idCuenta UNIQUEIDENTIFIER, @nombre NVARCHAR(100), @descripcion NVARCHAR(MAX), @permitirSalarioNegativo BIT, @fechaUltimaModificacion DATETIME, @estado BIT, @idCategoria UNIQUEIDENTIFIER)
+﻿CREATE PROCEDURE sp_Cuenta_Editar
+    @idCuenta UNIQUEIDENTIFIER,
+    @nombre VARCHAR(255),
+    @descripcion VARCHAR(255),
+    @tipo VARCHAR(255)
 AS
 BEGIN
-    UPDATE Cuenta SET nombre = @nombre, descripcion = @descripcion, permitirSalarioNegativo = @permitirSalarioNegativo, fechaUltimaModificacion = @fechaUltimaModificacion,
-        estado = @estado, idCategoria = @idCategoria WHERE idCuenta = @idCuenta;
-	select @idCuenta;
+    UPDATE Cuenta
+    SET nombre = @nombre,
+        descripcion = @descripcion,
+        tipo = @tipo
+    WHERE idcuenta = @idCuenta;
 END;

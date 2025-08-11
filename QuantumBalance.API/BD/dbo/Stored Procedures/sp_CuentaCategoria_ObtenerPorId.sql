@@ -1,7 +1,9 @@
-﻿
-CREATE PROCEDURE sp_CuentaCategoria_ObtenerPorId (@idCategoria UNIQUEIDENTIFIER,@idCuenta UNIQUEIDENTIFIER
+﻿CREATE PROCEDURE sp_CuentaCategoria_ObtenerPorId (
+    @idCategoria UNIQUEIDENTIFIER,
+    @idCuenta UNIQUEIDENTIFIER
 )
 AS
 BEGIN
-    SELECT * FROM CuentaCategoria WHERE idCategoria = @idCategoria AND idCuenta = @idCuenta;
+    SELECT * FROM CuentaCategoria 
+    WHERE idcategoria = @idCategoria AND idcuenta = @idCuenta;
 END;

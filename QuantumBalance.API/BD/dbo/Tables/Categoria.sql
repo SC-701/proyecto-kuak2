@@ -1,9 +1,7 @@
 ﻿CREATE TABLE [dbo].[Categoria] (
-    [idCategoria]   UNIQUEIDENTIFIER NOT NULL,
-    [nombre]        NVARCHAR (100)   NULL,
-    [descripcion]   NVARCHAR (MAX)   NULL,
-    [fechaCreacion] DATETIME         NULL,
-    [estado]        BIT              NULL,
-    PRIMARY KEY CLUSTERED ([idCategoria] ASC)
+    [idcategoria] UNIQUEIDENTIFIER NOT NULL,
+    [nombre]      VARCHAR (255)    NULL,
+    [descripcion] VARCHAR (255)    NULL,
+    PRIMARY KEY CLUSTERED ([idcategoria] ASC)
 );
 
