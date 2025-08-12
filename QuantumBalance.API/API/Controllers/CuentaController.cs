@@ -68,11 +68,11 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> EliminarCuenta([FromQuery] Guid id)
         {
-            Guid resultado = await _cuentaFlujo.EliminarCuenta(id);
+            bool success = await _cuentaFlujo.EliminarCuenta(id);
 
-            if (resultado == Guid.Empty)
+            if (!success)
             {
-                _logger.LogError("Error al eliminar cuenta.");
+                _logger.LogError("Error al eliminar la cuenta con ID {Id}.", id);
                 return BadRequest("No se pudo eliminar cuenta.");
             }
 

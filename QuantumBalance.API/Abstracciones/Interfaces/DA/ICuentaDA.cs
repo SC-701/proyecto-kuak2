@@ -14,6 +14,6 @@ namespace Abstracciones.Interfaces.DA
         Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta);
         Task<Guid> CrearCuenta(CuentaRequest cuenta);
         Task<Guid> EditarCuenta(Guid idCuenta, CuentaRequest cuenta);
-        Task<Guid> EliminarCuenta(Guid idCuenta);
+        Task<bool> EliminarCuenta(Guid idCuenta);
     }
 }

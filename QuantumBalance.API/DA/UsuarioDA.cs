@@ -65,7 +65,11 @@ public class UsuarioDA : IUsuarioDA
     public async Task<Guid> EliminarUsuario(Guid idUsuario)
     {
         string sqlQuery = @"sp_Usuario_Eliminar";
-        var resultado = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new { idUsuario }, commandType: System.Data.CommandType.StoredProcedure);
-        return resultado;
+        int affectedRows = await _sqlConnection.ExecuteAsync(sqlQuery, new { idUsuario }, commandType: System.Data.CommandType.StoredProcedure);
+
+        if (affectedRows > 0)
+            return idUsuario;
+        else
+            return Guid.Empty;
     }
 }

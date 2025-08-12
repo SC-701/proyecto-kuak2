@@ -21,7 +21,7 @@ public class CategoriaFlujo : ICategoriaFlujo
         return await _categoriaDA.EditarCategoria(idCategoria, categoria);
     }
 
-    public async Task<Guid> EliminarCategoria(Guid idCategoria)
+    public async Task<bool> EliminarCategoria(Guid idCategoria)
     {
         return await _categoriaDA.EliminarCategoria(idCategoria);
     }
