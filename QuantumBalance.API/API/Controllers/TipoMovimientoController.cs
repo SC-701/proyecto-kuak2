@@ -29,7 +29,7 @@ namespace API.Controllers
             return Ok(res);
         }
 
-        [HttpGet("{id}")]
+        [HttpGet("{idTipoMovimiento}")]
         public async Task<IActionResult> ObtenerTipoMovimientoPorId([FromRoute] Guid idTipoMovimiento)
         {
             var res = await _tipoMovimientoFlujo.ObtenerTipoMovimientoPorId(idTipoMovimiento);
