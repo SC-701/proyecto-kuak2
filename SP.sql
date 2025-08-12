@@ -190,16 +190,6 @@ BEGIN
 END;
 GO
     
--- Eliminar Categoria
-CREATE PROCEDURE sp_Categoria_ObtenerPorId (
-    @idCategoria UNIQUEIDENTIFIER
-)
-AS
-BEGIN
-    SELECT * FROM Categoria WHERE idCategoria = @idCategoria;
-END;
-GO
-
 -- Obtener Categoria por Id
 CREATE PROCEDURE sp_Categoria_ObtenerPorId (
     @idCategoria UNIQUEIDENTIFIER
@@ -208,7 +198,7 @@ AS
 BEGIN
     SELECT * FROM Categoria WHERE idcategoria = @idCategoria;
 END;
-
+GO
 
 ---------------------------
 -- SP MOVIMIENTO --
@@ -297,15 +287,22 @@ END;
 -- SP CuentaCategoria --
 ---------------------------
 
--- Obtener CuentaCategoria por Id
-CREATE PROCEDURE sp_CuentaCategoria_ObtenerPorId (
-    @idCategoria UNIQUEIDENTIFIER,
-    @idCuenta UNIQUEIDENTIFIER
-)
+-- Crear CuentaCategoria
+CREATE PROCEDURE sp_CuentaCategoria_Crear
+    @idcategoria UNIQUEIDENTIFIER,
+    @idcuenta UNIQUEIDENTIFIER
 AS
 BEGIN
-    SELECT * FROM CuentaCategoria 
-    WHERE idcategoria = @idCategoria AND idcuenta = @idCuenta;
+    INSERT INTO CuentaCategoria (idcategoria, idcuenta)
+    VALUES (@idcategoria, @idcuenta);
+END;
+
+-- Mostrar todos los CuentaCategoria
+CREATE PROCEDURE sp_CuentaCategoria_Mostrar
+AS
+BEGIN
+    SELECT * 
+    FROM CuentaCategoria;
 END;
 
 ---------------------------

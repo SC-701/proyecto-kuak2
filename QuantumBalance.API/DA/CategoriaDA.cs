@@ -47,7 +47,7 @@ namespace DA
         }
         public async Task<CategoriaResponse> ObtenerCategoriaPorId(Guid idCategoria)
         {
-            string sqlQuery = @"sp_Categoria_MostrarPorId";
+            string sqlQuery = @"sp_Categoria_ObtenerPorId";
             var categoria = await _sqlConnection.QueryFirstOrDefaultAsync<CategoriaResponse>(sqlQuery, new
             {
                 idCategoria
@@ -61,7 +61,7 @@ namespace DA
 
             await _sqlConnection.ExecuteAsync(sqlQuery, new
             {
-                idCategoria = categoria.IdCategoria,
+                idCategoria = idCategoria,
                 nombre = categoria.Nombre,
                 descripcion = categoria.Descripcion
             }, commandType: System.Data.CommandType.StoredProcedure);
@@ -70,17 +70,17 @@ namespace DA
         }
 
 
-        public async Task<Guid> EliminarCategoria(Guid idCategoria)
+        public async Task<bool> EliminarCategoria(Guid idCategoria)
         {
             string sqlQuery = @"sp_Categoria_Eliminar";
 
-            var resultado = await _sqlConnection.ExecuteScalarAsync<Guid>(
+            var rowsAffected = await _sqlConnection.ExecuteAsync(
                 sqlQuery,
                 new { idCategoria },
                 commandType: System.Data.CommandType.StoredProcedure
-            );
+    );
 
-            return resultado;
+            return rowsAffected > 0;
         }
 
     }

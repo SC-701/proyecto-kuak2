@@ -29,10 +29,8 @@ namespace DA
 
             Guid resultadoQuery = await _sqlConnection.ExecuteScalarAsync<Guid>(sqlQuery, new
             {
-                idCuentaCategoria,
                 cuentaCategoria.IdCuenta,
-                cuentaCategoria.IdCategoria,
-                cuentaCategoria.NombreCuenta
+                cuentaCategoria.IdCategoria
             }, commandType: System.Data.CommandType.StoredProcedure);
 
             return resultadoQuery;
@@ -67,8 +65,7 @@ namespace DA
             {
                 idCuentaCategoria,
                 cuentaCategoria.IdCuenta,
-                cuentaCategoria.IdCategoria,
-                cuentaCategoria.NombreCuenta
+                cuentaCategoria.IdCategoria
             }, commandType: System.Data.CommandType.StoredProcedure);
 
             return idCuentaCategoria;
