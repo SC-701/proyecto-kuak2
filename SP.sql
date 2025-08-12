@@ -309,6 +309,13 @@ END;
 -- SP Tipo_Movimiento --
 ---------------------------
 
+-- Mostrar todos los TipoMovimiento
+CREATE PROCEDURE sp_TipoMovimiento_Mostrar
+AS
+BEGIN
+    SELECT * 
+    FROM Tipo_Movimiento;
+END;
 --Obtener Tipo_Movimiento por Id
 CREATE PROCEDURE sp_TipoMovimiento_ObtenerPorId (
     @idTipoMovimiento UNIQUEIDENTIFIER
@@ -317,6 +324,3 @@ AS
 BEGIN
     SELECT * FROM Tipo_Movimiento WHERE idtipomovimiento = @idTipoMovimiento;
 END;
-
-
-
