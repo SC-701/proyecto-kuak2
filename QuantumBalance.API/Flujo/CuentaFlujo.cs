@@ -26,9 +26,9 @@ namespace Flujo
             return await _cuentaDA.EditarCuenta(idCuenta, cuenta);
         }
 
-        public async Task<bool> EliminarCuenta(Guid id)
+        public async Task<bool> EliminarCuenta(Guid idCuenta)
         {
-            return await _cuentaDA.EliminarCuenta(id);
+            return await _cuentaDA.EliminarCuenta(idCuenta);
         }
 
         public async Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta)

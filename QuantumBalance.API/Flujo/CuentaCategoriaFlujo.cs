@@ -18,7 +18,7 @@ public class CuentaCategoriaFlujo : ICuentaCategoriaFlujo
 
     public async Task<CuentaCategoriaResponse?> ObtenerPorId(Guid idCuentaCategoria)
     {
-        return await _cuentaCategoriaDA.ObtenerCuentaCateoriaPorId(idCuentaCategoria);
+        return await _cuentaCategoriaDA.ObtenerCuentaCategoriaPorId(idCuentaCategoria);
     }
 
     public async Task<Guid> Crear(CuentaCategoriaRequest cuentaCategoria)

@@ -30,19 +30,19 @@ namespace API.Controllers
                 return BadRequest("No se pudo crear el usuario.");
             }
             return CreatedAtAction(nameof(ObtenerUsuarioPorId),
-                new { id = resultado },
+                new { IdUsuario = resultado },
                 null);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> EditarUsuario([FromQuery] Guid id, [FromBody] UsuarioRequest usuario)
+        [HttpPut("{IdUsuario}")]
+        public async Task<IActionResult> EditarUsuario([FromRoute] Guid IdUsuario, [FromBody] UsuarioRequest usuario)
         {
-            if (id == Guid.Empty || usuario == null)
+            if (IdUsuario == Guid.Empty || usuario == null)
             {
                 _logger.LogError("ID de usuario inválido o usuario nulo.");
                 return BadRequest("ID de usuario inválido o usuario nulo.");
             }
-            usuario.IdUsuario = id;
+            usuario.IdUsuario = IdUsuario;
             Guid resultado = await _usuarioFlujo.EditarUsuario(usuario);
             if (resultado == Guid.Empty)
             {
@@ -52,10 +52,10 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> EliminarUsuario([FromQuery] Guid id)
+        [HttpDelete("{IdUsuario}")]
+        public async Task<IActionResult> EliminarUsuario([FromRoute] Guid IdUsuario)
         {
-            Guid resultado = await _usuarioFlujo.EliminarUsuario(id);
+            Guid resultado = await _usuarioFlujo.EliminarUsuario(IdUsuario);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al eliminar el usuario.");
@@ -64,18 +64,18 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerUsuarioPorId([FromRoute] Guid id)
+        [HttpGet("{IdUsuario}")]
+        public async Task<IActionResult> ObtenerUsuarioPorId([FromRoute] Guid IdUsuario)
         {
-            if (id == Guid.Empty)
+            if (IdUsuario == Guid.Empty)
             {
                 _logger.LogError("ID de usuario inválido.");
                 return BadRequest("ID de usuario inválido.");
             }
-            UsuarioResponse usuario = await _usuarioFlujo.ObtenerUsuarioPorId(id);
+            UsuarioResponse usuario = await _usuarioFlujo.ObtenerUsuarioPorId(IdUsuario);
             if (usuario == null)
             {
-                _logger.LogWarning("Usuario no encontrado. ID: {Id}", id);
+                _logger.LogWarning("Usuario no encontrado. ID: {IdUsuario}", IdUsuario);
                 return NotFound();
             }
             return Ok(usuario);

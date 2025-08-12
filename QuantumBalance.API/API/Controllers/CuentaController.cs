@@ -31,18 +31,18 @@ namespace API.Controllers
                 return BadRequest("No se pudo crear la cuenta.");
             }
 
-            return CreatedAtAction(nameof(ObtenerCuentaPorId), new { id = resultado }, null);
+            return CreatedAtAction(nameof(ObtenerCuentaPorId), new { IdCuenta = resultado }, null);
         }
 
-        [HttpPut]
-        public async Task<IActionResult> EditarCuenta([FromQuery] Guid id, [FromBody] CuentaRequest cuenta)
+        [HttpPut("{IdCuenta}")]
+        public async Task<IActionResult> EditarCuenta([FromRoute] Guid IdCuenta, [FromBody] CuentaRequest cuenta)
         {
-            if (id == Guid.Empty || cuenta == null)
+            if (IdCuenta == Guid.Empty || cuenta == null)
             {
                 _logger.LogError("ID de cuenta inválido o cuenta nula.");
                 return BadRequest("ID de cuenta inválido o cuenta nula.");
             }
-            Guid resultado = await _cuentaFlujo.EditarCuenta(id, cuenta);
+            Guid resultado = await _cuentaFlujo.EditarCuenta(IdCuenta, cuenta);
             if (resultado == Guid.Empty)
             {
                 _logger.LogError("Error al editar la cuenta.");
@@ -51,28 +51,28 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerCuentaPorId([FromRoute] Guid id)
+        [HttpGet("{IdCuenta}")]
+        public async Task<IActionResult> ObtenerCuentaPorId([FromRoute] Guid IdCuenta)
         {
-            CuentaResponse cuenta = await _cuentaFlujo.ObtenerCuentaPorId(id);
+            CuentaResponse cuenta = await _cuentaFlujo.ObtenerCuentaPorId(IdCuenta);
 
             if (cuenta == null)
             {
-                _logger.LogError($"Cuenta con ID {id} no encontrada.");
+                _logger.LogError($"Cuenta con ID {IdCuenta} no encontrada.");
                 return NotFound("Cuenta no encontrada.");
             }
 
             return Ok(cuenta);
         }
 
-        [HttpDelete]
-        public async Task<IActionResult> EliminarCuenta([FromQuery] Guid id)
+        [HttpDelete("{IdCuenta}")]
+        public async Task<IActionResult> EliminarCuenta([FromRoute] Guid IdCuenta)
         {
-            bool success = await _cuentaFlujo.EliminarCuenta(id);
+            bool success = await _cuentaFlujo.EliminarCuenta(IdCuenta);
 
             if (!success)
             {
-                _logger.LogError("Error al eliminar la cuenta con ID {Id}.", id);
+                _logger.LogError("Error al eliminar la cuenta con ID {IdCuenta}.", IdCuenta);
                 return BadRequest("No se pudo eliminar cuenta.");
             }
 

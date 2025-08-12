@@ -10,7 +10,7 @@ namespace Abstracciones.Interfaces.DA
     public interface ICuentaCategoriaDA
     {
         Task<IEnumerable<CuentaCategoriaResponse>> ObtenerCuentaCategorias();
-        Task<CuentaCategoriaResponse?> ObtenerCuentaCateoriaPorId(Guid idCuentaCategoria);
+        Task<CuentaCategoriaResponse?> ObtenerCuentaCategoriaPorId(Guid idCuentaCategoria);
         Task<Guid> CrearCuentaCategoria(CuentaCategoriaRequest cuentaCategoria);
         Task<Guid> EditarCuentaCategoria(Guid idCuentaCategoria, CuentaCategoriaRequest cuentaCategoria);
         Task<Guid> EliminarCuentaCategoria(Guid idCuentaCategoria);
