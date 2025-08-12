@@ -50,10 +50,20 @@ builder.Services.AddScoped<IConfiguracion, Configuracion>();
 builder.Services.AddScoped<ICuentaDA, CuentaDA>();
 builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
 builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
+builder.Services.AddScoped<ICuentaCategoriaDA, CuentaCategoriaDA>();
+builder.Services.AddScoped<IMovimientoDA, MovimientoDA>();
+builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
+
 
 builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
 builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
 builder.Services.AddScoped<ICategoriaFlujo, CategoriaFlujo>();
+builder.Services.AddScoped<ICuentaCategoriaFlujo, CuentaCategoriaFlujo>();
+builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
+//builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>(); cuando se implemente tipomovimientoflujo
+
+
+
 
 builder.Services.AddCors(options =>
 {
@@ -64,6 +74,8 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
+builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
+
 builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
 builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
 builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();

@@ -13,6 +13,6 @@ namespace Abstracciones.Interfaces.Flujo
         Task<CategoriaResponse> ObtenerCategoriaPorId(Guid idCategoria);
         Task<Guid> CrearCategoria(CategoriaRequest categoria);
         Task<Guid> EditarCategoria(Guid idCategoria, CategoriaRequest categoria);
-        Task<Guid> EliminarCategoria(Guid idCategoria);
+        Task<bool> EliminarCategoria(Guid idCategoria);
     }
 }

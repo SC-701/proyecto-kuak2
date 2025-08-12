@@ -42,7 +42,7 @@ namespace DA
         }
         public async Task<CuentaResponse> ObtenerCuentaPorId(Guid idCuenta)
         {
-            string sqlQuery = @"sp_Cuenta_MostrarPorId";
+            string sqlQuery = @"sp_Cuenta_ObtenerPorId";
             var cuenta = await _sqlConnection.QueryFirstOrDefaultAsync<CuentaResponse>(sqlQuery, new
             {
                 idCuenta = idCuenta
@@ -66,18 +66,19 @@ namespace DA
         }
 
 
-        public async Task<Guid> EliminarCuenta(Guid idCuenta)
+        public async Task<bool> EliminarCuenta(Guid idCuenta)
         {
             string sqlQuery = @"sp_Cuenta_Eliminar";
 
-            var resultado = await _sqlConnection.ExecuteScalarAsync<Guid>(
+            var rowsAffected = await _sqlConnection.ExecuteAsync(
                 sqlQuery,
-                new { idCuenta = idCuenta },
+                new { idCuenta },
                 commandType: System.Data.CommandType.StoredProcedure
-            );
+    );
 
-            return resultado;
+            return rowsAffected > 0;
         }
+
 
     }
 }

@@ -57,9 +57,9 @@ namespace API.Controllers
         [HttpDelete]
         public async Task<IActionResult> EliminarCategoria([FromQuery] Guid id)
         {
-            Guid resultado = await _categoriaFlujo.EliminarCategoria(id);
+            bool success = await _categoriaFlujo.EliminarCategoria(id);
 
-            if (resultado == Guid.Empty)
+            if (!success)
             {
                 _logger.LogError("Error al eliminar la categoría con ID {Id}.", id);
                 return BadRequest("Error al eliminar la categoría.");
