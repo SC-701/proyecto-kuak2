@@ -95,5 +95,8 @@
     <Build Include="dbo\Stored Procedures\sp_CuentaCategoria_ObtenerPorId.sql" />
     <Build Include="dbo\Stored Procedures\sp_Cuenta_ObtenerPorId.sql" />
     <Build Include="dbo\Stored Procedures\sp_Categoria_ObtenerPorId.sql" />
+    <Build Include="dbo\Stored Procedures\sp_TipoMovimiento_Mostrar.sql" />
+    <Build Include="dbo\Stored Procedures\sp_CuentaCategoria_Mostrar.sql" />
+    <Build Include="dbo\Stored Procedures\sp_CuentaCategoria_Crear.sql" />
   </ItemGroup>
 </Project>

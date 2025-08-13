@@ -34,7 +34,7 @@ namespace DA
 
             var resultado = await _sqlConnection.QueryFirstOrDefaultAsync<TipoMovimientoResponse>(
                 sqlQuery,
-                new { Id = idTipoMovimiento },
+                new { idTipoMovimiento },
                 commandType: System.Data.CommandType.StoredProcedure
             );
 

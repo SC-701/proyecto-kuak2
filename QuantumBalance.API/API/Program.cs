@@ -53,6 +53,7 @@ builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
 builder.Services.AddScoped<ICuentaCategoriaDA, CuentaCategoriaDA>();
 builder.Services.AddScoped<IMovimientoDA, MovimientoDA>();
 builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
+builder.Services.AddScoped<ITipoMovimientoDA, TipoMovimientoDA>();
 
 
 builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
@@ -60,7 +61,7 @@ builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
 builder.Services.AddScoped<ICategoriaFlujo, CategoriaFlujo>();
 builder.Services.AddScoped<ICuentaCategoriaFlujo, CuentaCategoriaFlujo>();
 builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
-//builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>(); cuando se implemente tipomovimientoflujo
+builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>();
 
 
 
@@ -74,7 +75,6 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 
 builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
 builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
