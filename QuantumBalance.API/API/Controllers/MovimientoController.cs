@@ -26,7 +26,7 @@ namespace API.Controllers
             try
             {
                 var res = await _movimientoFlujo.CrearMovimiento(movimiento);
-                return CreatedAtAction(nameof(ObtenerMovimientoPorId), new { id = res }, res);
+                return CreatedAtAction(nameof(ObtenerMovimientoPorId), new { IdMovimiento = res }, res);
             }
             catch (Exception ex)
             {
@@ -51,12 +51,12 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerMovimientoPorId([FromRoute] Guid id)
+        [HttpGet("{IdMovimiento}")]
+        public async Task<IActionResult> ObtenerMovimientoPorId([FromRoute] Guid IdMovimiento)
         {
             try
             {
-                var res = await _movimientoFlujo.ObtenerMovimientoPorId(id);
+                var res = await _movimientoFlujo.ObtenerMovimientoPorId(IdMovimiento);
                 if (res == null)
                     return NotFound("Movimiento no encontrado.");
                 return Ok(res);
@@ -68,12 +68,12 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("{id}")]
-        public async Task<IActionResult> EditarMovimiento([FromRoute] Guid id, [FromBody] MovimientoRequest movimiento)
+        [HttpPut("{IdMovimiento}")]
+        public async Task<IActionResult> EditarMovimiento([FromRoute] Guid IdMovimiento, [FromBody] MovimientoRequest movimiento)
         {
             try
             {
-                var res = await _movimientoFlujo.EditarMovimiento(id, movimiento);
+                var res = await _movimientoFlujo.EditarMovimiento(IdMovimiento, movimiento);
                 return Ok(res);
             }
             catch (Exception ex)
@@ -83,12 +83,12 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> EliminarMovimiento([FromRoute] Guid id)
+        [HttpDelete("{IdMovimiento}")]
+        public async Task<IActionResult> EliminarMovimiento([FromRoute] Guid IdMovimiento)
         {
             try
             {
-                var res = await _movimientoFlujo.EliminarMovimiento(id);
+                var res = await _movimientoFlujo.EliminarMovimiento(IdMovimiento);
                 return Ok(res);
             }
             catch (Exception ex)

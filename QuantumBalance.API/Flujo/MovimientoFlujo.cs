@@ -18,7 +18,7 @@ namespace Flujo
             return await _movimientoDA.ObtenerTodosLosMovimientos();
         }
 
-        public async Task<MovimientoResponse?> ObtenerMovimientoPorId(Guid idMovimiento)
+        public async Task<MovimientoResponse> ObtenerMovimientoPorId(Guid idMovimiento)
         {
             return await _movimientoDA.ObtenerMovimientoPorId(idMovimiento); 
         }

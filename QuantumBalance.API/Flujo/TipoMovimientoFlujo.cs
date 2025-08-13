@@ -3,6 +3,8 @@ using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Flujo
@@ -13,7 +15,8 @@ namespace Flujo
 
         public TipoMovimientoFlujo(ITipoMovimientoDA tipoMovimientoDA)
         {
-            _tipoMovimientoDA = tipoMovimientoDA ?? throw new ArgumentNullException(nameof(tipoMovimientoDA));
+            _tipoMovimientoDA = tipoMovimientoDA;
+
         }
 
         public async Task<IEnumerable<TipoMovimientoResponse>> ObtenerTiposMovimiento()

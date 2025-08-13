@@ -31,19 +31,19 @@ namespace API.Controllers
                 return BadRequest("No se pudo crear la categoría.");
             }
 
-            return CreatedAtAction(nameof(ObtenerCategoriaPorId), new { id = nuevaCuenta }, null);
+            return CreatedAtAction(nameof(ObtenerCategoriaPorId), new { IdCategoria = nuevaCuenta }, null);
         }
 
         [HttpPut]
-        public async Task<IActionResult> EditarCategoria([FromQuery] Guid id, [FromBody] CategoriaRequest categoria)
+        public async Task<IActionResult> EditarCategoria([FromQuery] Guid IdCategoria, [FromBody] CategoriaRequest categoria)
         {
-            if (id == Guid.Empty || categoria == null)
+            if (IdCategoria == Guid.Empty || categoria == null)
             {
                 _logger.LogError("ID de categoría inválido o categoría nula.");
                 return BadRequest("ID de categoría inválido o categoría nula.");
             }
 
-            Guid resultado = await _categoriaFlujo.EditarCategoria(id, categoria);
+            Guid resultado = await _categoriaFlujo.EditarCategoria(IdCategoria, categoria);
 
             if (resultado == Guid.Empty)
             {
@@ -55,27 +55,27 @@ namespace API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> EliminarCategoria([FromQuery] Guid id)
+        public async Task<IActionResult> EliminarCategoria([FromQuery] Guid IdCategoria)
         {
-            bool success = await _categoriaFlujo.EliminarCategoria(id);
+            bool success = await _categoriaFlujo.EliminarCategoria(IdCategoria);
 
             if (!success)
             {
-                _logger.LogError("Error al eliminar la categoría con ID {Id}.", id);
+                _logger.LogError("Error al eliminar la categoría con ID {IdCategoria}.", IdCategoria);
                 return BadRequest("Error al eliminar la categoría.");
             }
 
             return NoContent();
         }
 
-        [HttpGet("{id}")]
-        public async Task<IActionResult> ObtenerCategoriaPorId([FromRoute] Guid id)
+        [HttpGet("{IdCategoria}")]
+        public async Task<IActionResult> ObtenerCategoriaPorId([FromRoute] Guid IdCategoria)
         {
-            CategoriaResponse categoria = await _categoriaFlujo.ObtenerCategoriaPorId(id);
+            CategoriaResponse categoria = await _categoriaFlujo.ObtenerCategoriaPorId(IdCategoria);
 
             if (categoria == null)
             {
-                _logger.LogError($"No se encontraron categorías para el ID {id}.");
+                _logger.LogError($"No se encontraron categorías para el ID {IdCategoria}.");
                 return NotFound("Categoría no encontrada.");
             }
 

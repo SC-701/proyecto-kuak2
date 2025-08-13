@@ -45,7 +45,7 @@ namespace DA
             return resultado;
         }
 
-        public async Task<CuentaCategoriaResponse?> ObtenerCuentaCateoriaPorId(Guid idCuentaCategoria)
+        public async Task<CuentaCategoriaResponse?> ObtenerCuentaCategoriaPorId(Guid idCuentaCategoria)
         {
             string sqlQuery = @"sp_CuentaCategoria_ObtenerPorId";
 

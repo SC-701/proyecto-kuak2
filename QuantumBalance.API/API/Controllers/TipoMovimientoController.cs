@@ -1,7 +1,5 @@
 ﻿using Abstracciones.Interfaces.API;
 using Abstracciones.Interfaces.Flujo;
-using DA;
-using Flujo;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,10 +27,11 @@ namespace API.Controllers
             return Ok(res);
         }
 
-        [HttpGet("{idTipoMovimiento}")]
-        public async Task<IActionResult> ObtenerTipoMovimientoPorId([FromRoute] Guid idTipoMovimiento)
+        [HttpGet("{IdTipoMovimiento}")]
+        public async Task<IActionResult> ObtenerTipoMovimientoPorId([FromRoute] Guid IdTipoMovimiento)
+
         {
-            var res = await _tipoMovimientoFlujo.ObtenerTipoMovimientoPorId(idTipoMovimiento);
+            var res = await _tipoMovimientoFlujo.ObtenerTipoMovimientoPorId(IdTipoMovimiento);
             if (res == null)
                 return NotFound("Tipo de movimiento no encontrado.");
             return Ok(res);

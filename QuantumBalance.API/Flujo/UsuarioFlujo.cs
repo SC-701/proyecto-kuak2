@@ -26,14 +26,14 @@ namespace Flujo
             return await _usuarioDA.EditarUsuario(usuario);
         }
 
-        public async Task<Guid> EliminarUsuario(Guid id)
+        public async Task<Guid> EliminarUsuario(Guid IdUsuario)
         {
-            return await _usuarioDA.EliminarUsuario(id);
+            return await _usuarioDA.EliminarUsuario(IdUsuario);
         }
 
-        public async Task<UsuarioResponse> ObtenerUsuarioPorId(Guid id)
+        public async Task<UsuarioResponse> ObtenerUsuarioPorId(Guid IdUsuario)
         {
-            return await _usuarioDA.ObtenerUsuarioPorId(id);
+            return await _usuarioDA.ObtenerUsuarioPorId(IdUsuario);
         }
 
         public async Task<IEnumerable<UsuarioResponse>> ObtenerTodosLosUsuarios()
