@@ -17,6 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Autenticacion
 var tokenConfiguration = builder.Configuration.GetSection("Token").Get<TokenConfiguracion>();
+if (tokenConfiguration == null)
+{
+    throw new InvalidOperationException("La configuraci�n del token no est� presente en appsettings.json");
+}
+
 var jwtIssuer = tokenConfiguration.Issuer;
 var jwtAudience = tokenConfiguration.Audience;
 var jwtKey = tokenConfiguration.key;
@@ -47,15 +52,15 @@ builder.Services.AddHttpClient();
 builder.Services.AddScoped<IRepositorioDapper, RepositorioDapper>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 
+// DA
 builder.Services.AddScoped<ICuentaDA, CuentaDA>();
 builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
 builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
 builder.Services.AddScoped<ICuentaCategoriaDA, CuentaCategoriaDA>();
 builder.Services.AddScoped<IMovimientoDA, MovimientoDA>();
-builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 builder.Services.AddScoped<ITipoMovimientoDA, TipoMovimientoDA>();
 
-
+// Flujo 
 builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
 builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
 builder.Services.AddScoped<ICategoriaFlujo, CategoriaFlujo>();
@@ -63,8 +68,13 @@ builder.Services.AddScoped<ICuentaCategoriaFlujo, CuentaCategoriaFlujo>();
 builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>();
 
+//Autorizaci�n
+//builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
+//builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
+//builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
 
 
+//Configuraci�n de CORS
 
 builder.Services.AddCors(options =>
 {
@@ -76,9 +86,6 @@ builder.Services.AddCors(options =>
     });
 });
 
-builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
-builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
-builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
 
 var app = builder.Build();
 
@@ -90,7 +97,9 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowWebApp");
 //app.AutorizacionClaims();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
