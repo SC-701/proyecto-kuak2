@@ -9,24 +9,23 @@ namespace Abstracciones.Modelos
 {
     public class CategoriaBase
     {
-        [Required(ErrorMessage = "La propiedad nombre es requerida")]
-        [StringLength(100)]
+        [Required(ErrorMessage = "La propiedad 'Nombre' es requerida")]
+        [StringLength(255, ErrorMessage = "El nombre no puede exceder los 255 caracteres")]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "La propiedad nombre es requerida")]
+        [Required(ErrorMessage = "La propiedad 'Descripcion' es requerida")]
+        [StringLength(255, ErrorMessage = "La descripción no puede exceder los 255 caracteres")]
         public string Descripcion { get; set; }
-        public DateTime FechaCreacion { get; set; }
-        public bool Estado { get; set; }
     }
 
     public class CategoriaRequest : CategoriaBase
     {
-        public Guid idCategoria { get; set; }
+        public Guid IdCategoria { get; set; } 
     }
 
     public class CategoriaResponse : CategoriaBase
     {
-        public Guid idCategoria { get; set; }
+        public Guid IdCategoria { get; set; }
     }
 
 }

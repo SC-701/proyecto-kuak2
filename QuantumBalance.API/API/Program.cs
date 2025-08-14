@@ -17,6 +17,11 @@ var builder = WebApplication.CreateBuilder(args);
 
 //Autenticacion
 var tokenConfiguration = builder.Configuration.GetSection("Token").Get<TokenConfiguracion>();
+if (tokenConfiguration == null)
+{
+    throw new InvalidOperationException("La configuración del token no está presente en appsettings.json");
+}
+
 var jwtIssuer = tokenConfiguration.Issuer;
 var jwtAudience = tokenConfiguration.Audience;
 var jwtKey = tokenConfiguration.key;
@@ -41,29 +46,35 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+//builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
 builder.Services.AddScoped<IRepositorioDapper, RepositorioDapper>();
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 
+// DA
 builder.Services.AddScoped<ICuentaDA, CuentaDA>();
 builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
 builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
 builder.Services.AddScoped<ICuentaCategoriaDA, CuentaCategoriaDA>();
 builder.Services.AddScoped<IMovimientoDA, MovimientoDA>();
-builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
+builder.Services.AddScoped<ITipoMovimientoDA, TipoMovimientoDA>();
 
-
+// Flujo 
 builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
 builder.Services.AddScoped<IUsuarioFlujo, UsuarioFlujo>();
 builder.Services.AddScoped<ICategoriaFlujo, CategoriaFlujo>();
 builder.Services.AddScoped<ICuentaCategoriaFlujo, CuentaCategoriaFlujo>();
 builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
-//builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>(); cuando se implemente tipomovimientoflujo
+builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>();
+
+//Autorización
+//builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
+//builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
+//builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
 
 
-
+//Configuración de CORS
 
 builder.Services.AddCors(options =>
 {
@@ -74,23 +85,21 @@ builder.Services.AddCors(options =>
               .AllowAnyMethod();
     });
 });
-builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 
-builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
-builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
-builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+   // app.UseSwagger();
+    //app.UseSwaggerUI();
 }
 
 app.UseHttpsRedirection();
+app.UseCors("AllowWebApp");
 //app.AutorizacionClaims();
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

@@ -5,40 +5,33 @@ namespace Abstracciones.Modelos
 {
     public class UsuarioBase
     {
-        [Required(ErrorMessage = "Debe indicar el nombre del usuario")]
-        [StringLength(100)]
+        [Required(ErrorMessage = "El nombre es requerido")]
+        [StringLength(255)]
         public string Nombre { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar el primer apellido del usuario")]
-        [StringLength(100)]
+        [Required(ErrorMessage = "El primer apellido es requerido")]
+        [StringLength(255)]
         public string PrimerApellido { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar el segundo apellido del usuario")]
-        [StringLength(100)]
+        [Required(ErrorMessage = "El segundo apellido es requerido")]
+        [StringLength(255)]
         public string SegundoApellido { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar el correo del usuario")]
-        [EmailAddress(ErrorMessage = "El formato del email no es válido")]
-        public string Email { get; set; }
+        [Required(ErrorMessage = "El correo es requerido")]
+        [EmailAddress(ErrorMessage = "El formato del correo no es válido")]
+        public string Correo { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar la contraseña del usuario")]
-        public string Password { get; set; }
-
-        [Required(ErrorMessage = "Debe indicar la moneda principal del usuario")]
-        public string MonedaPrincipal { get; set; }
-
-        public DateTime FechaCreacion { get; set; }
-        public DateTime FechaUltimoAcceso { get; set; }
-        public bool Estado { get; set; }
+        [Required(ErrorMessage = "La contraseña es requerida")]
+        [StringLength(255, ErrorMessage = "La contraseña no puede exceder los 255 caracteres")]
+        public string Contrasena { get; set; }
     }
-
     public class UsuarioRequest : UsuarioBase
     {
-        public Guid idUsuario { get; set; }
+        public Guid IdUsuario { get; set; }
     }
 
     public class UsuarioResponse : UsuarioBase
     {
-        public Guid idUsuario { get; set; }
+        public Guid IdUsuario { get; set; }
     }
 }

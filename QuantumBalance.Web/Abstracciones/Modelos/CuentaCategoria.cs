@@ -7,14 +7,20 @@ using System.Threading.Tasks;
 
 namespace Abstracciones.Modelos
 {
-    public class CuentaCategoriaRequest
+    public class CuentaCategoriaBase
     {
-        [Required(ErrorMessage = "La propiedad idCuenta es requerida")]
-        public Guid IdCuenta { get; set; }
-
-        [Required(ErrorMessage = "La propiedad idCategoria es requerida")]
+        [Required(ErrorMessage = "El IdCategoria es requerido")]
         public Guid IdCategoria { get; set; }
+
+        [Required(ErrorMessage = "El IdCuenta es requerido")]
+        public Guid IdCuenta { get; set; }
     }
 
-    public class CuentaCategoria : CuentaCategoriaRequest { }
+    public class CuentaCategoriaRequest : CuentaCategoriaBase
+    {
+    }
+
+    public class CuentaCategoriaResponse : CuentaCategoriaBase
+    {
+    }
 }

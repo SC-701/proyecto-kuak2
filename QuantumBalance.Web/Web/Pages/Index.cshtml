@@ -1,29 +1,149 @@
 ﻿@page
 @model Web.Pages.IndexModel
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "Gestión Financiera Cuántica";
 }
 
 <section class="landing-hero">
-    <h1 class="landing-title">Quantum Balance</h1>
-    <p class="landing-subtitle">Transforma la forma en que gestionas tus presupuestos. Simple. Rápido. Inteligente.</p>
-    <a class="landing-button" asp-page="/Cuenta/Login">Comienza ahora</a>
+    <div class="particle-bg">
+        @for (int i = 1; i <= 10; i++)
+        {
+            <div class="particle" style="left:@(Random.Shared.Next(0, 100))%; top:@(Random.Shared.Next(0, 100))%; width:@(Random.Shared.Next(2, 5))px; height:@(Random.Shared.Next(2, 5))px; animation: float @(Random.Shared.Next(15, 25))s linear infinite;"></div>
+        }
+    </div>
+
+    <img src="/img/atom1.svg" alt="Átomo" class="atom-icon atom-1">
+    <img src="/img/atom2.svg" alt="Átomo" class="atom-icon atom-2">
+    
+    <div class="landing-content">
+        <h1 class="landing-title">Quantum Balance</h1>
+        <p class="landing-subtitle">Gestiona tus finanzas con la precisión de la física cuántica. Un sistema que transforma tu economía personal.</p>
+        <a class="landing-button" asp-page="/Cuenta/Registro">
+            Comienza ahora
+            <svg class="ms-1" width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M13 5L20 12L13 19" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                <path d="M20 12H4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+        </a>
+    </div>
 </section>
 
 <section class="feature-section">
-    <h2 class="feature-title">¿Por qué Quantum Balance?</h2>
+    <div class="particle-bg">
+        @for (int i = 1; i <= 15; i++)
+        {
+            <div class="particle" style="left:@(Random.Shared.Next(0, 100))%; top:@(Random.Shared.Next(0, 100))%; width:@(Random.Shared.Next(2, 6))px; height:@(Random.Shared.Next(2, 6))px; animation: float @(Random.Shared.Next(20, 40))s linear infinite;"></div>
+        }
+    </div>
+    
+    <h2 class="feature-title">La Ciencia Detrás de tus Finanzas</h2>
     <div class="row justify-content-center mt-5">
-        <div class="col-md-3 mx-2 feature-card">
-            <h4>💼 Gestión precisa</h4>
-            <p>Administra ingresos y gastos con total control.</p>
+        <div class="col-md-3 mx-md-3 feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="256" cy="256" r="100" stroke="#93c5fd" stroke-width="6" fill="none"/>
+                    <ellipse cx="256" cy="256" rx="180" ry="60" transform="rotate(60 256 256)" stroke="#93c5fd" stroke-width="4" fill="none"/>
+                    <ellipse cx="256" cy="256" rx="180" ry="60" transform="rotate(120 256 256)" stroke="#93c5fd" stroke-width="4" fill="none"/>
+                    <circle cx="256" cy="256" r="16" fill="#a5b4fc"/>
+                </svg>
+            </div>
+            <h4>Precisión Cuántica</h4>
+            <p>Administra tus ingresos y gastos con la exactitud de un modelo atómico. Categorización automática y balances en tiempo real.</p>
         </div>
-        <div class="col-md-3 mx-2 feature-card">
-            <h4>📊 Reportes visuales</h4>
-            <p>Analiza tus finanzas a profundidad.</p>
+        <div class="col-md-3 mx-md-3 feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M100,256 L412,256" stroke="#93c5fd" stroke-width="6"/>
+                    <path d="M256,100 L256,412" stroke="#93c5fd" stroke-width="6"/>
+                    <circle cx="256" cy="150" r="25" fill="#a5b4fc"/>
+                    <circle cx="150" cy="256" r="25" fill="#a5b4fc"/>
+                    <circle cx="256" cy="362" r="25" fill="#a5b4fc"/>
+                    <circle cx="362" cy="256" r="25" fill="#a5b4fc"/>
+                </svg>
+            </div>
+            <h4>Visualización Espectral</h4>
+            <p>Analiza tus finanzas con gráficos avanzados que muestran patrones de gastos e ingresos, como el espectro de emisión de un átomo.</p>
         </div>
-        <div class="col-md-3 mx-2 feature-card">
-            <h4>🔐 Seguridad</h4>
-            <p>Tus datos protegidos.</p>
+        <div class="col-md-3 mx-md-3 feature-card">
+            <div class="feature-icon">
+                <svg viewBox="0 0 512 512" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="256" cy="256" r="150" stroke="#93c5fd" stroke-width="6" stroke-dasharray="30 15" fill="none"/>
+                    <path d="M256,106 L256,406" stroke="#93c5fd" stroke-width="2" stroke-dasharray="10 10"/>
+                    <path d="M106,256 L406,256" stroke="#93c5fd" stroke-width="2" stroke-dasharray="10 10"/>
+                    <circle cx="256" cy="256" r="50" fill="#111827" stroke="#a5b4fc" stroke-width="4"/>
+                </svg>
+            </div>
+            <h4>Encriptación Cuántica</h4>
+            <p>Tus datos financieros protegidos con algoritmos de seguridad inspirados en la mecánica cuántica. Privacidad absoluta.</p>
+        </div>
+    </div>
+</section>
+
+<section class="py-5" style="background: #111827;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <h3 class="mb-4" style="color: #93c5fd; font-weight: 700;">Teoría del Balance Cuántico</h3>
+                <p class="lead mb-4">Así como los electrones orbitan alrededor del núcleo en niveles específicos de energía, Quantum Balance organiza tus finanzas en estructuras óptimas.</p>
+                <div class="d-flex mb-4">
+                    <div class="me-3 mt-1">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="#a5b4fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 4L12 14.01l-3-3" stroke="#a5b4fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 style="color: white; font-size: 1.15rem;">Superposición de Cuentas</h5>
+                        <p class="text-muted">Visualiza múltiples cuentas simultáneamente, como estados cuánticos superpuestos.</p>
+                    </div>
+                </div>
+                <div class="d-flex">
+                    <div class="me-3 mt-1">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" stroke="#a5b4fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                            <path d="M22 4L12 14.01l-3-3" stroke="#a5b4fc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h5 style="color: white; font-size: 1.15rem;">Principio de Incertidumbre Financiera</h5>
+                        <p class="text-muted">Predice tendencias de gastos con algoritmos inspirados en los principios de la física moderna.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6 text-center mt-4 mt-md-0">
+                <div style="position: relative; padding-top: 56.25%; max-width: 400px; margin: 0 auto;">
+                    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+                        <svg viewBox="0 0 500 500" xmlns="http://www.w3.org/2000/svg" style="width: 100%; height: 100%;">
+                            <circle cx="250" cy="250" r="120" stroke="#6366f1" stroke-width="2" fill="none">
+                                <animate attributeName="r" values="120;130;120" dur="10s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="250" cy="250" r="180" stroke="#a5b4fc" stroke-width="2" fill="none" stroke-dasharray="15 10">
+                                <animate attributeName="r" values="180;190;180" dur="15s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="250" cy="250" r="80" stroke="#93c5fd" stroke-width="2" fill="none" opacity="0.7">
+                                <animate attributeName="r" values="80;85;80" dur="7s" repeatCount="indefinite" />
+                            </circle>
+                            <circle cx="250" cy="250" r="20" fill="#a5b4fc">
+                                <animate attributeName="r" values="20;21;20" dur="3s" repeatCount="indefinite" />
+                            </circle>
+                            <g>
+                                <circle cx="250" cy="130" r="8" fill="#6366f1">
+                                    <animate attributeName="cy" values="130;135;130" dur="4s" repeatCount="indefinite" />
+                                </circle>
+                                <circle cx="370" cy="250" r="8" fill="#93c5fd">
+                                    <animate attributeName="cx" values="370;365;370" dur="4s" repeatCount="indefinite" />
+                                </circle>
+                                <circle cx="250" cy="370" r="8" fill="#a5b4fc">
+                                    <animate attributeName="cy" values="370;365;370" dur="4s" repeatCount="indefinite" />
+                                </circle>
+                                <circle cx="130" cy="250" r="8" fill="#6366f1">
+                                    <animate attributeName="cx" values="130;135;130" dur="4s" repeatCount="indefinite" />
+                                </circle>
+                            </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>

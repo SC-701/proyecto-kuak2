@@ -9,8 +9,8 @@ builder.Services.AddRazorPages();
 
 builder.Services.AddScoped<IConfiguracion, Configuracion>();
 
-var app = builder.Build();
-//Configuración Autenticación
+
+//Configuraciï¿½n Autenticaciï¿½n
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
     {
@@ -19,11 +19,11 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
         options.AccessDeniedPath = "/cuenta/Accesodenegado";
     });
 
-//Configuración Autorización
-builder.Services.AddTransient<IRepositorioDapper, RepositorioDapper>();
-builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();
-builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();
-
+//Configuraciï¿½n Autorizaciï¿½n
+//builder.Services.AddTransient<IRepositorioDapper, RepositorioDapper>();   ----------------------------!!!!!!
+//builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();    ----------------------------!!!!!!
+//builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();   ----------------------------!!!!!!
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -38,7 +38,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
-app.AutorizacionClaims();
+//app.AutorizacionClaims(); --------------------------------!!!!!!
 app.UseAuthorization();
 
 app.MapRazorPages();

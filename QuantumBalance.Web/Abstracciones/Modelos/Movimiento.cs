@@ -9,28 +9,31 @@ namespace Abstracciones.Modelos
 {
     public class MovimientoBase
     {
-        [Required(ErrorMessage = "Debe indicar la descripción del movimiento")]
+        [Required(ErrorMessage = "La descripción es obligatoria")]
+        [StringLength(500)]
         public string Descripcion { get; set; }
 
-        [Required(ErrorMessage = "Debe indicar el monto inicial de la cuenta")]
-        public decimal MontoOriginal { get; set; }
+        [Required(ErrorMessage = "El monto es obligatorio")]
+        [Range(0.01, double.MaxValue, ErrorMessage = "El monto debe ser mayor que cero")]
+        public decimal Monto { get; set; }
 
-        public string MonedaOriginal { get; set; }
-
-        public decimal MontoCrc { get; set; }
-        public decimal TasaCambio { get; set; }
+        [Required(ErrorMessage = "La fecha es obligatoria")]
         public DateTime Fecha { get; set; }
-        public string ComprobanteUrl { get; set; }
-        public bool Estado { get; set; }
     }
 
     public class MovimientoRequest : MovimientoBase
     {
-        public Guid idMovimiento { get; set; }
+        public Guid IdMovimiento { get; set; }
         public Guid IdCuenta { get; set; }
         public Guid IdCategoria { get; set; }
-        public Guid IdTipoPago { get; set; }
+        public Guid IdTipoMovimiento { get; set; }
     }
 
-    public class MovimientoResponse : MovimientoRequest { }
+    public class MovimientoResponse : MovimientoBase
+    {
+        public Guid IdMovimiento { get; set; }
+        public Guid IdCuenta { get; set; }
+        public Guid IdCategoria { get; set; }
+        public Guid IdTipoMovimiento { get; set; }
+    }
 }
