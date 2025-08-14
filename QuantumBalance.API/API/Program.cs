@@ -58,7 +58,7 @@ builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
 builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
 builder.Services.AddScoped<ICuentaCategoriaDA, CuentaCategoriaDA>();
 builder.Services.AddScoped<IMovimientoDA, MovimientoDA>();
-builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
+builder.Services.AddScoped<ITipoMovimientoDA, TipoMovimientoDA>();
 
 // Flujo 
 builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
