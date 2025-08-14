@@ -1,5 +1,8 @@
-﻿<!DOCTYPE html>
-<html lang="en">
+﻿@*
+  Layout con navbar fija + sticky footer
+*@
+<!DOCTYPE html>
+<html lang="es">
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -15,10 +18,10 @@
             <div class="container">
                 <a class="navbar-brand d-flex align-items-center" asp-area="" asp-page="/Index">
                     <svg class="me-2" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <circle cx="12" cy="12" r="5" stroke="#67d1fb" stroke-width="1.5" fill="none"/>
-                        <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(60 12 12)" stroke="#a855f7" stroke-width="1.5" fill="none"/>
-                        <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(120 12 12)" stroke="#6366f1" stroke-width="1.5" fill="none"/>
-                        <circle cx="12" cy="12" r="1" fill="#a855f7"/>
+                        <circle cx="12" cy="12" r="5" stroke="#67d1fb" stroke-width="1.5" fill="none" />
+                        <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(60 12 12)" stroke="#a855f7" stroke-width="1.5" fill="none" />
+                        <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(120 12 12)" stroke="#6366f1" stroke-width="1.5" fill="none" />
+                        <circle cx="12" cy="12" r="1" fill="#a855f7" />
                     </svg>
                     Quantum Balance
                 </a>
@@ -45,6 +48,7 @@
             </div>
         </nav>
     </header>
+
     <div class="page-wrapper">
         <div class="container-fluid p-0">
             <main role="main">
@@ -53,41 +57,42 @@
         </div>
 
         <footer class="footer">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-6 mb-4 mb-md-0">
-                    <div class="d-flex align-items-center mb-3">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
-                            <circle cx="12" cy="12" r="5" stroke="#60a5fa" stroke-width="1.5" fill="none"/>
-                            <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(60 12 12)" stroke="#818cf8" stroke-width="1.5" fill="none"/>
-                            <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(120 12 12)" stroke="#4f46e5" stroke-width="1.5" fill="none"/>
-                            <circle cx="12" cy="12" r="1" fill="#818cf8"/>
-                        </svg>
-                        <h5 class="m-0" style="color: #60a5fa; font-weight: 700;">Quantum Balance</h5>
-                    </div>
-                    <p class="text-muted mb-0">La revolución cuántica de las finanzas personales.</p>
-                </div>
-                <div class="col-md-6">
-                    <div class="row">
-                        <div class="col-sm-6 mb-3 mb-sm-0">
-                            <h6 class="text-white mb-2">Enlaces Rápidos</h6>
-                            <ul class="list-unstyled">
-                                <li><a asp-area="" asp-page="/Index" class="text-muted text-decoration-none">Inicio</a></li>
-                                <li><a asp-area="" asp-page="/Categoria/Index" class="text-muted text-decoration-none">Categorías</a></li>
-                                <li><a asp-area="" asp-page="/Cuenta/Index" class="text-muted text-decoration-none">Cuentas</a></li>
-                            </ul>
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 mb-4 mb-md-0">
+                        <div class="d-flex align-items-center mb-3">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="me-2">
+                                <circle cx="12" cy="12" r="5" stroke="#60a5fa" stroke-width="1.5" fill="none" />
+                                <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(60 12 12)" stroke="#818cf8" stroke-width="1.5" fill="none" />
+                                <ellipse cx="12" cy="12" rx="9" ry="3" transform="rotate(120 12 12)" stroke="#4f46e5" stroke-width="1.5" fill="none" />
+                                <circle cx="12" cy="12" r="1" fill="#818cf8" />
+                            </svg>
+                            <h5 class="m-0" style="color: #60a5fa; font-weight: 700;">Quantum Balance</h5>
                         </div>
-                        <div class="col-sm-6">
-                            <h6 class="text-white mb-2">Contacto</h6>
-                            <p class="text-muted mb-0">info@quantumbalance.com</p>
+                        <p class="text-muted mb-0">La revolución cuántica de las finanzas personales.</p>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="row">
+                            <div class="col-sm-6 mb-3 mb-sm-0">
+                                <h6 class="text-white mb-2">Enlaces Rápidos</h6>
+                                <ul class="list-unstyled">
+                                    <li><a asp-area="" asp-page="/Index" class="text-muted text-decoration-none">Inicio</a></li>
+                                    <li><a asp-area="" asp-page="/Categoria/Index" class="text-muted text-decoration-none">Categorías</a></li>
+                                    <li><a asp-area="" asp-page="/Cuenta/Index" class="text-muted text-decoration-none">Cuentas</a></li>
+                                </ul>
+                            </div>
+                            <div class="col-sm-6">
+                                <h6 class="text-white mb-2">Contacto</h6>
+                                <p class="text-muted mb-0">info@quantumbalance.com</p>
+                            </div>
                         </div>
                     </div>
                 </div>
+                <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1); opacity: 0.5;">
+                <p class="text-center text-muted mb-0">&copy; 2025 - Quantum Balance - <a asp-area="" asp-page="/Privacy" class="text-muted">Privacidad</a></p>
             </div>
-            <hr class="mt-4 mb-4" style="border-color: rgba(255, 255, 255, 0.1); opacity: 0.5;">
-            <p class="text-center text-muted mb-0">&copy; 2025 - Quantum Balance - <a asp-area="" asp-page="/Privacy" class="text-muted">Privacidad</a></p>
-        </div>
-    </footer>
+        </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

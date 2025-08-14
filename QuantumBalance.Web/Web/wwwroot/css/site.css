@@ -8,6 +8,7 @@
 html {
   font-size: 14px;
   scroll-behavior: smooth;
+  height: auto; /* antes: 100% */
 }
 
 @media (min-width: 768px) {
@@ -20,12 +21,8 @@ html {
   box-shadow: 0 0 0 0.1rem rgba(255, 255, 255, 0.2), 0 0 0 0.25rem rgba(99, 102, 241, 0.5);
 }
 
-html {
-  height: 100%;
-}
-
 body {
-  min-height: 100%;
+  min-height: 100svh; /* robusto en móviles */
   margin: 0;
   padding: 0;
   font-family: 'Roboto', sans-serif;
@@ -41,18 +38,17 @@ body {
   flex: 1 0 auto;
   display: flex;
   flex-direction: column;
-  /* Reserve space for the fixed navbar height */
+  /* Reserva espacio para la navbar fija */
   padding-top: var(--nav-h);
-  /* Use dynamic viewport units to avoid mobile URL bar issues */
-  min-height: calc(100dvh - var(--nav-h));
+  /* Evita alturas rígidas que causen solapamientos */
+  min-height: auto;
 }
 
 main[role="main"] {
-  flex: 1 0 auto;
+  flex: 1 1 auto; /* permite crecer/encoger */
   display: flex;
   flex-direction: column;
-  /* ensure content never sits flush under the footer */
-  padding-bottom: 24px;
+  padding-bottom: 32px; /* colchón sobre el footer */
 }
 
 .container-fluid {
@@ -62,8 +58,14 @@ main[role="main"] {
 .footer {
   flex-shrink: 0;
   margin-top: auto;
-  /* avoid overlapping with floated content above (legacy layouts) */
-  clear: both;
+  position: relative; /* nuevo contexto de apilado */
+  z-index: 1;
+  background-color: #111827;
+  color: white;
+  text-align: center;
+  padding: 45px 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  clear: both; /* por si hay floats legacy */
 }
 
 /* Navbar styles */
@@ -118,221 +120,203 @@ main[role="main"] {
 /* Landing page styles */
 
 .landing-hero {
-    background: linear-gradient(135deg, #1f2937, #111827);
-    color: white;
-    padding: 120px 20px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    margin-top: -70px; /* Compensate for fixed navbar */
+  background: linear-gradient(135deg, #1f2937, #111827);
+  color: white;
+  padding: 120px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  margin-top: 0 !important; /* antes: -70px; */
 }
 
 .landing-hero::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: url('/img/particle-overlay.png');
-    opacity: 0.1;
-    z-index: 0;
-    animation: particleDrift 60s linear infinite;
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url('/img/particle-overlay.png');
+  opacity: 0.1;
+  z-index: 0;
+  animation: particleDrift 60s linear infinite;
 }
 
 @keyframes particleDrift {
-    0% { background-position: 0 0; }
-    100% { background-position: 100% 100%; }
+  0% { background-position: 0 0; }
+  100% { background-position: 100% 100%; }
 }
 
 @keyframes float {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    10% { opacity: 0.6; }
-    90% { opacity: 0.6; }
-    100% { transform: translateY(-80px) translateX(15px); opacity: 0; }
+  0% { transform: translateY(0) translateX(0); opacity: 0; }
+  10% { opacity: 0.6; }
+  90% { opacity: 0.6; }
+  100% { transform: translateY(-80px) translateX(15px); opacity: 0; }
 }
 
 .landing-content {
-    position: relative;
-    z-index: 1;
-    padding-top: 30px;
+  position: relative;
+  z-index: 1;
+  padding-top: 30px;
 }
 
 .landing-title {
-    font-size: 4.2rem;
-    font-weight: 800;
-    margin-bottom: 25px;
-    background: linear-gradient(to right, #93c5fd, #a5b4fc);
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    color: transparent;
-    font-family: 'Montserrat', sans-serif;
+  font-size: 4.2rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  background: linear-gradient(to right, #93c5fd, #a5b4fc);
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  font-family: 'Montserrat', sans-serif;
 }
 
 .landing-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 40px;
-    max-width: 700px;
-    margin-left: auto;
-    margin-right: auto;
-    line-height: 1.6;
-    opacity: 0.95;
+  font-size: 1.5rem;
+  margin-bottom: 40px;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+  line-height: 1.6;
+  opacity: 0.95;
 }
 
 .landing-button {
-    display: inline-block;
-    padding: 14px 40px;
-    font-size: 18px;
-    text-decoration: none;
-    color: white;
-    background: #6366f1;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(99, 102, 241, 0.35);
-    transition: all 0.3s ease;
-    position: relative;
-    font-weight: 600;
+  display: inline-block;
+  padding: 14px 40px;
+  font-size: 18px;
+  text-decoration: none;
+  color: white;
+  background: #6366f1;
+  border-radius: 10px;
+  box-shadow: 0 5px 15px rgba(99, 102, 241, 0.35);
+  transition: all 0.3s ease;
+  position: relative;
+  font-weight: 600;
 }
 
 .landing-button:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 7px 20px rgba(99, 102, 241, 0.45);
-    color: white;
-    background: #4f46e5;
+  transform: translateY(-3px);
+  box-shadow: 0 7px 20px rgba(99, 102, 241, 0.45);
+  color: white;
+  background: #4f46e5;
 }
 
 .landing-button svg {
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 6px;
-    transition: transform 0.3s ease;
+  display: inline-block;
+  vertical-align: middle;
+  margin-left: 6px;
+  transition: transform 0.3s ease;
 }
 
 .landing-button:hover svg {
-    transform: translateX(4px);
+  transform: translateX(4px);
 }
 
 .atom-icon {
-    position: absolute;
-    opacity: 0.15;
-    pointer-events: none;
+  position: absolute;
+  opacity: 0.15;
+  pointer-events: none;
+  z-index: 0;
 }
 
 .atom-1 {
-    top: 15%;
-    left: 10%;
-    width: 160px;
-    height: 160px;
-    animation: rotate 30s linear infinite;
+  top: 15%;
+  left: 10%;
+  width: 160px;
+  height: 160px;
+  animation: rotate 30s linear infinite;
 }
 
 .atom-2 {
-    bottom: 10%;
-    right: 10%;
-    width: 130px;
-    height: 130px;
-    animation: rotate 25s linear infinite reverse;
+  bottom: 10%;
+  right: 10%;
+  width: 130px;
+  height: 130px;
+  animation: rotate 25s linear infinite reverse;
 }
 
 @keyframes rotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }
 
 .feature-section {
-    background-color: #1f2937;
-    padding: 80px 20px;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
+  background-color: #1f2937;
+  padding: 80px 20px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .feature-title {
-    font-size: 2.4rem;
-    margin-bottom: 40px;
-    color: white;
-    position: relative;
-    font-weight: 700;
+  font-size: 2.4rem;
+  margin-bottom: 40px;
+  color: white;
+  position: relative;
+  font-weight: 700;
 }
 
 .feature-card {
-    background: rgba(17, 24, 39, 0.5);
-    border-radius: 14px;
-    padding: 32px 24px;
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-    transition: all 0.3s ease;
-    border: 1px solid rgba(255, 255, 255, 0.1);
-    color: white;
-    position: relative;
-    height: 100%;
-    margin-bottom: 24px;
+  background: rgba(17, 24, 39, 0.5);
+  border-radius: 14px;
+  padding: 32px 24px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: white;
+  position: relative;
+  height: 100%;
+  margin-bottom: 24px;
 }
 
 .feature-card:hover {
-    transform: translateY(-8px);
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
-    border-color: rgba(99, 102, 241, 0.4);
+  transform: translateY(-8px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.25);
+  border-color: rgba(99, 102, 241, 0.4);
 }
 
 .feature-card h4 {
-    color: #a5b4fc;
-    font-size: 1.5rem;
-    margin-bottom: 18px;
-    font-weight: 600;
-    position: relative;
+  color: #a5b4fc;
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+  font-weight: 600;
+  position: relative;
 }
 
 .feature-card p {
-    font-size: 1.05rem;
-    line-height: 1.6;
-    margin-bottom: 0;
-    opacity: 0.9;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 0;
+  opacity: 0.9;
 }
 
 .feature-icon {
-    width: 75px;
-    height: 75px;
-    margin: 0 auto 24px;
-    position: relative;
+  width: 75px;
+  height: 75px;
+  margin: 0 auto 24px;
+  position: relative;
 }
 
 .feature-icon svg {
-    width: 100%;
-    height: 100%;
+  width: 100%;
+  height: 100%;
 }
 
 .particle-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: 0;
-    pointer-events: none;
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  z-index: 0;
+  pointer-events: none;
 }
 
 .particle {
-    position: absolute;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.1);
-    pointer-events: none;
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  pointer-events: none;
 }
 
-.footer {
-    background-color: #111827;
-    color: white;
-    text-align: center;
-    padding: 45px 20px;
-    position: relative;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-}
-
-/* If navbar height differs on small screens, adjust padding-top responsively */
 @media (max-width: 575.98px) {
-  .page-wrapper {
-    /* slightly larger on xs */
-    padding-top: 64px;
-  }
-  :root { --nav-h: 64px; }
+  :root { --nav-h: 64px; } /* ajusta la altura de navbar en xs */
+  .page-wrapper { padding-top: var(--nav-h); }
 }
