@@ -29,6 +29,7 @@ namespace API.Controllers
 
         [HttpGet("{IdTipoMovimiento}")]
         public async Task<IActionResult> ObtenerTipoMovimientoPorId([FromRoute] Guid IdTipoMovimiento)
+
         {
             var res = await _tipoMovimientoFlujo.ObtenerTipoMovimientoPorId(IdTipoMovimiento);
             if (res == null)

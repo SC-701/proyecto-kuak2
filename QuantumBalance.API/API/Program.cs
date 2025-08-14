@@ -19,7 +19,7 @@ var builder = WebApplication.CreateBuilder(args);
 var tokenConfiguration = builder.Configuration.GetSection("Token").Get<TokenConfiguracion>();
 if (tokenConfiguration == null)
 {
-    throw new InvalidOperationException("La configuración del token no está presente en appsettings.json");
+    throw new InvalidOperationException("La configuraci�n del token no est� presente en appsettings.json");
 }
 
 var jwtIssuer = tokenConfiguration.Issuer;
@@ -58,7 +58,7 @@ builder.Services.AddScoped<IUsuarioDA, UsuarioDA>();
 builder.Services.AddScoped<ICategoriaDA, CategoriaDA>();
 builder.Services.AddScoped<ICuentaCategoriaDA, CuentaCategoriaDA>();
 builder.Services.AddScoped<IMovimientoDA, MovimientoDA>();
-builder.Services.AddScoped<ITipoMovimientoDA, TipoMovimientoDA>();
+builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 
 // Flujo 
 builder.Services.AddScoped<ICuentaFlujo, CuentaFlujo>();
@@ -68,13 +68,13 @@ builder.Services.AddScoped<ICuentaCategoriaFlujo, CuentaCategoriaFlujo>();
 builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>();
 
-//Autorización
+//Autorizaci�n
 //builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
 //builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
 //builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
 
 
-//Configuración de CORS
+//Configuraci�n de CORS
 
 builder.Services.AddCors(options =>
 {

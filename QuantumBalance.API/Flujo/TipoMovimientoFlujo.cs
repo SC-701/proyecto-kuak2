@@ -16,6 +16,7 @@ namespace Flujo
         public TipoMovimientoFlujo(ITipoMovimientoDA tipoMovimientoDA)
         {
             _tipoMovimientoDA = tipoMovimientoDA;
+
         }
 
         public async Task<IEnumerable<TipoMovimientoResponse>> ObtenerTiposMovimiento()
