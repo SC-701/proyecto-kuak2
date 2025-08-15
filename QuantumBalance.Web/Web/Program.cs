@@ -1,4 +1,10 @@
 using Abstracciones.Interfaces.Reglas;
+using Autorizacion.Abstracciones.DA;
+using Autorizacion.Abstracciones.Flujo;
+using Autorizacion.DA;
+using Autorizacion.DA.Repositorios;
+using Autorizacion.Flujo;
+using Autorizacion.Middleware;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Reglas;
 
@@ -20,9 +26,9 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     });
 
 //Configuraci�n Autorizaci�n
-//builder.Services.AddTransient<IRepositorioDapper, RepositorioDapper>();   ----------------------------!!!!!!
-//builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();    ----------------------------!!!!!!
-//builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();   ----------------------------!!!!!!
+builder.Services.AddTransient<IRepositorioDapper, RepositorioDapper>();  
+builder.Services.AddTransient<ISeguridadDA, SeguridadDA>();   
+builder.Services.AddTransient<IAutorizacionFlujo, AutorizacionFlujo>();   
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -38,7 +44,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 app.UseAuthentication();
-//app.AutorizacionClaims(); --------------------------------!!!!!!
+app.AutorizacionClaims();
 app.UseAuthorization();
 
 app.MapRazorPages();
