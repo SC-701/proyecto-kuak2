@@ -20,7 +20,8 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+    [HttpPost]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> CrearMovimiento([FromBody] MovimientoRequest movimiento)
         {
             try
@@ -34,7 +35,8 @@ namespace API.Controllers
                 return StatusCode(500, "Ocurrió un error al procesar la solicitud.");
             }
         }
-        [HttpGet]
+    [HttpGet]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTodosLosMovimientos()
         {
             try
@@ -51,7 +53,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpGet("{IdMovimiento}")]
+    [HttpGet("{IdMovimiento}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerMovimientoPorId([FromRoute] Guid IdMovimiento)
         {
             try
@@ -68,7 +71,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpPut("{IdMovimiento}")]
+    [HttpPut("{IdMovimiento}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EditarMovimiento([FromRoute] Guid IdMovimiento, [FromBody] MovimientoRequest movimiento)
         {
             try
@@ -83,7 +87,8 @@ namespace API.Controllers
             }
         }
 
-        [HttpDelete("{IdMovimiento}")]
+    [HttpDelete("{IdMovimiento}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarMovimiento([FromRoute] Guid IdMovimiento)
         {
             try

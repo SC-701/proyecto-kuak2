@@ -20,7 +20,8 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+    [HttpPost]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> CrearCuenta([FromBody] CuentaRequest cuenta)
         {
             Guid resultado = await _cuentaFlujo.CrearCuenta(cuenta);
@@ -34,7 +35,8 @@ namespace API.Controllers
             return CreatedAtAction(nameof(ObtenerCuentaPorId), new { IdCuenta = resultado }, null);
         }
 
-        [HttpPut("{IdCuenta}")]
+    [HttpPut("{IdCuenta}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EditarCuenta([FromRoute] Guid IdCuenta, [FromBody] CuentaRequest cuenta)
         {
             if (IdCuenta == Guid.Empty || cuenta == null)
@@ -51,7 +53,8 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{IdCuenta}")]
+    [HttpGet("{IdCuenta}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerCuentaPorId([FromRoute] Guid IdCuenta)
         {
             CuentaResponse cuenta = await _cuentaFlujo.ObtenerCuentaPorId(IdCuenta);
@@ -65,7 +68,8 @@ namespace API.Controllers
             return Ok(cuenta);
         }
 
-        [HttpDelete("{IdCuenta}")]
+    [HttpDelete("{IdCuenta}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarCuenta([FromRoute] Guid IdCuenta)
         {
             bool success = await _cuentaFlujo.EliminarCuenta(IdCuenta);
@@ -79,7 +83,8 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpGet()]
+    [HttpGet()]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTodasLasCuentas()
         {
             IEnumerable<CuentaResponse> cuentas = await _cuentaFlujo.ObtenerTodasLasCuentas();
