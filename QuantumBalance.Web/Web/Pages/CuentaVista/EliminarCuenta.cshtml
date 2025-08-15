@@ -2,3 +2,44 @@
 @model Web.Pages.CuentaVista.EliminarCuentaModel
 @{
 }
+
+<header class="subhead">
+	<div class="container">
+		<div class="masthead-subheading">Eliminar cuenta</div>
+		<div class="masthead-heading text-uppercase">Confirmación</div>
+	</div>
+	</header>
+
+<section class="page-section bg-light" id="principal">
+	<div class="container">
+		<div class="col-xl-6 col-lg-7 col-md-9 col-sm-11 mx-auto bg-white p-2 p-md-5 rounded shadow">
+			<div class="text-center">
+				<h2 class="section-heading text-uppercase">¿Desea eliminar esta cuenta?</h2>
+				<p class="section-subheading text-muted">Esta acción no se puede deshacer.</p>
+			</div>
+			@if (Model.cuenta != null)
+			{
+				<dl class="row">
+					<dt class="col-sm-3">Nombre</dt>
+					<dd class="col-sm-9">@Model.cuenta.Nombre</dd>
+					<dt class="col-sm-3">Descripción</dt>
+					<dd class="col-sm-9">@Model.cuenta.Descripcion</dd>
+					<dt class="col-sm-3">Tipo</dt>
+					<dd class="col-sm-9">@Model.cuenta.Tipo</dd>
+				</dl>
+
+				<form method="post">
+					<input type="hidden" asp-for="cuenta.IdCuenta" />
+					<div class="d-flex gap-2">
+						<button type="submit" class="btn btn-danger">Eliminar</button>
+						<a asp-page="/CuentaVista/ObtenerCuentaPorId" asp-route-IdCuenta="@Model.cuenta.IdCuenta" class="btn btn-secondary">Cancelar</a>
+					</div>
+				</form>
+			}
+			else
+			{
+				<div class="alert alert-warning">No se encontró la cuenta.</div>
+			}
+		</div>
+	</div>
+</section>
