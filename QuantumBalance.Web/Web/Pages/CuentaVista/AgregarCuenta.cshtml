@@ -1,0 +1,30 @@
+﻿@page
+@model Web.Pages.CuentaVista.AgregarCuentaModel
+@{
+}
+
+<h2>Agregar Cuenta</h2>
+
+<form method="post">
+	<div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+	<div class="mb-3">
+		<label asp-for="cuenta.IdCategoria" class="form-label"></label>
+		<input asp-for="cuenta.IdCategoria" class="form-control" />
+		<span asp-validation-for="cuenta.IdCategoria" class="text-danger"></span>
+	</div>
+
+	<div class="mb-3">
+		<label asp-for="cuenta.IdCuenta" class="form-label"></label>
+		<input asp-for="cuenta.IdCuenta" class="form-control" />
+		<span asp-validation-for="cuenta.IdCuenta" class="text-danger"></span>
+	</div>
+
+	<button type="submit" class="btn btn-primary">Guardar</button>
+	<a asp-page="/Index" class="btn btn-secondary">Cancelar</a>
+    
+</form>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

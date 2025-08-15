@@ -9,7 +9,7 @@ using Reglas;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
-//using Autorizacion.Middleware;
+using Autorizacion.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -69,9 +69,9 @@ builder.Services.AddScoped<IMovimientoFlujo, MovimientoFlujo>();
 builder.Services.AddScoped<ITipoMovimientoFlujo, TipoMovimientoFlujo>();
 
 //Autorizaci�n
-//builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
-//builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
-//builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
+builder.Services.AddTransient<Autorizacion.Abstracciones.Flujo.IAutorizacionFlujo, Autorizacion.Flujo.AutorizacionFlujo>();
+builder.Services.AddTransient<Autorizacion.Abstracciones.DA.ISeguridadDA, Autorizacion.DA.SeguridadDA>();
+builder.Services.AddTransient<Autorizacion.Abstracciones.DA.IRepositorioDapper, Autorizacion.DA.Repositorios.RepositorioDapper>();
 
 
 //Configuraci�n de CORS
@@ -98,7 +98,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseCors("AllowWebApp");
-//app.AutorizacionClaims();
+app.AutorizacionClaims();
 app.UseAuthentication();
 app.UseAuthorization();
 

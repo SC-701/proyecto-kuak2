@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 
 namespace Web.Pages.CuentaVista
 {
-    public class CrearCuentaModel : PageModel
+    public class ObtenerCuentasModel : PageModel
     {
         public void OnGet()
         {
