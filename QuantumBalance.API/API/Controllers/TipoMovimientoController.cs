@@ -18,7 +18,8 @@ namespace API.Controllers
             _tipoMovimientoFlujo = tipoMovimientoFlujo;
         }
 
-        [HttpGet]
+    [HttpGet]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTiposMovimientos() 
         {
             var res = await _tipoMovimientoFlujo.ObtenerTiposMovimiento(); 
@@ -27,7 +28,8 @@ namespace API.Controllers
             return Ok(res);
         }
 
-        [HttpGet("{IdTipoMovimiento}")]
+    [HttpGet("{IdTipoMovimiento}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTipoMovimientoPorId([FromRoute] Guid IdTipoMovimiento)
 
         {

@@ -20,7 +20,8 @@ namespace API.Controllers
             _logger = logger;
         }
 
-        [HttpPost]
+    [HttpPost]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> CrearCategoria([FromBody] CategoriaRequest categoria)
         {
             Guid nuevaCuenta = await _categoriaFlujo.CrearCategoria(categoria);
@@ -34,7 +35,8 @@ namespace API.Controllers
             return CreatedAtAction(nameof(ObtenerCategoriaPorId), new { IdCategoria = nuevaCuenta }, null);
         }
 
-        [HttpPut]
+    [HttpPut]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EditarCategoria([FromQuery] Guid IdCategoria, [FromBody] CategoriaRequest categoria)
         {
             if (IdCategoria == Guid.Empty || categoria == null)
@@ -54,7 +56,8 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpDelete]
+    [HttpDelete]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarCategoria([FromQuery] Guid IdCategoria)
         {
             bool success = await _categoriaFlujo.EliminarCategoria(IdCategoria);
@@ -68,7 +71,8 @@ namespace API.Controllers
             return NoContent();
         }
 
-        [HttpGet("{IdCategoria}")]
+    [HttpGet("{IdCategoria}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerCategoriaPorId([FromRoute] Guid IdCategoria)
         {
             CategoriaResponse categoria = await _categoriaFlujo.ObtenerCategoriaPorId(IdCategoria);
@@ -82,7 +86,8 @@ namespace API.Controllers
             return Ok(categoria);
         }
 
-        [HttpGet]
+    [HttpGet]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTodasLasCategorias()
         {
             IEnumerable<CategoriaResponse> categorias = await _categoriaFlujo.ObtenerTodasLasCategorias();

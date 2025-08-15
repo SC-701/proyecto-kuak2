@@ -18,7 +18,8 @@ namespace API.Controllers
             _cuentaCategoriaFlujo = cuentaCategoriaFlujo;
         }
 
-        [HttpGet]
+    [HttpGet]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTodasLasCuentasCategorias()
         {
             var resultado = await _cuentaCategoriaFlujo.ObtenerTodas();
@@ -27,7 +28,8 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpGet("{idCuentaCategoria}")]
+    [HttpGet("{idCuentaCategoria}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerCuentaCategoriaPorId(Guid idCuentaCategoria)
         {
             var resultado = await _cuentaCategoriaFlujo.ObtenerPorId(idCuentaCategoria);
@@ -36,14 +38,16 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-        [HttpPost]
+    [HttpPost]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> CrearCuentaCategoria([FromBody] CuentaCategoriaRequest cuentaCategoria)
         {
             var idCuentaCategoria = await _cuentaCategoriaFlujo.Crear(cuentaCategoria);
             return CreatedAtAction(nameof(ObtenerCuentaCategoriaPorId), new { idCuentaCategoria }, null);
         }
 
-        [HttpPut("{idCuentaCategoria}")]
+    [HttpPut("{idCuentaCategoria}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EditarCuentaCategoria(Guid idCuentaCategoria, [FromBody] CuentaCategoriaRequest cuentaCategoria)
         {
             var actualizado = await _cuentaCategoriaFlujo.Editar(idCuentaCategoria, cuentaCategoria);
@@ -52,7 +56,8 @@ namespace API.Controllers
             return Ok();
         }
 
-        [HttpDelete("{idCuentaCategoria}")]
+    [HttpDelete("{idCuentaCategoria}")]
+    [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarCuentaCategoria(Guid idCuentaCategoria)
         {
             var eliminado = await _cuentaCategoriaFlujo.Eliminar(idCuentaCategoria);
