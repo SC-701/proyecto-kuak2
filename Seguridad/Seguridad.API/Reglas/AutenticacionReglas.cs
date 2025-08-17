@@ -60,7 +60,8 @@ namespace BC
             List<Claim> claims = new List<Claim>();
             claims.Add(new Claim(ClaimTypes.NameIdentifier, _usuario.Id.ToString()));
             claims.Add(new Claim(ClaimTypes.Name, _usuario.NombreUsuario));
-            claims.Add(new Claim(ClaimTypes.Email, _usuario.CorreoElectronico));            
+            claims.Add(new Claim(ClaimTypes.Email, _usuario.CorreoElectronico));
+            claims.Add(new Claim(ClaimTypes.Role, "1"));
             return claims;
         }
 
