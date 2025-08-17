@@ -21,7 +21,7 @@ namespace Web.Pages.Cuenta
         {
             if (!ModelState.IsValid)
                 return Page();
-            var hash=Autenticacion.GenerarHash(usuario.Password);
+            var hash = Autenticacion.GenerarHash(usuario.Password);
             var hashString = Autenticacion.ObtenerHash(hash);
             usuario.PasswordHash = hashString;
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPointsSeguridad", "Registro");

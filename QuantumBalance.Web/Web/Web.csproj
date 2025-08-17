@@ -30,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Pages\Movimiento\" />
     <Folder Include="Pages\Categoria\" />
   </ItemGroup>
 
