@@ -36,7 +36,7 @@ namespace Web.Pages.CuentaVista
 
             var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endPoint, IdCuenta));
             var respuesta = await cliente.SendAsync(solicitud);
-
+            respuesta.EnsureSuccessStatusCode();
             if (respuesta.StatusCode == HttpStatusCode.OK)
             {
                 var resultado = await respuesta.Content.ReadAsStringAsync();

@@ -31,7 +31,6 @@
 
   <ItemGroup>
     <Folder Include="Pages\Categoria\" />
-    <Folder Include="Pages\Movimiento\" />
   </ItemGroup>
 
 </Project>
