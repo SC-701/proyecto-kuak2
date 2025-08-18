@@ -1,0 +1,44 @@
+﻿@page
+@model Web.Pages.Categoria.EditarModel
+@{
+    ViewData["Title"] = "Editar Categoría";
+}
+
+<header class="subhead">
+</header>
+
+<section class="page-section bg-light" id="principal">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Editar Categoría</h2>
+            <h3 class="section-subheading text-muted">Modifique los datos de la categoría.</h3>
+        </div>
+
+        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto">
+            <form method="post">
+                <div class="form-group">
+                    <label class="control-label" asp-for="Categoria.Nombre"></label>
+                    <input class="form-control" asp-for="Categoria.Nombre" />
+                    <span class="text-danger" asp-validation-for="Categoria.Nombre"></span>
+                </div>
+                <div class="form-group">
+                    <label class="control-label" asp-for="Categoria.Descripcion"></label>
+                    <textarea class="form-control" asp-for="Categoria.Descripcion"></textarea>
+                    <span class="text-danger" asp-validation-for="Categoria.Descripcion"></span>
+                </div>
+                <div class="text-danger" asp-validation-summary="All"></div>
+                <div class="form-group mt-3">
+                    <a class="btn btn-secondary" asp-page="./Index">Regresar</a>
+                    <input type="submit" value="Guardar cambios" class="btn btn-warning" />
+                </div>
+                <input type="hidden" asp-for="Categoria.IdCategoria" />
+            </form>
+        </div>
+    </div>
+</section>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}
