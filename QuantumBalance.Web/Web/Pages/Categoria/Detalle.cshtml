@@ -1,0 +1,39 @@
+﻿@page
+@model Web.Pages.Categoria.DetalleModel
+@{
+    ViewData["Title"] = "Detalle de Categoría";
+}
+
+<header class="subhead">
+</header>
+
+<section class="page-section" id="services">
+    <div class="container" style="max-width: fit-content;">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Detalle de la Categoría</h2>
+            <h3 class="section-subheading text-muted">Información de la categoría seleccionada.</h3>
+        </div>
+        @if (Model.Categoria != null)
+        {
+            <div class="card mb-3 w-100 shadow-sm">
+                <div class="row g-0">
+                    <div class="col-md-8">
+                        <div class="card-body">
+                            <h5 class="card-title">@Html.DisplayFor(m => m.Categoria.Nombre)</h5>
+                            <p class="card-text">
+                                <div>
+                                    <b>@Html.DisplayNameFor(m => m.Categoria.Descripcion): </b>
+                                    @Html.DisplayFor(m => m.Categoria.Descripcion)
+                                </div>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+        <a class="btn btn-secondary" asp-page="./Index">Regresar</a>
+        <a class="btn btn-warning" asp-page="./Editar" asp-route-id="@Model.Categoria.IdCategoria">Editar</a>
+        <a class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@Model.Categoria.IdCategoria">Eliminar</a>
+    </div>
+</section>
+

@@ -1,0 +1,44 @@
+﻿@page
+@model Web.Pages.Categoria.IndexModel
+@{
+    ViewData["Title"] = "Listado de Categorías";
+}
+<header class="subhead">
+</header>
+
+<section class="page-section bg-light" id="principal">
+    <div class="container">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Listado de categorías</h2>
+            <h3 class="section-subheading text-muted">Consulta las categorías registradas.</h3>
+        </div>
+        <div class="text-center mb-4">
+            <a type="button" class="btn btn-group-lg btn-success btn-lg" asp-page="./Agregar"><i class="bi bi-plus-square"></i> Agregar</a>
+        </div>
+        <div class="row">
+            @if (Model.Categorias != null)
+            {
+                @foreach (var categoria in Model.Categorias)
+                {
+                    <div class="col-md-4 mb-4">
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title"><i class="bi bi-car-front-fill"></i> @Html.DisplayFor(m => categoria.Nombre)</h5>
+                                <p class="card-text">@Html.DisplayFor(m => categoria.Descripcion)</p>
+                                <a type="button" class="btn btn-primary" asp-page="./Detalle" asp-route-id="@categoria.IdCategoria"><i class="bi bi-info-square"></i> Detalle</a>
+                                <a type="button" class="btn btn-warning" asp-page="./Editar" asp-route-id="@categoria.IdCategoria"><i class="bi bi-pencil-square"></i> Editar</a>
+                                <a type="button" class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@categoria.IdCategoria"><i class="bi bi-trash3-fill"></i> Eliminar</a>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="alert alert-warning" role="alert">
+                    No hay categorías disponibles.
+                </div>
+            }
+        </div>
+    </div>
+</section>
