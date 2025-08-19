@@ -3,6 +3,7 @@ using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace API.Controllers
 {
@@ -72,6 +73,8 @@ namespace API.Controllers
     [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarCuenta([FromRoute] Guid IdCuenta)
         {
+            try { 
+
             bool success = await _cuentaFlujo.EliminarCuenta(IdCuenta);
 
             if (!success)
@@ -82,8 +85,19 @@ namespace API.Controllers
 
             return NoContent();
         }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                _logger.LogWarning("No se pudo eliminar la cuenta {IdCuenta} porque está registrada en un movimiento.", IdCuenta);
+                return BadRequest("No se puede eliminar esta cuenta porque existe un movimiento registrado en ella. Elimine primero los movimientos relacionados.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error inesperado al eliminar la cuenta {IdCuenta}.", IdCuenta);
+                return StatusCode(500, "Ocurrió un error inesperado al eliminar la cuenta.");
+            }
+        }
 
-    [HttpGet()]
+        [HttpGet()]
     [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerTodasLasCuentas()
         {

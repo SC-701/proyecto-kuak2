@@ -1,0 +1,44 @@
+﻿@page
+@model Web.Pages.Cuentas.EliminarModel
+@{
+}
+<header class="subhead">
+</header>
+
+<section class="page-section" id="eliminar">
+    <div class="container" style="max-width: fit-content;">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Confirmación de Eliminación</h2>
+            <h3 class="section-subheading text-muted">¿Está seguro que desea eliminar la siguiente cuenta?</h3>
+        </div>
+
+        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
+        {
+            <div class="alert alert-danger">
+                @Model.ErrorMessage
+            </div>
+        }
+
+        @if (Model.cuenta != null)
+        {
+            <div class="card mb-3 w-100 shadow-sm">
+                <div class="card-body">
+                    <div>
+                        <b>Nombre:</b> @Model.cuenta.Nombre
+                    </div>
+                    <div>
+                        <b>Descripción:</b> @Model.cuenta.Descripcion
+                    </div>
+                    <div>
+                        <b>Tipo:</b> @Model.cuenta.Tipo
+                    </div>
+                </div>
+            </div>
+            <form method="post">
+                <input type="hidden" asp-for="cuenta.IdCuenta" />
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a asp-page="./Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        }
+    </div>
+</section>
