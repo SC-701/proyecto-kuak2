@@ -3,6 +3,7 @@ using Abstracciones.Interfaces.Flujo;
 using Abstracciones.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 
 namespace API.Controllers
 {
@@ -56,22 +57,35 @@ namespace API.Controllers
             return Ok(resultado);
         }
 
-    [HttpDelete]
-    [Authorize(Roles = "1")]
+        [HttpDelete]
+        [Authorize(Roles = "1")]
         public async Task<IActionResult> EliminarCategoria([FromQuery] Guid IdCategoria)
         {
-            bool success = await _categoriaFlujo.EliminarCategoria(IdCategoria);
-
-            if (!success)
+            try
             {
-                _logger.LogError("Error al eliminar la categoría con ID {IdCategoria}.", IdCategoria);
-                return BadRequest("Error al eliminar la categoría.");
-            }
+                bool success = await _categoriaFlujo.EliminarCategoria(IdCategoria);
 
-            return NoContent();
+                if (!success)
+                {
+                    _logger.LogError("Error al eliminar la categoría con ID {IdCategoria}.", IdCategoria);
+                    return BadRequest("Error al eliminar la categoría.");
+                }
+
+                return NoContent();
+            }
+            catch (SqlException ex) when (ex.Number == 547)
+            {
+                _logger.LogWarning("No se pudo eliminar la categoría {IdCategoria} porque está en uso en un movimiento.", IdCategoria);
+                return BadRequest("No se puede eliminar esta categoría porque está siendo utilizada en un movimiento. Elimine primero los movimientos relacionados.");
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error inesperado al eliminar la categoría {IdCategoria}.", IdCategoria);
+                return StatusCode(500, "Ocurrió un error inesperado al eliminar la categoría.");
+            }
         }
 
-    [HttpGet("{IdCategoria}")]
+        [HttpGet("{IdCategoria}")]
     [Authorize(Roles = "1")]
         public async Task<IActionResult> ObtenerCategoriaPorId([FromRoute] Guid IdCategoria)
         {

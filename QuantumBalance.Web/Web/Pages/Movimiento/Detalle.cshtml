@@ -39,5 +39,7 @@
             </div>
         }
         <a class="btn btn-primary" asp-page="./Index">Regresar</a>
+        <a class="btn btn-warning" asp-page="./Editar" asp-route-id="@Model.movimiento.IdMovimiento">Editar</a>
+        <a class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@Model.movimiento.IdMovimiento">Eliminar</a>
     </div>
 </section>
