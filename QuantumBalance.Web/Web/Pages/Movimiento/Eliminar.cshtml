@@ -1,0 +1,47 @@
+﻿@page
+@using System.Globalization
+@model Web.Pages.Movimientos.EliminarModel
+@{
+}
+<header class="subhead">
+</header>
+
+<section class="page-section" id="eliminar">
+    <div class="container" style="max-width: fit-content;">
+        <div class="text-center">
+            <h2 class="section-heading text-uppercase">Confirmación de Eliminación</h2>
+            <h3 class="section-subheading text-muted">¿Está seguro que desea eliminar el siguiente movimiento?</h3>
+        </div>
+
+        @if (Model.movimiento != null)
+        {
+            <div class="card mb-3 w-100 shadow-sm">
+                <div class="card-body">
+                    <div>
+                        <b>Cuenta:</b> @Model.nombreCuenta
+                    </div>
+                    <div>
+                        <b>Categoría:</b> @Model.nombreCategoria
+                    </div>
+                    <div>
+                        <b>Tipo de Movimiento:</b> @Model.nombreTipoMovimiento
+                    </div>
+                    <div>
+                        <b>Descripción:</b> @Model.movimiento.Descripcion
+                    </div>
+                    <div>
+                        <b>Monto:</b> @Model.movimiento.Monto.ToString("C0", new CultureInfo("es-CR"))
+                    </div>
+                    <div>
+                        <b>Fecha:</b> @Model.movimiento.Fecha.ToString("dd/MM/yyyy")
+                    </div>
+                </div>
+            </div>
+            <form method="post">
+                <input type="hidden" asp-for="movimiento.IdMovimiento" />
+                <button type="submit" class="btn btn-danger">Eliminar</button>
+                <a asp-page="./Index" class="btn btn-secondary">Cancelar</a>
+            </form>
+        }
+    </div>
+</section>

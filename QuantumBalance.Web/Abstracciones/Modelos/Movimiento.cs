@@ -29,11 +29,20 @@ namespace Abstracciones.Modelos
         public Guid IdTipoMovimiento { get; set; }
     }
 
-    public class MovimientoResponse : MovimientoBase
+    public class MovimientoResponse
     {
         public Guid IdMovimiento { get; set; }
+        public string Descripcion { get; set; } = string.Empty;
+        public decimal Monto { get; set; }
+        public DateTime Fecha { get; set; }
+
         public Guid IdCuenta { get; set; }
+        public string NombreCuenta { get; set; } = string.Empty;
+
         public Guid IdCategoria { get; set; }
+        public string NombreCategoria { get; set; } = string.Empty;
+
         public Guid IdTipoMovimiento { get; set; }
+        public string NombreTipoMovimiento { get; set; } = string.Empty;
     }
 }
