@@ -54,7 +54,7 @@ namespace DA
 
         public async Task<MovimientoResponse> ObtenerMovimientoPorId(Guid idMovimiento)
         {
-            string sqlQuery = @"sp_Movimiento_MostrarPorId";
+            string sqlQuery = @"sp_Movimiento_ObtenerPorId";
             var resultado = await _sqlConnection.QueryFirstOrDefaultAsync<MovimientoResponse>(sqlQuery, new
             {
                 idMovimiento

@@ -8,7 +8,7 @@ namespace Abstracciones.Modelos
 {
     public class TipoMovimiento
     {
-        public Guid Id { get; set; }
+        public Guid idtipomovimiento { get; set; }
         public string Nombre { get; set; }
     }
 }
