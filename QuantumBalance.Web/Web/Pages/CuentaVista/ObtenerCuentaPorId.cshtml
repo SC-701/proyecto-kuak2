@@ -1,4 +1,64 @@
-﻿@page
+﻿@page "{IdCuenta?}"
 @model Web.Pages.CuentaVista.ObtenerCuentaPorIdModel
 @{
+	ViewData["Title"] = "Detalle de Cuenta";
+}
+
+<section class="feature-section pt-0 py-4">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-xl-7">
+				<div class="card qb-glass p-3 p-md-4">
+					<span class="qb-gradient-border" aria-hidden="true"></span>
+					<div class="card-body">
+						<div class="d-flex align-items-center justify-content-center mb-3">
+							<div class="qb-icon-badge" aria-hidden="true"><i class="bi bi-wallet2"></i></div>
+						</div>
+						<h1 class="h3 text-center fw-700 mb-3">Detalle de cuenta</h1>
+
+						@if (Model.cuenta == null)
+						{
+							<div class="alert alert-warning" role="alert">
+								No se encontró la cuenta solicitada.
+							</div>
+						}
+						else
+						{
+							<dl class="row mb-0">
+								<dt class="col-sm-4 text-secondary">Nombre</dt>
+								<dd class="col-sm-8">@Model.cuenta.Nombre</dd>
+
+								<dt class="col-sm-4 text-secondary">Descripción</dt>
+								<dd class="col-sm-8">@Model.cuenta.Descripcion</dd>
+
+								<dt class="col-sm-4 text-secondary">Tipo</dt>
+								<dd class="col-sm-8"><span class="badge bg-primary">@Model.cuenta.Tipo</span></dd>
+
+								<dt class="col-sm-4 text-secondary">Id Usuario</dt>
+								<dd class="col-sm-8">@Model.cuenta.IdUsuario</dd>
+
+								<dt class="col-sm-4 text-secondary">Id Cuenta</dt>
+								<dd class="col-sm-8">@Model.cuenta.IdCuenta</dd>
+							</dl>
+
+							<div class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-4">
+								<a asp-page="/CuentaVista/EditarCuenta" asp-route-IdCuenta="@Model.cuenta.IdCuenta" class="btn btn-outline-primary d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-pencil-square"></i>
+									<span>Editar</span>
+								</a>
+								<a asp-page="/CuentaVista/ObtenerCuentas" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-arrow-left-circle"></i>
+									<span>Volver</span>
+								</a>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
 }

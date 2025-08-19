@@ -68,12 +68,13 @@ namespace Web.Pages.CuentaVista
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid || cuentaRequest == null || cuentaRequest.IdCuenta == Guid.Empty)
-            {
+            if (cuentaRequest == null || cuentaRequest.IdCuenta == Guid.Empty)
+                return NotFound();
+
+            if (!ModelState.IsValid)
                 return Page();
-            }
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EditarCuenta");
             var cliente = new HttpClient();
@@ -81,13 +82,12 @@ namespace Web.Pages.CuentaVista
                 "Bearer",
                 HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value
             );
-
-            // PUT api/Cuenta/{IdCuenta}
-            var respuesta = await cliente.PutAsJsonAsync(string.Format(endpoint, cuentaRequest.IdCuenta), cuentaRequest);
+            var respuesta = await cliente.PutAsJsonAsync(
+                string.Format(endpoint, cuentaRequest.IdCuenta),
+                cuentaRequest
+            );
             respuesta.EnsureSuccessStatusCode();
-
-            // cuenta editada
-            return RedirectToPage("/CuentaVista/ObtenerCuentaPorId", new { IdCuenta = cuentaRequest.IdCuenta });
+            return RedirectToPage("./ObtenerCuentas");
         }
     }
 }

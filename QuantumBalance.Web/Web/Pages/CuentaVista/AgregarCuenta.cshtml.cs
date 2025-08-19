@@ -3,45 +3,48 @@ using Abstracciones.Modelos;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Linq;
 using System.Net.Http.Json;
+using System.Security.Claims;
+using System.Text.Json;
 
 namespace Web.Pages.CuentaVista
 {
     [Authorize(Roles = "1")]
-
     public class AgregarCuentaModel : PageModel
     {
-        private IConfiguracion _configuracion;
+        private readonly IConfiguracion _configuracion;
+
         [BindProperty]
-        public CuentaCategoriaRequest cuenta { get; set; } = default!;
+        public CuentaRequest cuenta { get; set; } = new();
 
         public AgregarCuentaModel(IConfiguracion configuracion)
         {
             _configuracion = configuracion;
         }
 
-
-        public async Task<ActionResult> OnGet()
+        public IActionResult OnGet()
         {
-            //?????
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPost()
         {
             if (!ModelState.IsValid || cuenta == null)
             {
                 return Page();
             }
-            string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "AgregarCuenta");
+
+            var endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "CrearCuenta");
 
             var cliente = new HttpClient();
+
             cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
             var respuesta = await cliente.PostAsJsonAsync(endpoint, cuenta);
             respuesta.EnsureSuccessStatusCode();
-            return RedirectToPage("/Index");
-            
+            return RedirectToPage("./Index");
+
+
+     
         }
     }
 }

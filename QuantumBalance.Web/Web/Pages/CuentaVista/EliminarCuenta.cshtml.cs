@@ -61,31 +61,24 @@ namespace Web.Pages.CuentaVista
             return Page();
         }
 
-        public async Task<IActionResult> OnPostAsync(Guid? IdCuenta)
+        public async Task<IActionResult> OnPost(Guid? IdCuenta)
         {
-            if (IdCuenta == null || IdCuenta == Guid.Empty)
-            {
-                // intenta usar Id desde el modelo si no vino por parámetro
-                if (cuenta == null || cuenta.IdCuenta == Guid.Empty)
-                {
-                    return Page();
-                }
-                IdCuenta = cuenta.IdCuenta;
-            }
+            if (IdCuenta == Guid.Empty)
+                return NotFound();
+
+            if (!ModelState.IsValid)
+                return Page();
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EliminarCuenta");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
-                "Bearer",
-                HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value
-            );
-
-            var respuesta = await cliente.DeleteAsync(string.Format(endpoint, IdCuenta));
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
+            var solicitud = new HttpRequestMessage(HttpMethod.Delete, string.Format(endpoint, IdCuenta));
+            var respuesta = await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
 
             // eliminado 
 
-            return RedirectToPage("/Index");
+            return RedirectToPage("/ObtenerCuentas");
         }
     }
 }
