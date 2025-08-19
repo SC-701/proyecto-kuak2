@@ -22,8 +22,9 @@ namespace Web.Pages.CuentaVista
         }
 
 
-        public IActionResult OnGet()
+        public async Task<ActionResult> OnGet()
         {
+            //?????
             return Page();
         }
 
