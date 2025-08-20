@@ -18,6 +18,9 @@ namespace Web.Pages.Movimientos
         public List<SelectListItem> cuentas { get; set; } = new();
         public List<SelectListItem> categorias { get; set; } = new();
         public List<SelectListItem> tiposMovimiento { get; set; } = new();
+        public bool FaltanDatos { get; set; }
+        public string MensajeAdvertencia { get; set; } = string.Empty;
+
 
         public AgregarModel(IConfiguracion configuracion)
         {
@@ -27,14 +30,39 @@ namespace Web.Pages.Movimientos
         public async Task<IActionResult> OnGet()
         {
             await CargarCombosAsync();
+
+            if (!cuentas.Any() || !categorias.Any())
+            {
+                FaltanDatos = true;
+                if (!cuentas.Any() && !categorias.Any())
+                    MensajeAdvertencia = "No hay cuentas ni categorías registradas para crear un movimiento.";
+                else if (!cuentas.Any())
+                    MensajeAdvertencia = "No hay cuentas registradas para crear un movimiento.";
+                else if (!categorias.Any())
+                    MensajeAdvertencia = "No hay categorías registradas para crear un movimiento.";
+            }
+
             return Page();
         }
-
         public async Task<IActionResult> OnPost()
         {
+            await CargarCombosAsync();
+
+            if (!cuentas.Any() || !categorias.Any())
+            {
+                FaltanDatos = true;
+                MensajeAdvertencia = !cuentas.Any() && !categorias.Any()
+                    ? "No hay cuentas ni categorías registradas para crear un movimiento."
+                    : !cuentas.Any()
+                        ? "No hay cuentas registradas para crear un movimiento."
+                        : "No hay categorías registradas para crear un movimiento.";
+
+                ModelState.AddModelError(string.Empty, "No se puede crear un movimiento sin cuentas y categorías registradas.");
+                return Page();
+            }
+
             if (!ModelState.IsValid)
             {
-                await CargarCombosAsync();
                 return Page();
             }
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "CrearMovimiento");
@@ -44,6 +72,7 @@ namespace Web.Pages.Movimientos
             respuesta.EnsureSuccessStatusCode();
             return RedirectToPage("./Index");
         }
+
 
         private async Task CargarCombosAsync()
         {
@@ -65,18 +94,19 @@ namespace Web.Pages.Movimientos
                 t => t.Nombre
             );
         }
-        private async Task<List<SelectListItem>> ObtenerListaAsync<TApi>(string metodo, Func<TApi, Guid> getId, Func<TApi, string> getNombre)
+        private async Task<List<SelectListItem>> ObtenerListaAsync<TApi>(string metodo,Func<TApi, Guid> getId,Func<TApi, string> getNombre)
         {
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", metodo);
-            var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
-            var respuesta = await cliente.GetAsync(endpoint);
-            respuesta.EnsureSuccessStatusCode();
+            using var cliente = new HttpClient();
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue( "Bearer", HttpContext.User.Claims.FirstOrDefault(c => c.Type == "Token")?.Value);
+
+            using var respuesta = await cliente.GetAsync(endpoint);
             if (respuesta.StatusCode == HttpStatusCode.OK)
             {
-                var resultado = await respuesta.Content.ReadAsStringAsync();
+                var json = await respuesta.Content.ReadAsStringAsync();
                 var opciones = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                var elementosApi = JsonSerializer.Deserialize<List<TApi>>(resultado, opciones);
+                var elementosApi = JsonSerializer.Deserialize<List<TApi>>(json, opciones) ?? new List<TApi>();
+
                 return elementosApi
                     .Select(e => new SelectListItem
                     {
@@ -86,7 +116,13 @@ namespace Web.Pages.Movimientos
                     .ToList();
             }
 
+            if (respuesta.StatusCode == HttpStatusCode.NotFound ||
+                respuesta.StatusCode == HttpStatusCode.NoContent)
+            {
+                return new List<SelectListItem>();
+            }
             return new List<SelectListItem>();
         }
+
     }
 }

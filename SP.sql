@@ -219,6 +219,16 @@ BEGIN
         (idMovimiento, idCuenta, idCategoria, idTipoMovimiento, descripcion, monto, fecha)
     VALUES
         (@idMovimiento, @idCuenta, @idCategoria, @idTipoMovimiento, @descripcion, @monto, @fecha);
+IF NOT EXISTS (
+        SELECT 1
+        FROM CuentaCategoria
+        WHERE IdCuenta = @idCuenta
+          AND IdCategoria = @idCategoria
+    )
+    BEGIN
+        INSERT INTO CuentaCategoria (IdCuenta, IdCategoria)
+        VALUES (@idCuenta, @idCategoria);
+    END
 
     SELECT @idMovimiento;
 END;
@@ -260,6 +270,15 @@ BEGIN
         monto = @monto,
         fecha = @fecha
     WHERE idMovimiento = @idMovimiento;
+IF NOT EXISTS (
+        SELECT 1
+        FROM CuentaCategoria
+        WHERE idCuenta = @idCuenta AND idCategoria = @idCategoria
+    )
+    BEGIN
+        INSERT INTO CuentaCategoria (idCuenta, idCategoria)
+        VALUES (@idCuenta, @idCategoria);
+    END
 END;
 GO
 
@@ -268,8 +287,28 @@ CREATE PROCEDURE sp_Movimiento_Eliminar
     @idMovimiento UNIQUEIDENTIFIER
 AS
 BEGIN
+    DECLARE @idCuenta UNIQUEIDENTIFIER;
+    DECLARE @idCategoria UNIQUEIDENTIFIER;
+
+    SELECT @idCuenta = idCuenta, 
+           @idCategoria = idCategoria
+    FROM Movimiento
+    WHERE idMovimiento = @idMovimiento;
+
     DELETE FROM Movimiento
     WHERE idMovimiento = @idMovimiento;
+
+    IF NOT EXISTS (
+        SELECT 1
+        FROM Movimiento
+        WHERE idCuenta = @idCuenta
+          AND idCategoria = @idCategoria
+    )
+    BEGIN
+        DELETE FROM CuentaCategoria
+        WHERE idCuenta = @idCuenta
+          AND idCategoria = @idCategoria;
+    END
 END;
 GO
 

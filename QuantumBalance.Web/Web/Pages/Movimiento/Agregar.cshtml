@@ -4,7 +4,6 @@
     ViewData["Title"] = "Agregar Movimiento";
 }
 
-<h2>Agregar Movimiento</h2>
 <header class="subhead">
 </header>
 
@@ -15,52 +14,63 @@
             <h3 class="section-subheading text-muted">Complete la información requerida.</h3>
         </div>
 
-        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto ">
-            <form method="post">
-
-                <div class="form-group">
-                    <label for="cuentas">Cuenta</label>
-                    <select asp-for="movimiento.IdCuenta" class="form-select" asp-items="Model.cuentas">
-                        <option value="">Seleccione una cuenta</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="movimiento.IdCuenta"></span>
-                </div>
-                <div class="form-group">
-                    <label for="categorias">Categoría</label>
-                    <select asp-for="movimiento.IdCategoria" class="form-select" asp-items="Model.categorias">
-                        <option value="">Seleccione una categoría</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="movimiento.IdCategoria"></span>
-                </div>
-                <div class="form-group">
-                    <label for="tipos">Tipo de Movimiento</label>
-                    <select asp-for="movimiento.IdTipoMovimiento" class="form-select" asp-items="Model.tiposMovimiento">
-                        <option value="">Seleccione un tipo</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="movimiento.IdTipoMovimiento"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="movimiento.Descripcion"></label>
-                    <input class="form-control" asp-for="movimiento.Descripcion" />
-                    <span class="text-danger" asp-validation-for="movimiento.Descripcion"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="movimiento.Monto"></label>
-                    <input class="form-control" asp-for="movimiento.Monto" />
-                    <span class="text-danger" asp-validation-for="movimiento.Monto"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="movimiento.Fecha"></label>
-                    <input type="datetime-local" class="form-control" asp-for="movimiento.Fecha" />
-                    <span class="text-danger" asp-validation-for="movimiento.Fecha"></span>
-                </div>
-                <div class="text-danger" asp-validation-summary="All"></div>
-                <div class="form-group">
-                    <a class="btn btn-primary" asp-page="./Index">Regresar</a>
-                    <input type="submit" value="Agregar" class="btn btn-success" />
-                </div>
-            </form>
-        </div>
+        @if (Model.FaltanDatos)
+        {
+            <div class="alert alert-warning text-center" role="alert">
+                @Model.MensajeAdvertencia
+            </div>
+            <div class="text-center">
+                <a class="btn btn-primary" asp-page="./Index">Regresar</a>
+            </div>
+        }
+        else
+        {
+            <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto">
+                <form method="post">
+                    <div class="form-group">
+                        <label for="cuentas">Cuenta</label>
+                        <select asp-for="movimiento.IdCuenta" class="form-select" asp-items="Model.cuentas">
+                            <option value="">Seleccione una cuenta</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="movimiento.IdCuenta"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="categorias">Categoría</label>
+                        <select asp-for="movimiento.IdCategoria" class="form-select" asp-items="Model.categorias">
+                            <option value="">Seleccione una categoría</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="movimiento.IdCategoria"></span>
+                    </div>
+                    <div class="form-group">
+                        <label for="tipos">Tipo de Movimiento</label>
+                        <select asp-for="movimiento.IdTipoMovimiento" class="form-select" asp-items="Model.tiposMovimiento">
+                            <option value="">Seleccione un tipo</option>
+                        </select>
+                        <span class="text-danger" asp-validation-for="movimiento.IdTipoMovimiento"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" asp-for="movimiento.Descripcion"></label>
+                        <input class="form-control" asp-for="movimiento.Descripcion" />
+                        <span class="text-danger" asp-validation-for="movimiento.Descripcion"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" asp-for="movimiento.Monto"></label>
+                        <input class="form-control" asp-for="movimiento.Monto" />
+                        <span class="text-danger" asp-validation-for="movimiento.Monto"></span>
+                    </div>
+                    <div class="form-group">
+                        <label class="control-label" asp-for="movimiento.Fecha"></label>
+                        <input type="datetime-local" class="form-control" asp-for="movimiento.Fecha" />
+                        <span class="text-danger" asp-validation-for="movimiento.Fecha"></span>
+                    </div>
+                    <div class="text-danger" asp-validation-summary="All"></div>
+                    <div class="form-group">
+                        <a class="btn btn-primary" asp-page="./Index">Regresar</a>
+                        <input type="submit" value="Agregar" class="btn btn-success" />
+                    </div>
+                </form>
+            </div>
+        }
     </div>
 </section>
 

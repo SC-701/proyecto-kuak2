@@ -23,14 +23,16 @@ namespace Web.Pages.Categoria
             var cliente = new HttpClient();
             cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
             var solicitud = new HttpRequestMessage(HttpMethod.Get, endpoint);
-
             var respuesta = await cliente.SendAsync(solicitud);
-            respuesta.EnsureSuccessStatusCode();
             if (respuesta.StatusCode == HttpStatusCode.OK)
             {
                 var resultado = await respuesta.Content.ReadAsStringAsync();
                 var opciones = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
                 Categorias = JsonSerializer.Deserialize<List<CategoriaResponse>>(resultado, opciones) ?? new List<CategoriaResponse>();
+            }
+            else if (respuesta.StatusCode == HttpStatusCode.NotFound)
+            {
+                Categorias = new List<CategoriaResponse>();
             }
         }
     }
