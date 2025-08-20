@@ -63,21 +63,24 @@ namespace Web.Pages.CuentaVista
 
         public async Task<IActionResult> OnPost(Guid? IdCuenta)
         {
-            if (IdCuenta == Guid.Empty)
+            if (IdCuenta == null || IdCuenta == Guid.Empty)
                 return NotFound();
 
-            if (!ModelState.IsValid)
-                return Page();
+            // Nota: No validamos ModelState aquí porque sólo necesitamos el IdCuenta para eliminar
+            // y el modelo Cuenta tiene campos [Required] que no se envían en este formulario.
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EliminarCuenta");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
+            var token = HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(token))
+                return Forbid();
+
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var solicitud = new HttpRequestMessage(HttpMethod.Delete, string.Format(endpoint, IdCuenta));
             var respuesta = await cliente.SendAsync(solicitud);
             respuesta.EnsureSuccessStatusCode();
 
-
-            return RedirectToPage("/ObtenerCuentas");
+            return RedirectToPage("./Index");
         }
     }
 }

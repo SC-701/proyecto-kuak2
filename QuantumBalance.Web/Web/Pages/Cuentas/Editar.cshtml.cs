@@ -7,6 +7,7 @@ using System.Net;
 using System.Net.Http.Json;
 using System.Text.Json;
 using System.Linq;
+using System.Security.Claims;
 
 namespace Web.Pages.Cuentas
 {
@@ -35,10 +36,12 @@ namespace Web.Pages.Cuentas
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "ObtenerCuentaPorId");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
-                "Bearer",
-                HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value
-            );
+            var token = HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return Forbid();
+            }
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
 
             var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, IdCuenta));
             var respuesta = await cliente.SendAsync(solicitud);
@@ -73,15 +76,31 @@ namespace Web.Pages.Cuentas
             if (cuentaRequest == null || cuentaRequest.IdCuenta == Guid.Empty)
                 return NotFound();
 
+            // Asegurar IdUsuario desde los claims antes de validar/enviar
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+            {
+                return Forbid();
+            }
+
+            cuentaRequest.IdUsuario = userId;
+
+            // Revalidar el modelo con los datos completados
+            ModelState.Clear();
+            TryValidateModel(cuentaRequest);
             if (!ModelState.IsValid)
+            {
                 return Page();
+            }
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EditarCuenta");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
-                "Bearer",
-                HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value
-            );
+            var token = HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return Forbid();
+            }
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var respuesta = await cliente.PutAsJsonAsync(
                 string.Format(endpoint, cuentaRequest.IdCuenta),
                 cuentaRequest

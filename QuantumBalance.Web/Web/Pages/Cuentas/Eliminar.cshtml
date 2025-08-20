@@ -28,12 +28,12 @@
 							</dl>
 
 							<form method="post" class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-2">
-								<input type="hidden" asp-for="cuenta.IdCuenta" />
+								<input type="hidden" name="IdCuenta" value="@Model.cuenta.IdCuenta" />
 								<button type="submit" class="btn btn-outline-danger d-inline-flex align-items-center justify-content-center gap-2">
 									<i class="bi bi-trash"></i>
 									<span>Eliminar</span>
 								</button>
-								<a asp-page="/CuentaVista/ObtenerCuentaPorId" asp-route-IdCuenta="@Model.cuenta.IdCuenta" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+								<a asp-page="/Cuentas/Index" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
 									<i class="bi bi-x-circle"></i>
 									<span>Cancelar</span>
 								</a>

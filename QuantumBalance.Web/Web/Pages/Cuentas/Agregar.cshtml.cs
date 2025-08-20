@@ -24,12 +24,45 @@ namespace Web.Pages.Cuentas
 
         public IActionResult OnGet()
         {
+            // Prellenar IdUsuario para el hidden usando el claim del usuario
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (Guid.TryParse(userIdClaim, out var userId))
+            {
+                if (cuenta == null)
+                {
+                    cuenta = new CuentaRequest();
+                }
+                cuenta.IdUsuario = userId;
+            }
             return Page();
         }
 
         public async Task<IActionResult> OnPost()
         {
-            if (!ModelState.IsValid || cuenta == null)
+            // Asegurar IdUsuario desde los claims ANTES de validar el modelo
+            var userIdClaim = HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+            if (!Guid.TryParse(userIdClaim, out var userId))
+            {
+                return Forbid();
+            }
+
+            if (cuenta == null)
+            {
+                cuenta = new CuentaRequest();
+            }
+            cuenta.IdUsuario = userId;
+
+            // Si la API requiere IdCuenta en el create, generamos uno cuando esté vacío
+            if (cuenta.IdCuenta == Guid.Empty)
+            {
+                cuenta.IdCuenta = Guid.NewGuid();
+            }
+
+            // Revalidar el modelo después de completar datos derivados (claims/ids)
+            ModelState.Clear();
+            TryValidateModel(cuenta);
+
+            if (!ModelState.IsValid)
             {
                 return Page();
             }
@@ -38,7 +71,13 @@ namespace Web.Pages.Cuentas
 
             var cliente = new HttpClient();
 
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
+            var token = HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(token))
+            {
+                return Forbid();
+            }
+
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var respuesta = await cliente.PostAsJsonAsync(endpoint, cuenta);
             respuesta.EnsureSuccessStatusCode();
             return RedirectToPage("./Index");
