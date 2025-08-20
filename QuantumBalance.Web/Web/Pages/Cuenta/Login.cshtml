@@ -27,8 +27,6 @@
                         </div>
                     }
 
-                    <input type="hidden" asp-for="loginInfo.CorreoElectronico" />
-
                     <!-- Correo Electrónico -->
                     <div class="form-group">
                         <label asp-for="loginInfo.CorreoElectronico" class="form-label">
@@ -53,6 +51,8 @@
                             <i class="bi bi-box-arrow-in-right"></i> Iniciar Sesión
                         </button>
                     </div>
+
+                    <input type="hidden" asp-for="loginInfo.CorreoElectronico" />
 
                     <!-- Links adicionales -->
                     <div class="text-center mt-3 pt-3" style="border-top: 1px solid rgba(255, 255, 255, 0.08);">
