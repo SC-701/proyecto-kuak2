@@ -7,7 +7,7 @@ using System.Net;
 using System.Text.Json;
 using System.Linq;
 
-namespace Web.Pages.CuentaVista
+namespace Web.Pages.Cuentas
 {
     [Authorize(Roles = "1")]
     public class Eliminar : PageModel
@@ -16,7 +16,7 @@ namespace Web.Pages.CuentaVista
 
         [BindProperty]
         public CuentaResponse cuenta { get; set; } = default!;
-
+        public string ErrorMessage { get; set; } = string.Empty;
         public Eliminar(IConfiguracion configuracion)
         {
             _configuracion = configuracion;
@@ -31,11 +31,7 @@ namespace Web.Pages.CuentaVista
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "ObtenerCuentaPorId");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
-                "Bearer",
-                HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value
-            );
-
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value);
             var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, IdCuenta));
             var respuesta = await cliente.SendAsync(solicitud);
 
@@ -66,9 +62,6 @@ namespace Web.Pages.CuentaVista
             if (IdCuenta == null || IdCuenta == Guid.Empty)
                 return NotFound();
 
-            // Nota: No validamos ModelState aquí porque sólo necesitamos el IdCuenta para eliminar
-            // y el modelo Cuenta tiene campos [Required] que no se envían en este formulario.
-
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EliminarCuenta");
             var cliente = new HttpClient();
             var token = HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value;
@@ -78,9 +71,20 @@ namespace Web.Pages.CuentaVista
             cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
             var solicitud = new HttpRequestMessage(HttpMethod.Delete, string.Format(endpoint, IdCuenta));
             var respuesta = await cliente.SendAsync(solicitud);
-            respuesta.EnsureSuccessStatusCode();
 
-            return RedirectToPage("./Index");
+            if (respuesta.IsSuccessStatusCode)
+            {
+                return RedirectToPage("./Index");
+            }
+            else
+            {
+                var error = await respuesta.Content.ReadAsStringAsync();
+                ErrorMessage = string.IsNullOrWhiteSpace(error)
+                    ? "No se pudo eliminar la cuenta."
+                    : error;
+                return Page();
+            }
         }
+
     }
 }

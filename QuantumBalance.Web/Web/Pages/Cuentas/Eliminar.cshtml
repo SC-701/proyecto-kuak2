@@ -1,9 +1,9 @@
 ﻿@page
-@model Web.Pages.CuentaVista.Eliminar
+@model Web.Pages.Cuentas.Eliminar
 @{
 }
 
-<section class="feature-section pt-0 py-4">
+<section class="feature-section pt-0 py-4" style="color: #f1f5f9;">
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-md-10 col-lg-8 col-xl-7">
@@ -15,7 +15,12 @@
 							<h1 class="h4 fw-700 mb-1">¿Eliminar esta cuenta?</h1>
 							<p class="text-secondary">Esta acción no se puede deshacer.</p>
 						</div>
-
+						@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+						{
+							<div class="alert alert-danger">
+								@Model.ErrorMessage
+							</div>
+						}
 						@if (Model.cuenta != null)
 						{
 							<dl class="row">
