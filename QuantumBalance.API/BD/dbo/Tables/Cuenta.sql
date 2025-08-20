@@ -5,6 +5,6 @@
     [descripcion] VARCHAR (255)    NULL,
     [tipo]        VARCHAR (255)    NULL,
     PRIMARY KEY CLUSTERED ([idcuenta] ASC),
-    FOREIGN KEY ([idusuario]) REFERENCES [dbo].[Usuario] ([idusuario])
+    CONSTRAINT [FK_Cuenta_Usuarios] FOREIGN KEY ([idusuario]) REFERENCES [dbo].[Usuarios] ([Id])
 );
 

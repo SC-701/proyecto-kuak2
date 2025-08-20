@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE sp_Movimiento_Editar
+﻿CREATE PROCEDURE [dbo].[sp_Movimiento_Editar]
     @idMovimiento UNIQUEIDENTIFIER,
     @idCuenta UNIQUEIDENTIFIER,
     @idCategoria UNIQUEIDENTIFIER,
@@ -17,4 +17,13 @@ BEGIN
         monto = @monto,
         fecha = @fecha
     WHERE idMovimiento = @idMovimiento;
+	IF NOT EXISTS (
+        SELECT 1
+        FROM CuentaCategoria
+        WHERE idCuenta = @idCuenta AND idCategoria = @idCategoria
+    )
+    BEGIN
+        INSERT INTO CuentaCategoria (idCuenta, idCategoria)
+        VALUES (@idCuenta, @idCategoria);
+    END
 END;
