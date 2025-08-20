@@ -53,4 +53,7 @@ CREATE TABLE CuentaCategoria (
     FOREIGN KEY (idcategoria) REFERENCES Categoria(idcategoria),
     FOREIGN KEY (idcuenta) REFERENCES Cuenta(idcuenta)
 );
-
+INSERT INTO Tipo_Movimiento (idtipomovimiento, nombre)
+VALUES 
+    ('E90A3BBE-A8C4-4908-BEA1-0DB2A124E073', 'ingreso'),
+    ('2C3FC069-E0FE-4AD6-8D96-DDB2AC7194CE', 'egreso');
