@@ -16,7 +16,7 @@
             <a type="button" class="btn btn-group-lg btn-success btn-lg" asp-page="./Agregar"><i class="bi bi-plus-square"></i> Agregar</a>
         </div>
         <div class="row">
-            @if (Model.Categorias != null)
+            @if (Model.Categorias != null && Model.Categorias.Any())
             {
                 @foreach (var categoria in Model.Categorias)
                 {
