@@ -332,8 +332,16 @@ CREATE PROCEDURE sp_CuentaCategoria_Crear
     @idcuenta UNIQUEIDENTIFIER
 AS
 BEGIN
-    INSERT INTO CuentaCategoria (idcategoria, idcuenta)
-    VALUES (@idcategoria, @idcuenta);
+    IF NOT EXISTS (
+        SELECT 1
+        FROM CuentaCategoria
+        WHERE idcategoria = @idcategoria
+          AND idcuenta = @idcuenta
+    )
+    BEGIN
+        INSERT INTO CuentaCategoria (idcategoria, idcuenta)
+        VALUES (@idcategoria, @idcuenta);
+    END
 END;
 
 -- Mostrar todos los CuentaCategoria
