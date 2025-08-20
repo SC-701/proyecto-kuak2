@@ -2,46 +2,58 @@
 @using System.Globalization
 @model Web.Pages.Movimientos.EliminarModel
 @{
+	ViewData["Title"] = "Eliminar Movimiento";
 }
-<header class="subhead">
-</header>
 
-<section class="page-section" id="eliminar" style="background-color: #ffffff">
-    <div class="container" style="max-width: fit-content;">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Confirmación de Eliminación</h2>
-            <h3 class="section-subheading text-muted">¿Está seguro que desea eliminar el siguiente movimiento?</h3>
-        </div>
+<section class="feature-section pt-0 py-4" style="color: #f1f5f9;">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<div class="card qb-glass p-3 p-md-4">
+					<span class="qb-gradient-border" aria-hidden="true"></span>
+					<div class="card-body">
+						<div class="text-center mb-3">
+							<div class="qb-icon-badge mb-2" aria-hidden="true"><i class="bi bi-exclamation-triangle"></i></div>
+							<h1 class="h4 fw-700 mb-1">¿Eliminar este movimiento?</h1>
+							<p class="text-secondary">Esta acción no se puede deshacer.</p>
+						</div>
 
-        @if (Model.movimiento != null)
-        {
-            <div class="card mb-3 w-100 shadow-sm">
-                <div class="card-body">
-                    <div>
-                        <b>Cuenta:</b> @Model.nombreCuenta
-                    </div>
-                    <div>
-                        <b>Categoría:</b> @Model.nombreCategoria
-                    </div>
-                    <div>
-                        <b>Tipo de Movimiento:</b> @Model.nombreTipoMovimiento
-                    </div>
-                    <div>
-                        <b>Descripción:</b> @Model.movimiento.Descripcion
-                    </div>
-                    <div>
-                        <b>Monto:</b> @Model.movimiento.Monto.ToString("C0", new CultureInfo("es-CR"))
-                    </div>
-                    <div>
-                        <b>Fecha:</b> @Model.movimiento.Fecha.ToString("dd/MM/yyyy")
-                    </div>
-                </div>
-            </div>
-            <form method="post">
-                <input type="hidden" asp-for="movimiento.IdMovimiento" />
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-                <a asp-page="./Index" class="btn btn-secondary">Cancelar</a>
-            </form>
-        }
-    </div>
+						@if (Model.movimiento != null)
+						{
+							<dl class="row">
+								<dt class="col-sm-3 text-secondary">Cuenta</dt>
+								<dd class="col-sm-9">@Model.nombreCuenta</dd>
+								<dt class="col-sm-3 text-secondary">Categoría</dt>
+								<dd class="col-sm-9">@Model.nombreCategoria</dd>
+								<dt class="col-sm-3 text-secondary">Tipo</dt>
+								<dd class="col-sm-9"><span class="badge bg-primary">@Model.nombreTipoMovimiento</span></dd>
+								<dt class="col-sm-3 text-secondary">Descripción</dt>
+								<dd class="col-sm-9">@Model.movimiento.Descripcion</dd>
+								<dt class="col-sm-3 text-secondary">Monto</dt>
+								<dd class="col-sm-9"><span class="badge bg-@(Model.movimiento.Monto >= 0 ? "success" : "danger")">@Model.movimiento.Monto.ToString("C0", new CultureInfo("es-CR"))</span></dd>
+								<dt class="col-sm-3 text-secondary">Fecha</dt>
+								<dd class="col-sm-9">@Model.movimiento.Fecha.ToString("dd/MM/yyyy HH:mm")</dd>
+							</dl>
+
+							<form method="post" class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-2">
+								<input type="hidden" asp-for="movimiento.IdMovimiento" />
+								<button type="submit" class="btn btn-outline-danger d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-trash"></i>
+									<span>Eliminar</span>
+								</button>
+								<a asp-page="/Movimiento/Index" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-x-circle"></i>
+									<span>Cancelar</span>
+								</a>
+							</form>
+						}
+						else
+						{
+							<div class="alert alert-warning" role="alert">No se encontró el movimiento.</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>

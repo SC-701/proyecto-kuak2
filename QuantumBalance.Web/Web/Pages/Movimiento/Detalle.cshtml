@@ -2,44 +2,67 @@
 @using System.Globalization
 @model Web.Pages.Movimientos.DetalleModel
 @{
+	ViewData["Title"] = "Detalle de Movimiento";
 }
-<header class="subhead">
-</header>
 
-<section class="page-section" id="detalle" style="background-color: #ffffff">
-    <div class="container" style="max-width: fit-content;">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Detalle del movimiento</h2>
-            <h3 class="section-subheading text-muted">Información completa del movimiento seleccionado.</h3>
-        </div>
+<section class="feature-section pt-0 py-4" style="color: #f1f5f9;">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-xl-7">
+				<div class="card qb-glass p-3 p-md-4" style="border-radius: 16px;">
+					<span class="qb-gradient-border" aria-hidden="true"></span>
+					<div class="card-body" style="padding: 1.5rem 1.5rem;">
+						<div class="d-flex align-items-center justify-content-center mb-3">
+							<div class="qb-icon-badge" aria-hidden="true"><i class="bi bi-arrow-left-right"></i></div>
+						</div>
+						<h1 class="h3 text-center fw-700 mb-4">Detalle de movimiento</h1>
 
-        @if (Model.movimiento != null)
-        {
-            <div class="card mb-3 w-100 shadow-sm">
-                <div class="card-body">
-                    <div>
-                        <b>Cuenta:</b> @Model.nombreCuenta
-                    </div>
-                    <div>
-                        <b>Categoría:</b> @Model.nombreCategoria
-                    </div>
-                    <div>
-                        <b>Tipo de Movimiento:</b> @Model.nombreTipoMovimiento
-                    </div>
-                    <div>
-                        <b>Descripción:</b> @Model.movimiento.Descripcion
-                    </div>
-                    <div>
-                        <b>Monto:</b> @Model.movimiento.Monto.ToString("C0", new CultureInfo("es-CR"))
-                    </div>
-                    <div>
-                        <b>Fecha:</b> @Model.movimiento.Fecha.ToString("dd/MM/yyyy")
-                    </div>
-                </div>
-            </div>
-        }
-        <a class="btn btn-primary" asp-page="./Index">Regresar</a>
-        <a class="btn btn-warning" asp-page="./Editar" asp-route-id="@Model.movimiento.IdMovimiento">Editar</a>
-        <a class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@Model.movimiento.IdMovimiento">Eliminar</a>
-    </div>
+						@if (Model.movimiento == null)
+						{
+							<div class="alert alert-warning" role="alert">
+								No se encontró el movimiento solicitado.
+							</div>
+						}
+						else
+						{
+							<dl class="row mb-0" style="row-gap: .25rem;">
+								<dt class="col-sm-4 text-secondary">Cuenta</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;">@Model.nombreCuenta</dd>
+
+								<dt class="col-sm-4 text-secondary">Categoría</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;">@Model.nombreCategoria</dd>
+
+								<dt class="col-sm-4 text-secondary">Tipo</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;"><span class="badge bg-primary">@Model.nombreTipoMovimiento</span></dd>
+
+								<dt class="col-sm-4 text-secondary">Descripción</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;">@Model.movimiento.Descripcion</dd>
+
+								<dt class="col-sm-4 text-secondary">Monto</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;"><span class="badge bg-@(Model.movimiento.Monto >= 0 ? "success" : "danger")">@Model.movimiento.Monto.ToString("C0", new CultureInfo("es-CR"))</span></dd>
+
+								<dt class="col-sm-4 text-secondary">Fecha</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;">@Model.movimiento.Fecha.ToString("dd/MM/yyyy HH:mm")</dd>
+							</dl>
+
+							<div class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-4" style="margin-top: 1.5rem;">
+								<a asp-page="/Movimiento/Editar" asp-route-id="@Model.movimiento.IdMovimiento" class="btn btn-outline-primary d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-pencil-square"></i>
+									<span>Editar</span>
+								</a>
+								<a asp-page="/Movimiento/Index" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-arrow-left-circle"></i>
+									<span>Volver</span>
+								</a>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}

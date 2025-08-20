@@ -1,39 +1,59 @@
 ﻿@page
 @model Web.Pages.Categoria.DetalleModel
 @{
-    ViewData["Title"] = "Detalle de Categoría";
+	ViewData["Title"] = "Detalle de Categoría";
 }
 
-<header class="subhead">
-</header>
+<section class="feature-section pt-0 py-4" style="color: #f1f5f9;">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-lg-8 col-xl-7">
+				<div class="card qb-glass p-3 p-md-4" style="border-radius: 16px;">
+					<span class="qb-gradient-border" aria-hidden="true"></span>
+					<div class="card-body" style="padding: 1.5rem 1.5rem;">
+						<div class="d-flex align-items-center justify-content-center mb-3">
+							<div class="qb-icon-badge" aria-hidden="true"><i class="bi bi-tags"></i></div>
+						</div>
+						<h1 class="h3 text-center fw-700 mb-4">Detalle de categoría</h1>
 
-<section class="page-section" id="services" style= "background-color: #ffffff";>
-    <div class="container" style="max-width: fit-content;">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Detalle de la Categoría</h2>
-            <h3 class="section-subheading text-muted">Información de la categoría seleccionada.</h3>
-        </div>
-        @if (Model.Categoria != null)
-        {
-            <div class="card mb-3 w-100 shadow-sm">
-                <div class="row g-0">
-                    <div class="col-md-8">
-                        <div class="card-body">
-                            <h5 class="card-title">@Html.DisplayFor(m => m.Categoria.Nombre)</h5>
-                            <p class="card-text">
-                                <div>
-                                    <b>@Html.DisplayNameFor(m => m.Categoria.Descripcion): </b>
-                                    @Html.DisplayFor(m => m.Categoria.Descripcion)
-                                </div>
-                            </p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        }
-        <a class="btn btn-secondary" asp-page="./Index">Regresar</a>
-        <a class="btn btn-warning" asp-page="./Editar" asp-route-id="@Model.Categoria.IdCategoria">Editar</a>
-        <a class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@Model.Categoria.IdCategoria">Eliminar</a>
-    </div>
+						@if (Model.Categoria == null)
+						{
+							<div class="alert alert-warning" role="alert">
+								No se encontró la categoría solicitada.
+							</div>
+						}
+						else
+						{
+							<dl class="row mb-0" style="row-gap: .25rem;">
+								<dt class="col-sm-4 text-secondary">Nombre</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;">@Model.Categoria.Nombre</dd>
+
+								<dt class="col-sm-4 text-secondary">Descripción</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;">@Model.Categoria.Descripcion</dd>
+
+								<dt class="col-sm-4 text-secondary">ID</dt>
+								<dd class="col-sm-8" style="margin-bottom: .5rem;"><span class="badge bg-secondary">@Model.Categoria.IdCategoria</span></dd>
+							</dl>
+
+							<div class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-4" style="margin-top: 1.5rem;">
+								<a asp-page="/Categoria/Editar" asp-route-id="@Model.Categoria.IdCategoria" class="btn btn-outline-primary d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-pencil-square"></i>
+									<span>Editar</span>
+								</a>
+								<a asp-page="/Categoria/Index" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-arrow-left-circle"></i>
+									<span>Volver</span>
+								</a>
+							</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>
+
+@section Scripts {
+	<partial name="_ValidationScriptsPartial" />
+}
 

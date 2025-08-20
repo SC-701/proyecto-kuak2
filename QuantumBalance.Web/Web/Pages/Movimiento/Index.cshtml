@@ -1,44 +1,78 @@
 ﻿@page
 @model Web.Pages.Movimientos.IndexModel
 @{
+	ViewData["Title"] = "Movimientos";
 }
-<header class="subhead">
-</header>
 
-<section class="page-section bg-light" id="principal">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Listado de Movimientos</h2>
-            <h3 class="section-subheading text-muted">Detalle de movimientos registrados.</h3>
-        </div>
-        <div class="text-center mb-4">
-            <a type="button" class="btn btn-group-lg btn-success btn-lg" asp-page="./Agregar"><i class="bi bi-plus-square"></i> Agregar</a>
-        </div>
-        <div class="row">
-            @if (Model.Movimientos != null)
-            {
-                @foreach (var movimiento in Model.Movimientos)
-                {
-                    <div class="col-md-4 mb-4">
-                        <div class="card">
-                            <div class="card-body">
-                                <h5 class="card-title"><i class="bi bi-cash-coin"></i> @Html.DisplayFor(modelo => movimiento.Descripcion)</h5>
-                                <h6 class="card-subtitle mb-2 text-muted">₡@Html.DisplayFor(modelo => movimiento.Monto)</h6>
-                                <p class="card-text">Realizado el @Html.DisplayFor(modelo => movimiento.Fecha)</p>
-                                <a type="button" class="btn btn-primary" asp-page="./Detalle" asp-route-id="@movimiento.IdMovimiento"><i class="bi bi-info-square"></i> Detalle</a>
-                                <a type="button" class="btn btn-warning" asp-page="./Editar" asp-route-id="@movimiento.IdMovimiento"><i class="bi bi-pencil-square"></i> Editar</a>
-                                <a type="button" class="btn btn-danger" asp-page="./Eliminar" asp-route-id="@movimiento.IdMovimiento"><i class="bi bi-trash3-fill"></i> Eliminar</a>
-                            </div>
-                        </div>
-                    </div>
-                }
-            }
-            else
-            {
-                <div class="alert alert-warning" role="alert">
-                    No hay movimientos disponibles.
-                </div>
-            }
-        </div>
-    </div>
+<section class="landing-hero qb-hero-compact mb-4">
+	<div class="container text-center qb-hero-content">
+		<div class="d-flex justify-content-center mb-3">
+			<div class="qb-icon-badge" aria-hidden="true"><i class="bi bi-arrow-left-right"></i></div>
+		</div>
+		<h1 class="qb-hero-title mb-2">Tus Movimientos</h1>
+		<p class="qb-hero-subtitle">Visualiza y administra tus movimientos financieros con precisión cuántica.</p>
+		<a asp-page="/Movimiento/Agregar" class="btn btn-outline-light btn-lg d-inline-flex align-items-center gap-2 mt-3" aria-label="Agregar un nuevo movimiento">
+			<i class="bi bi-plus-circle"></i>
+			<span>Agregar movimiento</span>
+		</a>
+	</div>
+    
+</section>
+
+<section class="feature-section pt-0 py-4">
+	<div class="container">
+		@if (Model.Movimientos == null || !Model.Movimientos.Any())
+		{
+			<div class="row">
+				<div class="col-lg-6 col-xl-5 mx-auto">
+					<div class="qb-glass p-4 p-md-5 text-center mb-3">
+						<span class="qb-gradient-border" aria-hidden="true"></span>
+						<h2 class="h4 fw-700 mb-2">Aún no tienes movimientos</h2>
+						<p class="text-secondary mb-4">Registra tu primer movimiento para empezar a controlar tus finanzas.</p>
+						<a asp-page="/Movimiento/Agregar" class="btn btn-outline-primary d-inline-flex align-items-center gap-2" aria-label="Crear tu primer movimiento">
+							<i class="bi bi-plus-circle"></i>
+							<span>Crear movimiento</span>
+						</a>
+					</div>
+				</div>
+			</div>
+		}
+		else
+		{
+			<div class="row row-cols-1 row-cols-sm-2 row-cols-lg-3 g-4">
+				@foreach (var m in Model.Movimientos)
+				{
+					<div class="col">
+						<article class="card qb-glass h-100">
+							<span class="qb-gradient-border" aria-hidden="true"></span>
+							<div class="card-body d-flex flex-column p-3 p-md-4">
+								<div class="d-flex align-items-center justify-content-between mb-2">
+									<h3 class="h5 mb-0 text-white">@m.Descripcion</h3>
+									<span class="badge bg-@(m.Monto >= 0 ? "success" : "danger")">₡@m.Monto.ToString("N0")</span>
+								</div>
+								<p class="card-text text-muted flex-grow-1 mb-2">Realizado el @m.Fecha.ToString("dd/MM/yyyy")</p>
+								<p class="card-text text-muted mb-0 small">@m.Fecha.ToString("hh:mm tt")</p>
+							</div>
+							<div class="card-footer bg-transparent border-0 pt-0 pb-3 px-3">
+								<div class="d-flex flex-wrap gap-2">
+									<a asp-page="/Movimiento/Detalle" asp-route-id="@m.IdMovimiento" class="btn btn-outline-light btn-sm d-inline-flex align-items-center gap-1" aria-label="Ver detalles de @m.Descripcion">
+										<i class="bi bi-eye"></i>
+										<span>Ver</span>
+									</a>
+									<a asp-page="/Movimiento/Editar" asp-route-id="@m.IdMovimiento" class="btn btn-outline-primary btn-sm d-inline-flex align-items-center gap-1" aria-label="Editar @m.Descripcion">
+										<i class="bi bi-pencil-square"></i>
+										<span>Editar</span>
+									</a>
+									<a asp-page="/Movimiento/Eliminar" asp-route-id="@m.IdMovimiento" class="btn btn-outline-danger btn-sm d-inline-flex align-items-center gap-1" aria-label="Eliminar @m.Descripcion">
+										<i class="bi bi-trash"></i>
+										<span>Eliminar</span>
+									</a>
+								</div>
+							</div>
+						</article>
+					</div>
+				}
+			</div>
+		}
+	</div>
 </section>

@@ -4,67 +4,239 @@
     ViewData["Title"] = "Editar Movimiento";
 }
 
-<header class="subhead">
-</header>
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8">
+            <!-- Header -->
+            <div class="text-center mb-4">
+                <div class="icon-circle mb-3">
+                    <i class="bi bi-pencil-square"></i>
+                </div>
+                <h1 class="form-title">Editar Movimiento</h1>
+                <p class="form-subtitle">Modifica la información del movimiento</p>
+            </div>
 
-<section class="page-section bg-light" id="principal">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Editar Movimiento</h2>
-            <h3 class="section-subheading text-muted">Modifique la información requerida.</h3>
-        </div>
+            <!-- Form Card -->
+            <div class="form-card">
+                <form method="post" autocomplete="off" novalidate>
+                    <div asp-validation-summary="ModelOnly" class="alert alert-danger mb-4" role="alert"></div>
 
-        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto ">
-            <form method="post">
-                <div class="form-group">
-                    <label for="cuentas">Cuenta</label>
-                    <select asp-for="movimiento.IdCuenta" class="form-select" asp-items="Model.cuentas">
-                        <option value="">Seleccione una cuenta</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="movimiento.IdCuenta"></span>
-                </div>
-                <div class="form-group">
-                    <label for="categorias">Categoría</label>
-                    <select asp-for="movimiento.IdCategoria" class="form-select" asp-items="Model.categorias">
-                        <option value="">Seleccione una categoría</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="movimiento.IdCategoria"></span>
-                </div>
-                <div class="form-group">
-                    <label for="tipos">Tipo de Movimiento</label>
-                    <select asp-for="movimiento.IdTipoMovimiento" class="form-select" asp-items="Model.tiposMovimiento">
-                        <option value="">Seleccione un tipo</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="movimiento.IdTipoMovimiento"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="movimiento.Descripcion"></label>
-                    <input class="form-control" asp-for="movimiento.Descripcion" />
-                    <span class="text-danger" asp-validation-for="movimiento.Descripcion"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="movimiento.Monto"></label>
-                    <input class="form-control" type="number" asp-for="movimiento.Monto" />
-                    <span class="text-danger" asp-validation-for="movimiento.Monto"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="movimiento.Fecha"></label>
-                    <input type="datetime-local" class="form-control" asp-for="movimiento.Fecha" />
-                    <span class="text-danger" asp-validation-for="movimiento.Fecha"></span>
-                </div>
-                <div class="text-danger" asp-validation-summary="All"></div>
-                <div class="form-group">
-                    <a class="btn btn-primary" asp-page="./Index">Regresar</a>
-                    <input type="submit" value="Editar" class="btn btn-warning" />
-                </div>
-                <input type="hidden" asp-for="movimiento.IdMovimiento" />
-            </form>
+                    <input type="hidden" asp-for="movimiento.IdMovimiento" />
+
+                    <!-- Cuenta -->
+                    <div class="form-group">
+                        <label asp-for="movimiento.IdCuenta" class="form-label">
+                            <i class="bi bi-wallet2"></i> Cuenta
+                        </label>
+                        <select asp-for="movimiento.IdCuenta" class="form-select" asp-items="Model.cuentas">
+                            <option value="">Seleccione una cuenta</option>
+                        </select>
+                        <span asp-validation-for="movimiento.IdCuenta" class="text-danger"></span>
+                    </div>
+
+                    <!-- Categoría -->
+                    <div class="form-group">
+                        <label asp-for="movimiento.IdCategoria" class="form-label">
+                            <i class="bi bi-tags"></i> Categoría
+                        </label>
+                        <select asp-for="movimiento.IdCategoria" class="form-select" asp-items="Model.categorias">
+                            <option value="">Seleccione una categoría</option>
+                        </select>
+                        <span asp-validation-for="movimiento.IdCategoria" class="text-danger"></span>
+                    </div>
+
+                    <!-- Tipo de Movimiento -->
+                    <div class="form-group">
+                        <label asp-for="movimiento.IdTipoMovimiento" class="form-label">
+                            <i class="bi bi-arrow-left-right"></i> Tipo de Movimiento
+                        </label>
+                        <select asp-for="movimiento.IdTipoMovimiento" class="form-select" asp-items="Model.tiposMovimiento">
+                            <option value="">Seleccione un tipo</option>
+                        </select>
+                        <span asp-validation-for="movimiento.IdTipoMovimiento" class="text-danger"></span>
+                    </div>
+
+                    <!-- Descripción -->
+                    <div class="form-group">
+                        <label asp-for="movimiento.Descripcion" class="form-label">
+                            <i class="bi bi-card-text"></i> Descripción
+                        </label>
+                        <input asp-for="movimiento.Descripcion" class="form-control" placeholder="Describe el movimiento..." />
+                        <span asp-validation-for="movimiento.Descripcion" class="text-danger"></span>
+                    </div>
+
+                    <!-- Monto -->
+                    <div class="form-group">
+                        <label asp-for="movimiento.Monto" class="form-label">
+                            <i class="bi bi-currency-dollar"></i> Monto
+                        </label>
+                        <input asp-for="movimiento.Monto" type="number" class="form-control" placeholder="0.00" />
+                        <span asp-validation-for="movimiento.Monto" class="text-danger"></span>
+                    </div>
+
+                    <!-- Fecha -->
+                    <div class="form-group">
+                        <label asp-for="movimiento.Fecha" class="form-label">
+                            <i class="bi bi-calendar-event"></i> Fecha
+                        </label>
+                        <input type="datetime-local" asp-for="movimiento.Fecha" class="form-control" />
+                        <span asp-validation-for="movimiento.Fecha" class="text-danger"></span>
+                    </div>
+
+                    <!-- Botones -->
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="bi bi-check-circle"></i> Actualizar Movimiento
+                        </button>
+                        <a asp-page="/Movimiento/Index" class="btn btn-outline-secondary">
+                            <i class="bi bi-arrow-left"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
-</section>
+</div>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }
+
+<style>
+    /* Contenedor principal */
+    .container {
+        margin-top: 84px; /* espacio para navbar fijo */
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    /* Icono circular del header */
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+        font-size: 24px;
+        color: white;
+    }
+
+    /* Títulos */
+    .form-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #f1f5f9;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-subtitle {
+        color: #94a3b8;
+        font-size: 1.1rem;
+    }
+
+    /* Card del formulario */
+    .form-card {
+        background: rgba(17, 24, 39, 0.8);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        backdrop-filter: blur(10px);
+    }
+
+    /* Grupos de campos */
+    .form-group { margin-bottom: 1.25rem; }
+
+    /* Labels con iconos */
+    .form-label {
+        color: #e2e8f0;
+        font-weight: 600;
+        margin-bottom: 0.5rem;
+    }
+
+    .form-label i {
+        color: #6366f1;
+        margin-right: 0.5rem;
+    }
+
+    /* Inputs y selects */
+    .form-control,
+    .form-select {
+        background: rgba(30, 41, 59, 0.8);
+        border: 1px solid rgba(71, 85, 105, 0.5);
+        color: #e2e8f0;
+        border-radius: 8px;
+        padding: 0.75rem 0.875rem;
+    }
+
+    .form-control:focus, .form-select:focus {
+        background: rgba(30, 41, 59, 0.9);
+        border-color: #6366f1;
+        box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        color: #f1f5f9;
+    }
+
+    .form-control::placeholder {
+        color: #64748b;
+    }
+
+    /* Texto de ayuda */
+    .form-text {
+        color: #94a3b8;
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Errores de validación */
+    .text-danger {
+        font-size: 0.875rem;
+        margin-top: 0.25rem;
+    }
+
+    /* Botones */
+    .form-actions {
+        display: flex;
+        gap: 0.75rem;
+        justify-content: center;
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255, 255, 255, 0.08);
+    }
+
+    .btn {
+        padding: 0.7rem 1.25rem;
+        border-radius: 8px;
+        font-weight: 600;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        transition: all 0.2s;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, #6366f1, #8b5cf6);
+        border: none;
+        color: white;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+    }
+
+    .btn-outline-secondary {
+        background: transparent;
+        border: 1px solid rgba(148, 163, 184, 0.3);
+        color: #94a3b8;
+    }
+
+    .btn-outline-secondary:hover {
+        background: rgba(148, 163, 184, 0.1);
+        border-color: #94a3b8;
+        color: #e2e8f0;
+    }
+
+    /* Sin media queries: estilos base aplican en todos los tamaños */
+</style>
