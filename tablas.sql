@@ -30,7 +30,7 @@ CREATE TABLE Cuenta (
     nombre VARCHAR(255),
     descripcion VARCHAR(255),
     tipo VARCHAR(255),
-    FOREIGN KEY (idusuario) REFERENCES Usuario(idusuario)
+    FOREIGN KEY (idusuario) REFERENCES Usuarios(id)
 );
 
 CREATE TABLE Movimiento (
