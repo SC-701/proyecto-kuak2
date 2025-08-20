@@ -4,7 +4,7 @@
     ViewData["Title"] = "Editar Cuenta";
 }
 
-<section class="feature-section pt-0 py-4">
+<section class="feature-section pt-0 py-4" style="color: #f1f5f9;">
     <div class="container">
         <div class="row justify-content-center">
             <div class="col-md-10 col-lg-8 col-xl-7">
@@ -21,15 +21,6 @@
                             <div asp-validation-summary="ModelOnly" class="alert alert-danger qb-alert-enhanced mb-3" role="alert"></div>
 
                             <input type="hidden" asp-for="cuentaRequest.IdCuenta" />
-
-                            <div class="mb-3 qb-field-group">
-                                <label asp-for="cuentaRequest.IdUsuario" class="form-label qb-field-label d-flex align-items-center gap-2">
-                                    <span class="qb-field-icon"><i class="bi bi-person"></i></span>
-                                    <span>Usuario</span>
-                                </label>
-                                <input asp-for="cuentaRequest.IdUsuario" class="form-control qb-input qb-input-secondary" readonly />
-                                <span asp-validation-for="cuentaRequest.IdUsuario" class="text-danger qb-validation-error"></span>
-                            </div>
 
                             <div class="mb-3 qb-field-group">
                                 <label asp-for="cuentaRequest.Nombre" class="form-label qb-field-label d-flex align-items-center gap-2">
@@ -67,7 +58,7 @@
                                     <i class="bi bi-save"></i>
                                     <span>Guardar</span>
                                 </button>
-                                <a asp-page="/Cuentas/Detalle" asp-route-IdCuenta="@Model.cuentaRequest?.IdCuenta" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+                                <a asp-page="/Cuentas/Index" asp-route-IdCuenta="@Model.cuentaRequest?.IdCuenta" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
                                     <i class="bi bi-x-circle"></i>
                                     <span>Cancelar</span>
                                 </a>
