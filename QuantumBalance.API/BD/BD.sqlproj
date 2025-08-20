@@ -98,5 +98,6 @@
     <Build Include="dbo\Stored Procedures\sp_TipoMovimiento_Mostrar.sql" />
     <Build Include="dbo\Stored Procedures\sp_CuentaCategoria_Mostrar.sql" />
     <Build Include="dbo\Stored Procedures\sp_CuentaCategoria_Crear.sql" />
+    <Build Include="dbo\Stored Procedures\sp_CuentaCategoria_Eliminar.sql" />
   </ItemGroup>
 </Project>

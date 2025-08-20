@@ -1,8 +1,16 @@
-﻿CREATE PROCEDURE sp_CuentaCategoria_Crear
+﻿CREATE PROCEDURE [dbo].[sp_CuentaCategoria_Crear]
     @idcategoria UNIQUEIDENTIFIER,
     @idcuenta UNIQUEIDENTIFIER
 AS
 BEGIN
-    INSERT INTO CuentaCategoria (idcategoria, idcuenta)
-    VALUES (@idcategoria, @idcuenta);
+    IF NOT EXISTS (
+        SELECT 1
+        FROM CuentaCategoria
+        WHERE idcategoria = @idcategoria
+          AND idcuenta = @idcuenta
+    )
+    BEGIN
+        INSERT INTO CuentaCategoria (idcategoria, idcuenta)
+        VALUES (@idcategoria, @idcuenta);
+    END
 END;
