@@ -1,44 +1,51 @@
 ﻿@page
-@model Web.Pages.Cuentas.EliminarModel
+@model Web.Pages.CuentaVista.Eliminar
 @{
 }
-<header class="subhead">
-</header>
 
-<section class="page-section" id="eliminar">
-    <div class="container" style="max-width: fit-content;">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Confirmación de Eliminación</h2>
-            <h3 class="section-subheading text-muted">¿Está seguro que desea eliminar la siguiente cuenta?</h3>
-        </div>
+<section class="feature-section pt-0 py-4">
+	<div class="container">
+		<div class="row justify-content-center">
+			<div class="col-md-10 col-lg-8 col-xl-7">
+				<div class="card qb-glass p-3 p-md-4">
+					<span class="qb-gradient-border" aria-hidden="true"></span>
+					<div class="card-body">
+						<div class="text-center mb-3">
+							<div class="qb-icon-badge mb-2" aria-hidden="true"><i class="bi bi-exclamation-triangle"></i></div>
+							<h1 class="h4 fw-700 mb-1">¿Eliminar esta cuenta?</h1>
+							<p class="text-secondary">Esta acción no se puede deshacer.</p>
+						</div>
 
-        @if (!string.IsNullOrEmpty(Model.ErrorMessage))
-        {
-            <div class="alert alert-danger">
-                @Model.ErrorMessage
-            </div>
-        }
+						@if (Model.cuenta != null)
+						{
+							<dl class="row">
+								<dt class="col-sm-3 text-secondary">Nombre</dt>
+								<dd class="col-sm-9">@Model.cuenta.Nombre</dd>
+								<dt class="col-sm-3 text-secondary">Descripción</dt>
+								<dd class="col-sm-9">@Model.cuenta.Descripcion</dd>
+								<dt class="col-sm-3 text-secondary">Tipo</dt>
+								<dd class="col-sm-9"><span class="badge bg-primary">@Model.cuenta.Tipo</span></dd>
+							</dl>
 
-        @if (Model.cuenta != null)
-        {
-            <div class="card mb-3 w-100 shadow-sm">
-                <div class="card-body">
-                    <div>
-                        <b>Nombre:</b> @Model.cuenta.Nombre
-                    </div>
-                    <div>
-                        <b>Descripción:</b> @Model.cuenta.Descripcion
-                    </div>
-                    <div>
-                        <b>Tipo:</b> @Model.cuenta.Tipo
-                    </div>
-                </div>
-            </div>
-            <form method="post">
-                <input type="hidden" asp-for="cuenta.IdCuenta" />
-                <button type="submit" class="btn btn-danger">Eliminar</button>
-                <a asp-page="./Index" class="btn btn-secondary">Cancelar</a>
-            </form>
-        }
-    </div>
+							<form method="post" class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-2">
+								<input type="hidden" name="IdCuenta" value="@Model.cuenta.IdCuenta" />
+								<button type="submit" class="btn btn-outline-danger d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-trash"></i>
+									<span>Eliminar</span>
+								</button>
+								<a asp-page="/Cuentas/Index" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+									<i class="bi bi-x-circle"></i>
+									<span>Cancelar</span>
+								</a>
+							</form>
+						}
+						else
+						{
+							<div class="alert alert-warning" role="alert">No se encontró la cuenta.</div>
+						}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 </section>

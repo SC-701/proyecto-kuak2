@@ -1,57 +1,85 @@
-﻿@page
-@model Web.Pages.Cuentas.EditarModel
+﻿@page "{IdCuenta?}"
+@model Web.Pages.Cuentas.Editar
 @{
     ViewData["Title"] = "Editar Cuenta";
 }
 
-<h2>Editar Cuenta</h2>
-<header class="subhead">
-</header>
-
-<section class="page-section bg-light" id="principal">
+<section class="feature-section pt-0 py-4">
     <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Editar Cuenta</h2>
-            <h3 class="section-subheading text-muted">Modifique la información requerida.</h3>
-        </div>
+        <div class="row justify-content-center">
+            <div class="col-md-10 col-lg-8 col-xl-7">
+                <div class="card qb-glass qb-form-card p-3 p-md-4" style="border-radius: 16px;">
+                    <span class="qb-gradient-border" aria-hidden="true"></span>
+                    <div class="card-body" style="padding: 1.5rem 1.5rem;">
+                        <div class="text-center mb-3">
+                            <div class="qb-form-icon mb-2"><i class="bi bi-pencil-square"></i></div>
+                            <h1 class="qb-form-title mb-2">Editar cuenta</h1>
+                            <p class="qb-form-subtitle text-secondary mb-4">Actualiza la información de tu cuenta.</p>
+                        </div>
 
-        <div class="col-xl-5 col-lg-6 col-md-8 col-sm-10 mx-auto ">
-            <form method="post">
-                <div class="form-group">
-                    <label for="usuarios">Usuario</label>
-                    <select asp-for="cuenta.IdUsuario" class="form-select" asp-items="Model.usuarios">
-                        <option value="">Seleccione un usuario</option>
-                    </select>
-                    <span class="text-danger" asp-validation-for="cuenta.IdUsuario"></span>
+                        <form method="post" autocomplete="off" class="needs-validation" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger qb-alert-enhanced mb-3" role="alert"></div>
+
+                            <input type="hidden" asp-for="cuentaRequest.IdCuenta" />
+
+                            <div class="mb-3 qb-field-group">
+                                <label asp-for="cuentaRequest.IdUsuario" class="form-label qb-field-label d-flex align-items-center gap-2">
+                                    <span class="qb-field-icon"><i class="bi bi-person"></i></span>
+                                    <span>Usuario</span>
+                                </label>
+                                <input asp-for="cuentaRequest.IdUsuario" class="form-control qb-input qb-input-secondary" readonly />
+                                <span asp-validation-for="cuentaRequest.IdUsuario" class="text-danger qb-validation-error"></span>
+                            </div>
+
+                            <div class="mb-3 qb-field-group">
+                                <label asp-for="cuentaRequest.Nombre" class="form-label qb-field-label d-flex align-items-center gap-2">
+                                    <span class="qb-field-icon"><i class="bi bi-wallet2"></i></span>
+                                    <span>Nombre</span>
+                                </label>
+                                <input asp-for="cuentaRequest.Nombre" class="form-control qb-input qb-input-primary" />
+                                <span asp-validation-for="cuentaRequest.Nombre" class="text-danger qb-validation-error"></span>
+                            </div>
+
+                            <div class="mb-3 qb-field-group">
+                                <label asp-for="cuentaRequest.Descripcion" class="form-label qb-field-label d-flex align-items-center gap-2">
+                                    <span class="qb-field-icon"><i class="bi bi-card-text"></i></span>
+                                    <span>Descripción</span>
+                                </label>
+                                <textarea asp-for="cuentaRequest.Descripcion" class="form-control qb-input qb-input-secondary" rows="3"></textarea>
+                                <span asp-validation-for="cuentaRequest.Descripcion" class="text-danger qb-validation-error"></span>
+                            </div>
+
+                            <div class="mb-3 qb-field-group">
+                                <label asp-for="cuentaRequest.Tipo" class="form-label qb-field-label d-flex align-items-center gap-2">
+                                    <span class="qb-field-icon"><i class="bi bi-sliders2"></i></span>
+                                    <span>Tipo</span>
+                                </label>
+                                <select asp-for="cuentaRequest.Tipo" class="form-select qb-input qb-input-accent">
+                                    <option value="">Seleccione un tipo</option>
+                                    <option value="Debito">Débito</option>
+                                    <option value="Credito">Crédito</option>
+                                </select>
+                                <span asp-validation-for="cuentaRequest.Tipo" class="text-danger qb-validation-error"></span>
+                            </div>
+
+                            <div class="qb-actions-section d-flex flex-column flex-sm-row gap-2 mt-1" style="margin-top: 1rem;">
+                                <button type="submit" class="btn btn-outline-primary d-inline-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-save"></i>
+                                    <span>Guardar</span>
+                                </button>
+                                <a asp-page="/Cuentas/Detalle" asp-route-IdCuenta="@Model.cuentaRequest?.IdCuenta" class="btn btn-outline-light d-inline-flex align-items-center justify-content-center gap-2">
+                                    <i class="bi bi-x-circle"></i>
+                                    <span>Cancelar</span>
+                                </a>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="cuenta.Nombre"></label>
-                    <input class="form-control" asp-for="cuenta.Nombre" />
-                    <span class="text-danger" asp-validation-for="cuenta.Nombre"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="cuenta.Descripcion"></label>
-                    <input class="form-control" asp-for="cuenta.Descripcion" />
-                    <span class="text-danger" asp-validation-for="cuenta.Descripcion"></span>
-                </div>
-                <div class="form-group">
-                    <label class="control-label" asp-for="cuenta.Tipo"></label>
-                    <input class="form-control" asp-for="cuenta.Tipo" />
-                    <span class="text-danger" asp-validation-for="cuenta.Tipo"></span>
-                </div>
-                <div class="text-danger" asp-validation-summary="All"></div>
-                <div class="form-group">
-                    <a class="btn btn-primary" asp-page="./Index">Regresar</a>
-                    <input type="submit" value="Editar" class="btn btn-warning" />
-                </div>
-                <input type="hidden" asp-for="cuenta.IdCuenta" />
-            </form>
+            </div>
         </div>
     </div>
 </section>
 
 @section Scripts {
-    @{
-        await Html.RenderPartialAsync("_ValidationScriptsPartial");
-    }
+    <partial name="_ValidationScriptsPartial" />
 }

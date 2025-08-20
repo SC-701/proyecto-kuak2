@@ -5,60 +5,82 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using System.Net;
 using System.Text.Json;
+using System.Linq;
 
-namespace Web.Pages.Cuentas
+namespace Web.Pages.CuentaVista
 {
     [Authorize(Roles = "1")]
-    public class EliminarModel : PageModel
+    public class Eliminar : PageModel
     {
-        private IConfiguracion _configuracion;
+        private readonly IConfiguracion _configuracion;
+
+        [BindProperty]
         public CuentaResponse cuenta { get; set; } = default!;
-        public string ErrorMessage { get; set; } = string.Empty;
-        public EliminarModel(IConfiguracion configuracion)
+
+        public Eliminar(IConfiguracion configuracion)
         {
             _configuracion = configuracion;
         }
 
-        public async Task OnGet(Guid? id)
+        public async Task<IActionResult> OnGetAsync(Guid? IdCuenta)
         {
-            if (id == null) return;
+            if (IdCuenta == null || IdCuenta == Guid.Empty)
+            {
+                return NotFound();
+            }
+
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "ObtenerCuentaPorId");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
-            var respuesta = await cliente.GetAsync(string.Format(endpoint, id));
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue(
+                "Bearer",
+                HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value
+            );
+
+            var solicitud = new HttpRequestMessage(HttpMethod.Get, string.Format(endpoint, IdCuenta));
+            var respuesta = await cliente.SendAsync(solicitud);
+
             if (respuesta.StatusCode == HttpStatusCode.OK)
             {
-                var resultado = await respuesta.Content.ReadAsStringAsync();
+                var json = await respuesta.Content.ReadAsStringAsync();
                 var opciones = new JsonSerializerOptions { PropertyNameCaseInsensitive = true };
-                cuenta = JsonSerializer.Deserialize<CuentaResponse>(resultado, opciones)!;
+                var cuentaApi = JsonSerializer.Deserialize<CuentaResponse>(json, opciones);
+                if (cuentaApi == null)
+                {
+                    return NotFound();
+                }
+                cuenta = cuentaApi;
+                return Page();
             }
+
+            if (respuesta.StatusCode == HttpStatusCode.NotFound)
+            {
+                return NotFound();
+            }
+
+            respuesta.EnsureSuccessStatusCode();
+            return Page();
         }
 
-        public async Task<ActionResult> OnPost(Guid? id)
+        public async Task<IActionResult> OnPost(Guid? IdCuenta)
         {
-            if (id == Guid.Empty)
+            if (IdCuenta == null || IdCuenta == Guid.Empty)
                 return NotFound();
 
-            if (!ModelState.IsValid)
-                return Page();
+            // Nota: No validamos ModelState aquí porque sólo necesitamos el IdCuenta para eliminar
+            // y el modelo Cuenta tiene campos [Required] que no se envían en este formulario.
 
             string endpoint = _configuracion.ObtenerMetodo("ApiEndPoints", "EliminarCuenta");
             var cliente = new HttpClient();
-            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault().Value);
-            var solicitud = new HttpRequestMessage(HttpMethod.Delete, string.Format(endpoint, id));
+            var token = HttpContext.User.Claims.Where(c => c.Type == "Token").FirstOrDefault()?.Value;
+            if (string.IsNullOrWhiteSpace(token))
+                return Forbid();
+
+            cliente.DefaultRequestHeaders.Authorization = new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
+            var solicitud = new HttpRequestMessage(HttpMethod.Delete, string.Format(endpoint, IdCuenta));
             var respuesta = await cliente.SendAsync(solicitud);
-            if (respuesta.IsSuccessStatusCode)
-            {
-                return RedirectToPage("./Index");
-            }
-            else
-            {
-                var error = await respuesta.Content.ReadAsStringAsync();
-                ErrorMessage = string.IsNullOrWhiteSpace(error)
-                    ? "No se pudo eliminar la categor�a."
-                    : error;
-                return Page();
-            }
+            respuesta.EnsureSuccessStatusCode();
+
+            return RedirectToPage("./Index");
         }
     }
 }
